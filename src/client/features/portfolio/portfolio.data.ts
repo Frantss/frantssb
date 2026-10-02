@@ -1,16 +1,16 @@
-// Placeholder content: replace with real resume data.
+// Profile details from LinkedIn; contact details and the remaining sections are placeholders.
 
 import { m } from "@/paraglide/messages";
 import { baseLocale, type Locale } from "@/paraglide/runtime";
 
 export const profile = {
-  name: "Frantss Bongiovanni",
+  name: "Francisco Bongiovanni",
   handle: "frantssb",
   utcOffset: -3,
   email: "hello@example.com",
   links: [
     { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/frantssb/" },
     { label: "X", href: "https://x.com/" },
   ],
 };
