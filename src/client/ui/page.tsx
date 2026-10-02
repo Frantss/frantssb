@@ -1,9 +1,9 @@
 import { For, type ParentProps } from "solid-js";
 import { cn } from "@/client/lib/cn";
 
-// Vertical rhythm for a page body; children fade in one after another.
+// Vertical rhythm for a page body.
 export function Page(props: ParentProps<{ class?: string }>) {
-  return <div class={cn("enter grid gap-5", props.class)}>{props.children}</div>;
+  return <div class={cn("page-content grid gap-5", props.class)}>{props.children}</div>;
 }
 
 export function PageTitle(props: ParentProps) {

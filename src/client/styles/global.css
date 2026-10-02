@@ -9,6 +9,7 @@
 /* light-dark() follows color-scheme: the system by default, data-theme when the visitor picks one. */
 :root {
   color-scheme: light dark;
+  view-transition-name: none;
 
   --bg: light-dark(#fafafa, #0a0a0a);
   --surface: light-dark(#ffffff, #111111);
@@ -84,19 +85,32 @@
 
 @layer components {
   @media (prefers-reduced-motion: no-preference) {
-    .enter > * {
+    .page-content {
+      view-transition-name: page-content;
+    }
+
+    ::view-transition-group(page-content),
+    ::view-transition-new(page-content) {
+      animation: none;
+    }
+
+    ::view-transition-old(page-content) {
+      display: none;
+    }
+
+    .page-content > * {
       animation: enter 400ms ease-out both;
     }
-    .enter > *:nth-child(2) {
+    .page-content > *:nth-child(2) {
       animation-delay: 60ms;
     }
-    .enter > *:nth-child(3) {
+    .page-content > *:nth-child(3) {
       animation-delay: 120ms;
     }
-    .enter > *:nth-child(4) {
+    .page-content > *:nth-child(4) {
       animation-delay: 180ms;
     }
-    .enter > *:nth-child(5) {
+    .page-content > *:nth-child(5) {
       animation-delay: 240ms;
     }
   }
