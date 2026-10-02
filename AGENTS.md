@@ -47,6 +47,9 @@ here on purpose. Read `README.md`, then read the code.
 ## Scope
 
 - Do the ask. Nothing adjacent.
+- Keep `README.md` brief: project purpose and the minimum needed to install and
+  run locally. Limit setup to required prerequisites, settings, and commands;
+  leave tooling, architecture, and deployment details in their source files.
 - Bugs, dead code, and bad patterns found in passing are recorded as described
   below and left alone.
 - Ship the whole ask. If part is blocked, finish the rest and say exactly what
