@@ -6,9 +6,9 @@ Keep Solid on 1.x, its TanStack integrations on compatible 1.x releases, and vit
 
 ## Source layout
 
-- `src/client/`: presentation and styles. UI still renders during SSR.
-- `src/server/`: database access.
-- `src/shared/`: environment-independent constants and SEO.
+- `src/client/`: presentation, analytics, and styles. UI still renders during SSR.
+- `src/server/`: database access and analytics proxy.
+- `src/shared/`: environment-independent constants, validation, and SEO.
 - `src/routes/`: thin TanStack route adapters; generated routing stays at the source root.
 
 Client modules do not import server modules. Shared modules import neither client
@@ -39,7 +39,9 @@ Varlock reads `.env.schema` and validates variables when the app starts or build
 `.env.[APP_ENV]` and `.env.[APP_ENV].local` after `.env` and `.env.local`, and
 process environment variables override all files.
 Keep local values in the ignored `.env` file; use `pnpm exec varlock load --agent`
-to inspect redacted resolved values. `DATABASE_URL` is required for the app and build. Varlock generates `env.d.ts` from the schema.
+to inspect redacted resolved values. `DATABASE_URL` is required for the app and build. PostHog settings are optional; browser code uses the
+`VITE_POSTHOG_*` values, while the database URL and PostHog API key stay
+sensitive. Varlock generates `env.d.ts` from the schema.
 
 ## Database
 
@@ -90,3 +92,24 @@ pnpm start
 
 Routes live in `src/routes`. TanStack Router generates `src/routeTree.gen.ts`; do
 not edit or format that file manually.
+
+## PostHog
+
+The shared adapter in `src/client/posthog/posthog.ts` loads the slim
+`posthog-js` entry after browser mount in production builds only. Development,
+SSR, and builds with missing settings do not initialize the SDK.
+
+| Variable                   | Value                                                        |
+| -------------------------- | ------------------------------------------------------------ |
+| `VITE_POSTHOG_KEY`         | Public project token (`phc_…`)                               |
+| `VITE_POSTHOG_HOST`        | `/api/angry-ankylosaurus` for the same-origin US Cloud proxy |
+| `VITE_POSTHOG_PERSISTENCE` | `localStorage+cookie` or `memory`; empty disables analytics  |
+| `POSTHOG_HOST`             | `https://us.i.posthog.com` for server ingestion              |
+
+`/api/angry-ankylosaurus/*` proxies to PostHog's US hosts, stripping cookies and
+authorization headers. Server code uses `analytics_capture` from
+`@/server/analytics/analytics` and `errors_capture` from `@/server/errors/errors`;
+both return `false` instead of failing when PostHog is unavailable. Browser code
+uses `analytics_capture`, `analytics_defineEvent`, and `analytics_autocapture`
+from `@/client/analytics/analytics`, and `errors_capture` from
+`@/client/errors/errors`.

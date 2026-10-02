@@ -1,7 +1,8 @@
 import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/solid-router";
 
 import { HydrationScript } from "solid-js/web";
-import { Suspense, type ParentProps } from "solid-js";
+import { onMount, Suspense, type ParentProps } from "solid-js";
+import { posthog_initialize } from "@/client/posthog/posthog";
 
 import "@/client/styles/global.css";
 
@@ -17,6 +18,8 @@ export const Route = createRootRoute({
 });
 
 function RootComponent(props: ParentProps) {
+  onMount(posthog_initialize);
+
   return (
     <html lang="en">
       <head>

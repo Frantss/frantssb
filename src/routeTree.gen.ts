@@ -10,33 +10,44 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiAngryAnkylosaurusSplatRouteImport } from './routes/api.angry-ankylosaurus.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAngryAnkylosaurusSplatRoute =
+  ApiAngryAnkylosaurusSplatRouteImport.update({
+    id: '/api/angry-ankylosaurus/$',
+    path: '/api/angry-ankylosaurus/$',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/angry-ankylosaurus/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/angry-ankylosaurus/$'
+  id: '__root__' | '/' | '/api/angry-ankylosaurus/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiAngryAnkylosaurusSplatRoute: typeof ApiAngryAnkylosaurusSplatRoute
 }
 
 declare module '@tanstack/solid-router' {
@@ -48,11 +59,19 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/angry-ankylosaurus/$': {
+      id: '/api/angry-ankylosaurus/$'
+      path: '/api/angry-ankylosaurus/$'
+      fullPath: '/api/angry-ankylosaurus/$'
+      preLoaderRoute: typeof ApiAngryAnkylosaurusSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiAngryAnkylosaurusSplatRoute: ApiAngryAnkylosaurusSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

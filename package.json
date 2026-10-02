@@ -26,8 +26,11 @@
     "drizzle-orm": "1.0.0-rc.4",
     "nitro": "3.0.260903-beta",
     "pg": "8.23.0",
+    "posthog-js": "1.434.17",
+    "posthog-node": "5.54.1",
     "solid-js": "1.9.15",
     "tailwindcss": "^4.3.3",
+    "valibot": "^1.5.0",
     "varlock": "^1.21.0"
   },
   "devDependencies": {
