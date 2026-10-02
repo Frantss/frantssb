@@ -14,6 +14,8 @@ import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteProjectsRouteImport } from './routes/_site/projects'
 import { Route as SiteWorkRouteImport } from './routes/_site/work'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
+import { Route as SiteWritingIndexRouteImport } from './routes/_site/writing/index'
+import { Route as SiteWritingSlugRouteImport } from './routes/_site/writing/$slug'
 import { Route as ApiAngryAnkylosaurusSplatRouteImport } from './routes/api.angry-ankylosaurus.$'
 
 const SiteRouteRoute = SiteRouteRouteImport.update({
@@ -40,6 +42,16 @@ const ApiSplatRoute = ApiSplatRouteImport.update({
   path: '/api/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SiteWritingIndexRoute = SiteWritingIndexRouteImport.update({
+  id: '/writing/',
+  path: '/writing/',
+  getParentRoute: () => SiteRouteRoute,
+} as any)
+const SiteWritingSlugRoute = SiteWritingSlugRouteImport.update({
+  id: '/writing/$slug',
+  path: '/writing/$slug',
+  getParentRoute: () => SiteRouteRoute,
+} as any)
 const ApiAngryAnkylosaurusSplatRoute =
   ApiAngryAnkylosaurusSplatRouteImport.update({
     id: '/api/angry-ankylosaurus/$',
@@ -52,14 +64,18 @@ export interface FileRoutesByFullPath {
   '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
   '/api/$': typeof ApiSplatRoute
+  '/writing/$slug': typeof SiteWritingSlugRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
+  '/writing/': typeof SiteWritingIndexRoute
 }
 export interface FileRoutesByTo {
   '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
   '/api/$': typeof ApiSplatRoute
   '/': typeof SiteIndexRoute
+  '/writing/$slug': typeof SiteWritingSlugRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
+  '/writing': typeof SiteWritingIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,14 +84,29 @@ export interface FileRoutesById {
   '/_site/work': typeof SiteWorkRoute
   '/api/$': typeof ApiSplatRoute
   '/_site/': typeof SiteIndexRoute
+  '/_site/writing/$slug': typeof SiteWritingSlugRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
+  '/_site/writing/': typeof SiteWritingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/projects' | '/work' | '/api/$' | '/api/angry-ankylosaurus/$'
+    | '/'
+    | '/projects'
+    | '/work'
+    | '/api/$'
+    | '/writing/$slug'
+    | '/api/angry-ankylosaurus/$'
+    | '/writing/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/projects' | '/work' | '/api/$' | '/' | '/api/angry-ankylosaurus/$'
+  to:
+    | '/projects'
+    | '/work'
+    | '/api/$'
+    | '/'
+    | '/writing/$slug'
+    | '/api/angry-ankylosaurus/$'
+    | '/writing'
   id:
     | '__root__'
     | '/_site'
@@ -83,7 +114,9 @@ export interface FileRouteTypes {
     | '/_site/work'
     | '/api/$'
     | '/_site/'
+    | '/_site/writing/$slug'
     | '/api/angry-ankylosaurus/$'
+    | '/_site/writing/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -129,6 +162,20 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof ApiSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_site/writing/': {
+      id: '/_site/writing/'
+      path: '/writing'
+      fullPath: '/writing/'
+      preLoaderRoute: typeof SiteWritingIndexRouteImport
+      parentRoute: typeof SiteRouteRoute
+    }
+    '/_site/writing/$slug': {
+      id: '/_site/writing/$slug'
+      path: '/writing/$slug'
+      fullPath: '/writing/$slug'
+      preLoaderRoute: typeof SiteWritingSlugRouteImport
+      parentRoute: typeof SiteRouteRoute
+    }
     '/api/angry-ankylosaurus/$': {
       id: '/api/angry-ankylosaurus/$'
       path: '/api/angry-ankylosaurus/$'
@@ -143,12 +190,16 @@ interface SiteRouteRouteChildren {
   SiteProjectsRoute: typeof SiteProjectsRoute
   SiteWorkRoute: typeof SiteWorkRoute
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteWritingSlugRoute: typeof SiteWritingSlugRoute
+  SiteWritingIndexRoute: typeof SiteWritingIndexRoute
 }
 
 const SiteRouteRouteChildren: SiteRouteRouteChildren = {
   SiteProjectsRoute: SiteProjectsRoute,
   SiteWorkRoute: SiteWorkRoute,
   SiteIndexRoute: SiteIndexRoute,
+  SiteWritingSlugRoute: SiteWritingSlugRoute,
+  SiteWritingIndexRoute: SiteWritingIndexRoute,
 }
 
 const SiteRouteRouteWithChildren = SiteRouteRoute._addFileChildren(

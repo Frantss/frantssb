@@ -5,6 +5,7 @@ import { ButtonLink } from "@/client/ui/button-link";
 import { Entry } from "@/client/ui/entry";
 import { Facts } from "@/client/ui/facts";
 import { IconButton } from "@/client/ui/icon-button";
+import { IndexList } from "@/client/ui/index-list";
 
 let dispose: (() => void) | undefined;
 
@@ -68,6 +69,20 @@ describe("compound parts", () => {
     ));
     expect(container.querySelector("dl dt")?.textContent).toBe("role");
     expect(container.querySelector("dl dd")?.textContent).toBe("Engineer");
+  });
+
+  it("hides the index leader from assistive technology", () => {
+    const container = mount(() => (
+      <IndexList.Root>
+        <IndexList.Row>
+          <span>Title</span>
+          <IndexList.Leader />
+          <IndexList.Value>2026</IndexList.Value>
+        </IndexList.Row>
+      </IndexList.Root>
+    ));
+    expect(container.querySelector("li [aria-hidden='true']")).not.toBeNull();
+    expect(container.querySelector("li")?.textContent).toBe("Title2026");
   });
 
   it("renders entry bullets with a decorative marker", () => {

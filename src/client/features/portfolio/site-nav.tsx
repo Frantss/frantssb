@@ -8,6 +8,7 @@ export function SiteNav() {
       </Rail.Link>
       <Rail.Link to="/work">work</Rail.Link>
       <Rail.Link to="/projects">projects</Rail.Link>
+      <Rail.Link to="/writing">writing</Rail.Link>
     </Rail.Nav>
   );
 }

@@ -10,7 +10,7 @@ import solidPlugin from "vite-plugin-solid";
 import { nitro } from "nitro/vite";
 import { cache_publicContent } from "./src/shared/cache-control";
 
-const pages = ["/", "/work", "/projects"];
+const pages = ["/", "/work", "/projects", "/writing", "/writing/**"];
 
 function posthogSourceMapsPlugin() {
   const personalApiKey = process.env.POSTHOG_API_KEY?.trim();
@@ -74,7 +74,7 @@ export default defineConfig(({ mode }) => ({
       : [
           nitro({
             preset: "node-server",
-            prerender: { routes: ["/"], crawlLinks: false, failOnError: true },
+            prerender: { routes: ["/"], crawlLinks: true, failOnError: true },
             compressPublicAssets: { gzip: true, brotli: true },
             routeRules: Object.fromEntries(
               pages.map((page) => [page, { headers: { "cache-control": cache_publicContent } }]),

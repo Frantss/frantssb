@@ -103,6 +103,47 @@ export const projects: Project[] = [
   },
 ];
 
+export type Post = { slug: string; title: string; date: string; body: string[] };
+
+const placeholderBody = [
+  "Placeholder: the opening paragraph sets up the problem and why it matters.",
+  "Placeholder: the middle walks through what was tried, what worked, and what did not.",
+  "Placeholder: the closing paragraph says what to take away.",
+];
+
+export const posts: Post[] = [
+  {
+    slug: "notes-on-boring-architecture",
+    title: "Placeholder: notes on boring architecture",
+    date: "2026.09.12",
+    body: placeholderBody,
+  },
+  {
+    slug: "ssr-without-the-tears",
+    title: "Placeholder: SSR without the tears",
+    date: "2026.03.02",
+    body: placeholderBody,
+  },
+  {
+    slug: "what-i-learned-shipping-a-design-system",
+    title: "Placeholder: what I learned shipping a design system",
+    date: "2025.11.20",
+    body: placeholderBody,
+  },
+  {
+    slug: "on-deleting-code",
+    title: "Placeholder: on deleting code",
+    date: "2025.06.08",
+    body: placeholderBody,
+  },
+  {
+    slug: "a-year-of-typescript-strict-mode",
+    title: "Placeholder: a year of TypeScript strict mode",
+    date: "2024.12.30",
+    body: placeholderBody,
+  },
+];
+
 export const education = [
   { school: "University Placeholder", degree: "BSc Computer Science", years: "2015–2019" },
 ];

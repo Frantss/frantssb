@@ -98,7 +98,8 @@ pnpm start
 `pnpm check` and `pnpm test` set `APP_ENV=test`, so Varlock loads the committed
 `.env.test`, which supplies an unreachable `DATABASE_URL`.
 
-The production build prerenders only `/` and generates Brotli and gzip versions
+The production build prerenders every page reachable by links from `/` (including
+each `/writing/$slug` post) and generates Brotli and gzip versions
 of public text assets. Prerendering imports the server route bundle, so the
 required variables must be set during the build. For a local build without a
 database:
