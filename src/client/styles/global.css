@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @import "@fontsource-variable/geist-mono";
 
 /* light-dark() follows color-scheme: the system by default, data-theme when the visitor picks one. */

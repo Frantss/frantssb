@@ -200,9 +200,6 @@ importers:
       '@varlock/vite-integration':
         specifier: ^1.5.2
         version: 1.5.2(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2))(varlock@1.21.0)
-      '@zag-js/solid':
-        specifier: ^1.44.0
-        version: 1.44.0(solid-js@1.9.15)
       cn:
         specifier: 0.4.0
         version: 0.4.0
@@ -218,9 +215,6 @@ importers:
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
-      valibot:
-        specifier: ^1.5.0
-        version: 1.5.0(typescript@7.0.2)
       varlock:
         specifier: ^1.21.0
         version: 1.21.0
@@ -243,9 +237,6 @@ importers:
       railway:
         specifier: 3.12.0
         version: 3.12.0
-      tw-animate-css:
-        specifier: ^1.4.0
-        version: 1.4.0
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
@@ -1107,11 +1098,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@solid-primitives/keyed@1.5.3':
-    resolution: {integrity: sha512-zNadtyYBhJSOjXtogkGHmRxjGdz9KHc8sGGVAGlUABkE8BED2tbIZoxkwSqzOwde8OcUEH0bb5DLZUWIMvyBSA==}
-    peerDependencies:
-      solid-js: ^1.6.12
-
   '@solid-primitives/refs@1.1.4':
     resolution: {integrity: sha512-bLjwIs6ZPu8NQnuw04sU3Zc8qKSpbc0umUU/O4SHf6oWOdO4+dHY8vb1T7C4b/Tg103+9WGr6sEE0+NFlbaB/A==}
     peerDependencies:
@@ -1799,26 +1785,6 @@ packages:
   '@yuku-toolchain/types@0.9.5':
     resolution: {integrity: sha512-KiuLNNgX9uNealaWAR+G3/cMXnRk9x4TY2EkYe/KIag+UPdwiA0RRf1hr1WAxzTP8KGzCTkqUdLPvqh32sEO3w==}
 
-  '@zag-js/core@1.44.0':
-    resolution: {integrity: sha512-tqDBJeDpDuLfjodk6NetSDZLMy7+r799RcC5oDtVivowfSxfPBSsfh4UxYT/+zXv9RZ0mYG3TzO4yFROPmniIA==}
-
-  '@zag-js/dom-query@1.44.0':
-    resolution: {integrity: sha512-BKdiKNjd9iTtaQjjU07YymGkgKVSO7vXu8ukZPyt+F8tOesAv9xW5wCn3fuEI6zNthzOpHD9ejj48YW0mljnpQ==}
-
-  '@zag-js/solid@1.44.0':
-    resolution: {integrity: sha512-KyTc5RJPBLe+ghT7PMaH2U7d53I2EZ2CH0UrJtjdl25BMBtOSMFgmogiOIc9PYbp/gwbksX0iHDfJ0aOjaW0vw==}
-    peerDependencies:
-      solid-js: '>=1.1.3'
-
-  '@zag-js/store@1.44.0':
-    resolution: {integrity: sha512-syjbybsc1e2zro50Eu+SaloeJbiXTY78wa+m8iUzswdmVzpts+7KSk3Oogso7jxZ7L91vNAQDhSqZR73Il3KOA==}
-
-  '@zag-js/types@1.44.0':
-    resolution: {integrity: sha512-hVi+EekA3V2EDyJxhkSg1Znmk8Qhk3JRWH8atkwTvnGckpCXjQQ9YpKGsP6KSzD88ci7PgH/mYj7fU62E+GYqw==}
-
-  '@zag-js/utils@1.44.0':
-    resolution: {integrity: sha512-XO4UoPSRBE/CQ781eSqYELOzsc8Bch33340L6/iVEP+5rW8SL5yCyKewu9w0t0bG1Y+EETLlmvswDjI252t1Vw==}
-
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
     engines: {node: '>=8'}
@@ -2395,9 +2361,6 @@ packages:
     resolution: {integrity: sha512-Qb1gy5OrP5+zDf2Bvnzdl3jsTf1qXVMazbvCoKhtKqVs4/YK4ozX4gKQJJVyNe+cajNPn0KoC0MC3FUmaHWEmQ==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
 
-  proxy-compare@3.0.1:
-    resolution: {integrity: sha512-V9plBAt3qjMlS1+nC8771KNf6oJ12gExvaxnNzN/9yVRLdTv/lc+oJlnSzrdYDAvBfTStPCoiaCOTmTs0adv7Q==}
-
   query-selector-shadow-dom@1.0.1:
     resolution: {integrity: sha512-lT5yCqEBgfoMYpf3F2xQRK7zEr1rhIIZuceDK6+xRkJQ4NMbHTwXqk4NkwDwQMNqXgG9r9fyHnzwNVs6zV5KRw==}
 
@@ -2548,9 +2511,6 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tw-animate-css@1.4.0:
-    resolution: {integrity: sha512-7bziOlRqH0hJx80h/3mbicLW7o8qLsH5+RaLR2t+OHM3D0JlWGODQKQ4cxbK7WlvmUxpcj6Kgu6EKqjrGFe3QQ==}
-
   typescript@7.0.2:
     resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
     engines: {node: '>=16.20.0'}
@@ -2609,14 +2569,6 @@ packages:
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
-
-  valibot@1.5.0:
-    resolution: {integrity: sha512-nil6AkP2TChWL43Z5uJ6GTxX01CUA+g8LWUM+N/rB9NBbkUMaUsi9PUNzlUPgoKASgmx9f7eGOYpJ04/fSa6FQ==}
-    peerDependencies:
-      typescript: '>=5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   varlock@1.21.0:
     resolution: {integrity: sha512-Tc9UETRkEiSFh0LzWWgNKtPte4rEEvdaNP2/Llj7dT9LuHVYIdYnw6/mPi39ZOlRcCUFK1sm8VIP0qs1t6/hqQ==}
@@ -3293,10 +3245,6 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.63.5':
     optional: true
 
-  '@solid-primitives/keyed@1.5.3(solid-js@1.9.15)':
-    dependencies:
-      solid-js: 1.9.15
-
   '@solid-primitives/refs@1.1.4(solid-js@1.9.15)':
     dependencies:
       '@solid-primitives/utils': 6.4.1(solid-js@1.9.15)
@@ -3897,34 +3845,6 @@ snapshots:
 
   '@yuku-toolchain/types@0.9.5': {}
 
-  '@zag-js/core@1.44.0':
-    dependencies:
-      '@zag-js/dom-query': 1.44.0
-      '@zag-js/utils': 1.44.0
-
-  '@zag-js/dom-query@1.44.0':
-    dependencies:
-      '@zag-js/types': 1.44.0
-
-  '@zag-js/solid@1.44.0(solid-js@1.9.15)':
-    dependencies:
-      '@solid-primitives/keyed': 1.5.3(solid-js@1.9.15)
-      '@zag-js/core': 1.44.0
-      '@zag-js/store': 1.44.0
-      '@zag-js/types': 1.44.0
-      '@zag-js/utils': 1.44.0
-      solid-js: 1.9.15
-
-  '@zag-js/store@1.44.0':
-    dependencies:
-      proxy-compare: 3.0.1
-
-  '@zag-js/types@1.44.0':
-    dependencies:
-      csstype: 3.2.3
-
-  '@zag-js/utils@1.44.0': {}
-
   ansi-regex@5.0.1: {}
 
   ansi-styles@4.3.0:
@@ -4416,8 +4336,6 @@ snapshots:
       ansi-styles: 5.2.0
       react-is: 17.0.2
 
-  proxy-compare@3.0.1: {}
-
   query-selector-shadow-dom@1.0.1: {}
 
   railway@3.12.0:
@@ -4579,8 +4497,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tw-animate-css@1.4.0: {}
-
   typescript@7.0.2:
     optionalDependencies:
       '@typescript/typescript-aix-ppc64': 7.0.2
@@ -4631,10 +4547,6 @@ snapshots:
       browserslist: 4.29.2
       escalade: 3.2.0
       picocolors: 1.1.1
-
-  valibot@1.5.0(typescript@7.0.2):
-    optionalDependencies:
-      typescript: 7.0.2
 
   varlock@1.21.0:
     optionalDependencies:

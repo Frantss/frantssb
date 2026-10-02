@@ -1,5 +1,4 @@
 import { posthog_initialize } from "@/client/posthog/posthog";
-import * as v from "@/shared/validation/valibot";
 import { createIsomorphicFn } from "@tanstack/solid-start";
 
 export function analytics_autocapture<Properties extends { id: string } & Record<string, string>>(
@@ -23,14 +22,3 @@ export const analytics_capture = createIsomorphicFn()
       })
       .catch(() => undefined);
   });
-
-export function analytics_defineEvent<
-  Schema extends v.GenericSchema<unknown, Record<string, unknown>>,
->(name: string, schema: Schema) {
-  return (payload: v.InferInput<Schema>): boolean => {
-    const result = v.safeParse(schema, payload);
-    if (!result.success) return false;
-    analytics_capture(name, result.output);
-    return true;
-  };
-}

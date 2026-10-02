@@ -56,36 +56,3 @@ describe("explicit analytics capture", () => {
     await vi.waitFor(() => expect(posthog.client.capture).toHaveBeenCalledOnce());
   });
 });
-
-describe("event definitions", () => {
-  it("captures parsed output including transformations and defaults", async () => {
-    const v = await import("@/shared/validation/valibot");
-    const { analytics_defineEvent } = await import("@/client/analytics/analytics");
-    const completed = analytics_defineEvent(
-      "completed",
-      v.strictObject({
-        count: v.pipe(v.string(), v.toNumber()),
-        version: v.optional(v.literal("1"), "1"),
-      }),
-    );
-    expect(completed({ count: "2" })).toBe(true);
-    await vi.waitFor(() => expect(posthog.client.capture).toHaveBeenCalledOnce());
-    expect(posthog.client.capture.mock.calls[0][0]).toBe("completed");
-    expect(posthog.client.capture.mock.calls[0][1]).toMatchObject({ count: 2, version: "1" });
-  });
-
-  it("rejects invalid payloads and unknown fields without initializing the SDK", async () => {
-    const v = await import("@/shared/validation/valibot");
-    const { analytics_defineEvent } = await import("@/client/analytics/analytics");
-    const completed = analytics_defineEvent(
-      "completed",
-      v.strictObject({ count: v.pipe(v.number(), v.minValue(1)) }),
-    );
-    expect(completed({ count: 0 })).toBe(false);
-    const withPrivateData = { count: 2, email: "private@example.test" };
-    expect(completed(withPrivateData)).toBe(false);
-    await Promise.resolve();
-    expect(posthog.initialize).not.toHaveBeenCalled();
-    expect(posthog.client.capture).not.toHaveBeenCalled();
-  });
-});
