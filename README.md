@@ -8,7 +8,11 @@ Keep Solid on 1.x, its TanStack integrations on compatible 1.x releases, and vit
 
 - `src/client/`: presentation and styles. UI still renders during SSR.
 - `src/server/`: database access.
+- `src/shared/`: environment-independent constants and SEO.
 - `src/routes/`: thin TanStack route adapters; generated routing stays at the source root.
+
+Client modules do not import server modules. Shared modules import neither client
+nor server code.
 
 Feature code goes in `src/<side>/features/<feature>/`. Use at most one generic dot
 scope (`<feature>.form.ts`, `<feature>.schema.ts`, `<feature>.data.ts`,
