@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { render } from "solid-js/web";
 import type { JSX } from "solid-js";
 import { ButtonLink } from "@/client/ui/button-link";
+import { Entry } from "@/client/ui/entry";
 import { Facts } from "@/client/ui/facts";
 import { IconButton } from "@/client/ui/icon-button";
 
@@ -67,5 +68,16 @@ describe("compound parts", () => {
     ));
     expect(container.querySelector("dl dt")?.textContent).toBe("role");
     expect(container.querySelector("dl dd")?.textContent).toBe("Engineer");
+  });
+
+  it("renders entry bullets with a decorative marker", () => {
+    const container = mount(() => (
+      <Entry.Bullets>
+        <Entry.Bullet>Shipped it</Entry.Bullet>
+      </Entry.Bullets>
+    ));
+    const item = container.querySelector("ul > li")!;
+    expect(item.querySelector("[aria-hidden='true']")?.textContent).toBe("›");
+    expect(item.textContent).toContain("Shipped it");
   });
 });

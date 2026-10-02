@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/solid-router";
 import { For } from "solid-js";
 import { Facts } from "@/client/ui/facts";
 import { LocalTime } from "@/client/ui/local-time";
@@ -20,7 +21,7 @@ export function AboutPage() {
       </Facts.List>
       <Paragraphs items={profile.about} />
       <p class="m-0">
-        Find me on <ProfileLinks />
+        More in <Link to="/work">work</Link>; find me on <ProfileLinks />
       </p>
     </Page>
   );

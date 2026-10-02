@@ -10,7 +10,7 @@ import solidPlugin from "vite-plugin-solid";
 import { nitro } from "nitro/vite";
 import { cache_publicContent } from "./src/shared/cache-control";
 
-const pages = ["/"];
+const pages = ["/", "/work"];
 
 function posthogSourceMapsPlugin() {
   const personalApiKey = process.env.POSTHOG_API_KEY?.trim();

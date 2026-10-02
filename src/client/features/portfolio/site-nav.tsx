@@ -6,6 +6,7 @@ export function SiteNav() {
       <Rail.Link to="/" activeOptions={{ exact: true }}>
         about
       </Rail.Link>
+      <Rail.Link to="/work">work</Rail.Link>
     </Rail.Nav>
   );
 }
