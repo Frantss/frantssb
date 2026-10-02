@@ -7,6 +7,8 @@
     "generate-routes": "tsr generate",
     "check": "APP_ENV=test vp check",
     "test": "APP_ENV=test vp test",
+    "test:screenshots": "playwright test",
+    "test:screenshots:update": "playwright test --update-snapshots",
     "build": "varlock run -- vp build",
     "start": "varlock run -- node .output/server/index.mjs",
     "preview": "vp preview",
@@ -41,6 +43,7 @@
     "varlock": "^1.21.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@posthog/rollup-plugin": "1.6.1",
     "@tanstack/router-cli": "^1.167.39",
     "@types/pg": "8.23.1",

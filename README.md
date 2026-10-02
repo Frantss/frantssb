@@ -21,7 +21,8 @@ enforces these suffixes. The SSR-capable RPC client is named `orpc-client.ts`.
 Feature code goes in `src/<side>/features/<feature>/`. Use at most one generic dot
 scope (`<feature>.form.ts`, `<feature>.schema.ts`, `<feature>.data.ts`,
 `<component>.context.ts`); descriptive names use hyphens. Tests live in the owning
-module's `tests/` folder (`tests/<name>.test.ts`).
+module's `tests/` folder (`tests/<name>.test.ts`, or `tests/<name>.pw.ts` for
+Playwright).
 
 Use `@/` for imports rooted at `src`. The alias is defined in `tsconfig.json` and
 resolved by Vite's `resolve.tsconfigPaths` setting.
@@ -102,6 +103,9 @@ database:
 ```sh
 DATABASE_URL=postgresql://localhost:1/unused pnpm build
 ```
+
+Playwright page tests (`*.pw.ts`) run with `pnpm test:screenshots` against a dev
+server on port 3333; `pnpm test:screenshots:update` refreshes baselines.
 
 Routes live in `src/routes`. TanStack Router generates `src/routeTree.gen.ts`; do
 not edit or format that file manually.
