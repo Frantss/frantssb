@@ -3,14 +3,17 @@ import { For } from "solid-js";
 import { IndexList } from "@/client/ui/index-list";
 import { Page, PageTitle } from "@/client/ui/page";
 import { PostDate } from "./post-date";
-import { posts } from "./portfolio.data";
+import { portfolio_posts } from "./portfolio.data";
+import { useLocale } from "@/client/features/localization/locale.context";
+import { m } from "@/paraglide/messages";
 
 export function WritingPage() {
+  const locale = useLocale();
   return (
     <Page>
-      <PageTitle>Writing</PageTitle>
+      <PageTitle>{m.page_writing({}, { locale: locale() })}</PageTitle>
       <IndexList.Root>
-        <For each={posts}>
+        <For each={portfolio_posts(locale())}>
           {(post) => (
             <IndexList.Row>
               <Link to="/writing/$slug" params={{ slug: post.slug }} class="text-fg">

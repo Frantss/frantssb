@@ -14,7 +14,7 @@ function RailRoot(props: ParentProps) {
 function RailNav(props: ParentProps<{ label: string }>) {
   return (
     <nav aria-label={props.label} class="border-b border-line px-4 py-6 sm:border-r sm:border-b-0">
-      <ul class="m-0 flex list-none gap-4 p-0 sm:flex-col sm:items-end sm:gap-1">
+      <ul class="m-0 flex list-none flex-wrap gap-4 p-0 sm:flex-col sm:items-end sm:gap-1">
         {props.children}
       </ul>
     </nav>
@@ -25,7 +25,7 @@ function RailNav(props: ParentProps<{ label: string }>) {
 function RailAnchor(props: ComponentProps<"a">) {
   const [local, rest] = splitProps(props, ["class"]);
   return (
-    <li>
+    <li class="whitespace-nowrap">
       <a
         {...rest}
         class={cn(

@@ -2,13 +2,15 @@ import { createFileRoute } from "@tanstack/solid-router";
 import { WorkPage } from "@/client/features/portfolio/work-page";
 import { profile } from "@/client/features/portfolio/portfolio.data";
 import { seo } from "@/shared/seo/seo";
-
-const metadata = seo({
-  title: `Work · ${profile.name}`,
-  description: `Where ${profile.name} has worked.`,
-});
+import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_site/work")({
-  head: () => ({ meta: metadata.meta, links: metadata.links }),
+  head: () => {
+    const metadata = seo({
+      title: `${m.page_work()} · ${profile.name}`,
+      description: m.meta_work({ name: profile.name }),
+    });
+    return { meta: metadata.meta, links: metadata.links };
+  },
   component: WorkPage,
 });

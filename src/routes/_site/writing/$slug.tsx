@@ -1,18 +1,21 @@
 import { createFileRoute, notFound } from "@tanstack/solid-router";
 import { PostPage } from "@/client/features/portfolio/post-page";
-import { posts, profile } from "@/client/features/portfolio/portfolio.data";
+import { portfolio_posts, profile } from "@/client/features/portfolio/portfolio.data";
 import { seo } from "@/shared/seo/seo";
+import { useLocale } from "@/client/features/localization/locale.context";
+import { getLocale } from "@/paraglide/runtime";
+import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_site/writing/$slug")({
   loader: ({ params }) => {
-    const post = posts.find((candidate) => candidate.slug === params.slug);
+    const post = portfolio_posts(getLocale()).find((candidate) => candidate.slug === params.slug);
     if (!post) throw notFound();
     return post;
   },
   head: ({ loaderData }) => {
     const metadata = seo({
-      title: `${loaderData?.title ?? "Writing"} · ${profile.name}`,
-      description: loaderData?.body[0] ?? `Writing by ${profile.name}.`,
+      title: `${loaderData?.title ?? m.page_writing()} · ${profile.name}`,
+      description: loaderData?.body[0] ?? m.meta_writing({ name: profile.name }),
     });
     return { meta: metadata.meta, links: metadata.links };
   },
@@ -20,6 +23,9 @@ export const Route = createFileRoute("/_site/writing/$slug")({
 });
 
 function PostRoute() {
+  const locale = useLocale();
   const post = Route.useLoaderData();
-  return <PostPage post={post()} />;
+  const localizedPost = () =>
+    portfolio_posts(locale()).find((candidate) => candidate.slug === post().slug) ?? post();
+  return <PostPage post={localizedPost()} />;
 }

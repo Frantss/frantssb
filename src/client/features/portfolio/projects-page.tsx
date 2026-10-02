@@ -1,14 +1,17 @@
 import { For } from "solid-js";
 import { CellGrid } from "@/client/ui/cell-grid";
 import { Page, PageTitle } from "@/client/ui/page";
-import { projects } from "./portfolio.data";
+import { portfolio_projects } from "./portfolio.data";
+import { useLocale } from "@/client/features/localization/locale.context";
+import { m } from "@/paraglide/messages";
 
 export function ProjectsPage() {
+  const locale = useLocale();
   return (
     <Page>
-      <PageTitle>Projects</PageTitle>
+      <PageTitle>{m.page_projects({}, { locale: locale() })}</PageTitle>
       <CellGrid.Root>
-        <For each={projects}>
+        <For each={portfolio_projects(locale())}>
           {(project) => (
             <CellGrid.Cell>
               <a

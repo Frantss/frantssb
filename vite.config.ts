@@ -9,7 +9,7 @@ import { tanstackStart } from "@tanstack/solid-start/plugin/vite";
 
 import solidPlugin from "vite-plugin-solid";
 import { nitro } from "nitro/vite";
-import { cache_publicContent } from "./src/shared/cache-control";
+import { cache_personalContent } from "./src/shared/cache-control";
 import paraglideOptions from "./paraglide.config";
 
 const pages = ["/", "/work", "/projects", "/writing", "/writing/**"];
@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => ({
       {
         test: {
           name: "node",
-          include: ["src/shared/**/*.test.ts"],
+          include: ["src/server/**/*.test.ts", "src/shared/**/*.test.ts"],
           environment: "node",
         },
       },
@@ -78,10 +78,9 @@ export default defineConfig(({ mode }) => ({
       : [
           nitro({
             preset: "node-server",
-            prerender: { routes: ["/"], crawlLinks: true, failOnError: true },
             compressPublicAssets: { gzip: true, brotli: true },
             routeRules: Object.fromEntries(
-              pages.map((page) => [page, { headers: { "cache-control": cache_publicContent } }]),
+              pages.map((page) => [page, { headers: { "cache-control": cache_personalContent } }]),
             ),
           }),
         ]),
