@@ -2,7 +2,7 @@ import { Link } from "@tanstack/solid-router";
 import { ThemeToggle } from "@/client/features/theme/theme-toggle";
 import { LocaleToggle } from "@/client/features/localization/locale-toggle";
 import { ButtonLink } from "@/client/ui/button-link";
-import { profile } from "./portfolio.data";
+import { portfolio_resume, profile } from "./portfolio.data";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
 
@@ -21,7 +21,10 @@ export function SiteHeader() {
       <div class="flex flex-wrap justify-end gap-2">
         <ThemeToggle class="max-sm:hidden" />
         <LocaleToggle class="max-sm:hidden" />
-        <ButtonLink.Outline href={profile.resumeHref}>
+        <ButtonLink.Outline
+          href={portfolio_resume(locale()).href}
+          download={portfolio_resume(locale()).filename}
+        >
           {resume()}
           <span class="max-sm:hidden">.pdf</span>
         </ButtonLink.Outline>

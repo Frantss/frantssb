@@ -11,6 +11,7 @@
   "meta_work": "Experiencia laboral de {name}.",
   "meta_projects": "Proyectos de {name}.",
   "meta_writing": "Notas y ensayos de {name}.",
+  "meta_resume": "Currículum de {name}.",
   "header_resume": "Currículum.pdf",
   "header_contact": "Contactame",
   "dock_menu": "Menú",
@@ -23,6 +24,7 @@
   "fact_based": "lugar",
   "fact_time": "hora",
   "fact_mail": "correo",
+  "fact_web": "web",
   "profile_role": "Ingeniero de software",
   "profile_tagline": "Software sin complicaciones. Los pequeños detalles importan.",
   "profile_location": "Algún lugar de la Tierra",
@@ -60,5 +62,7 @@
   "post_typescript": "Texto de ejemplo: un año con TypeScript en modo estricto",
   "post_all_writing": "← Todos los artículos",
   "education_school": "Universidad de ejemplo",
-  "education_degree": "Licenciatura en Ciencias de la Computación"
+  "education_degree": "Licenciatura en Ciencias de la Computación",
+  "resume_education": "Formación",
+  "resume_stack": "Tecnologías"
 }

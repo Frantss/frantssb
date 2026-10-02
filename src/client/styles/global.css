@@ -31,6 +31,28 @@
   color-scheme: dark;
 }
 
+@media print {
+  :root,
+  :root[data-theme] {
+    color-scheme: light;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    background: var(--surface);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 12mm 14mm;
+}
+
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);

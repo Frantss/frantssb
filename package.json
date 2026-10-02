@@ -7,6 +7,7 @@
     "generate:favicon": "node scripts/generate-favicon.ts",
     "generate-routes": "tsr generate",
     "generate-localization": "node scripts/generate-localization.ts",
+    "generate-resume": "pnpm generate-localization && node scripts/generate-resume.ts",
     "check": "pnpm generate-localization && APP_ENV=test vp check",
     "test": "pnpm generate-localization && APP_ENV=test vp test",
     "test:screenshots": "playwright test",

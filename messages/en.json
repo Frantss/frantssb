@@ -11,6 +11,7 @@
   "meta_work": "Where {name} has worked.",
   "meta_projects": "Things {name} has built.",
   "meta_writing": "Notes and essays by {name}.",
+  "meta_resume": "Résumé of {name}.",
   "header_resume": "Résumé.pdf",
   "header_contact": "Get in touch",
   "dock_menu": "Menu",
@@ -23,6 +24,7 @@
   "fact_based": "based",
   "fact_time": "time",
   "fact_mail": "mail",
+  "fact_web": "web",
   "profile_role": "Software Engineer",
   "profile_tagline": "Building calm software. Small details matter.",
   "profile_location": "Somewhere, Earth",
@@ -60,5 +62,7 @@
   "post_typescript": "Placeholder: a year of TypeScript strict mode",
   "post_all_writing": "← All writing",
   "education_school": "University Placeholder",
-  "education_degree": "BSc Computer Science"
+  "education_degree": "BSc Computer Science",
+  "resume_education": "Education",
+  "resume_stack": "Stack"
 }
