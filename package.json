@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "varlock run -- vp dev --port 3000",
+    "generate:favicon": "node scripts/generate-favicon.ts",
     "generate-routes": "tsr generate",
     "generate-localization": "node scripts/generate-localization.ts",
     "check": "pnpm generate-localization && APP_ENV=test vp check",
@@ -31,6 +32,7 @@
     "@inlang/paraglide-js": "2.25.4",
     "@playwright/test": "1.63.0",
     "@posthog/rollup-plugin": "1.6.1",
+    "@takumi-rs/core": "2.14.0",
     "@tanstack/router-cli": "^1.167.39",
     "@vitest/browser-playwright": "catalog:",
     "playwright": "1.63.0",
