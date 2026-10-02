@@ -7,6 +7,9 @@ Keep Solid on 1.x, its TanStack integrations on compatible 1.x releases, and vit
 ## Source layout
 
 - `src/client/`: presentation, analytics, and styles. UI still renders during SSR.
+- `src/client/ui/`: reusable, data-agnostic building blocks. Multi-part blocks are compound
+  components (`Frame.Band`, `Entry.Title`); variants are explicit (`ButtonLink.Solid`).
+  Feature pages compose them with their own data.
 - `src/server/`: database access, analytics proxy, and oRPC handlers.
 - `src/shared/`: environment-independent schemas, constants, validation, SEO, and oRPC contracts.
 - `src/integrations/`: isomorphic glue — the oRPC browser HTTP / direct SSR client.

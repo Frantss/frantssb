@@ -9,14 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as SiteRouteRouteImport } from './routes/_site/route'
+import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as ApiAngryAnkylosaurusSplatRouteImport } from './routes/api.angry-ankylosaurus.$'
 
-const IndexRoute = IndexRouteImport.update({
+const SiteRouteRoute = SiteRouteRouteImport.update({
+  id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRouteRoute,
 } as any)
 const ApiSplatRoute = ApiSplatRouteImport.update({
   id: '/api/$',
@@ -31,43 +36,51 @@ const ApiAngryAnkylosaurusSplatRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof SiteIndexRoute
   '/api/$': typeof ApiSplatRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/api/$': typeof ApiSplatRoute
+  '/': typeof SiteIndexRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_site': typeof SiteRouteRouteWithChildren
   '/api/$': typeof ApiSplatRoute
+  '/_site/': typeof SiteIndexRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/api/$' | '/api/angry-ankylosaurus/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/$' | '/api/angry-ankylosaurus/$'
-  id: '__root__' | '/' | '/api/$' | '/api/angry-ankylosaurus/$'
+  to: '/api/$' | '/' | '/api/angry-ankylosaurus/$'
+  id: '__root__' | '/_site' | '/api/$' | '/_site/' | '/api/angry-ankylosaurus/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  SiteRouteRoute: typeof SiteRouteRouteWithChildren
   ApiSplatRoute: typeof ApiSplatRoute
   ApiAngryAnkylosaurusSplatRoute: typeof ApiAngryAnkylosaurusSplatRoute
 }
 
 declare module '@tanstack/solid-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_site': {
+      id: '/_site'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_site/': {
+      id: '/_site/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRouteRoute
     }
     '/api/$': {
       id: '/api/$'
@@ -86,8 +99,20 @@ declare module '@tanstack/solid-router' {
   }
 }
 
+interface SiteRouteRouteChildren {
+  SiteIndexRoute: typeof SiteIndexRoute
+}
+
+const SiteRouteRouteChildren: SiteRouteRouteChildren = {
+  SiteIndexRoute: SiteIndexRoute,
+}
+
+const SiteRouteRouteWithChildren = SiteRouteRoute._addFileChildren(
+  SiteRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  SiteRouteRoute: SiteRouteRouteWithChildren,
   ApiSplatRoute: ApiSplatRoute,
   ApiAngryAnkylosaurusSplatRoute: ApiAngryAnkylosaurusSplatRoute,
 }
