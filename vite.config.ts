@@ -39,14 +39,14 @@ export default defineConfig(({ mode }) => ({
       {
         test: {
           name: "node",
-          include: ["src/server/**/*.test.ts", "src/shared/**/*.test.ts"],
+          include: ["src/shared/**/*.test.ts"],
           environment: "node",
         },
       },
       {
         test: {
           name: "browser",
-          include: ["src/client/**/*.test.{ts,tsx}", "src/integrations/orpc/**/*.test.ts"],
+          include: ["src/client/**/*.test.{ts,tsx}"],
           browser: {
             enabled: true,
             headless: true,

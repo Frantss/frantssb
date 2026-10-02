@@ -1,22 +1,14 @@
-import { QueryClient } from "@tanstack/solid-query";
-import { setupRouterSsrQueryIntegration } from "@tanstack/solid-router-ssr-query";
 import { createRouter as createTanStackRouter } from "@tanstack/solid-router";
 import { routeTree } from "@/routeTree.gen";
 
 export function getRouter() {
-  const queryClient = new QueryClient();
-  const router = createTanStackRouter({
+  return createTanStackRouter({
     routeTree,
-    context: { queryClient },
 
     scrollRestoration: true,
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
   });
-
-  setupRouterSsrQueryIntegration({ router, queryClient });
-
-  return router;
 }
 
 declare module "@tanstack/solid-router" {

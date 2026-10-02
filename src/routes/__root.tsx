@@ -1,11 +1,4 @@
-import type { QueryClient } from "@tanstack/solid-query";
-import {
-  HeadContent,
-  Outlet,
-  ScriptOnce,
-  Scripts,
-  createRootRouteWithContext,
-} from "@tanstack/solid-router";
+import { HeadContent, Outlet, ScriptOnce, Scripts, createRootRoute } from "@tanstack/solid-router";
 
 import { HydrationScript } from "solid-js/web";
 import { onMount, Suspense, type ParentProps } from "solid-js";
@@ -14,7 +7,7 @@ import { theme_script } from "@/client/features/theme/theme";
 
 import "@/client/styles/global.css";
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },

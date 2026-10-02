@@ -13,10 +13,8 @@ import { Route as SiteRouteRouteImport } from './routes/_site/route'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteProjectsRouteImport } from './routes/_site/projects'
 import { Route as SiteWorkRouteImport } from './routes/_site/work'
-import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as SiteWritingIndexRouteImport } from './routes/_site/writing/index'
 import { Route as SiteWritingSlugRouteImport } from './routes/_site/writing/$slug'
-import { Route as ApiAngryAnkylosaurusSplatRouteImport } from './routes/api.angry-ankylosaurus.$'
 
 const SiteRouteRoute = SiteRouteRouteImport.update({
   id: '/_site',
@@ -37,11 +35,6 @@ const SiteWorkRoute = SiteWorkRouteImport.update({
   path: '/work',
   getParentRoute: () => SiteRouteRoute,
 } as any)
-const ApiSplatRoute = ApiSplatRouteImport.update({
-  id: '/api/$',
-  path: '/api/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SiteWritingIndexRoute = SiteWritingIndexRouteImport.update({
   id: '/writing/',
   path: '/writing/',
@@ -52,29 +45,19 @@ const SiteWritingSlugRoute = SiteWritingSlugRouteImport.update({
   path: '/writing/$slug',
   getParentRoute: () => SiteRouteRoute,
 } as any)
-const ApiAngryAnkylosaurusSplatRoute =
-  ApiAngryAnkylosaurusSplatRouteImport.update({
-    id: '/api/angry-ankylosaurus/$',
-    path: '/api/angry-ankylosaurus/$',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
   '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
-  '/api/$': typeof ApiSplatRoute
   '/writing/$slug': typeof SiteWritingSlugRoute
-  '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
   '/writing/': typeof SiteWritingIndexRoute
 }
 export interface FileRoutesByTo {
   '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
-  '/api/$': typeof ApiSplatRoute
   '/': typeof SiteIndexRoute
   '/writing/$slug': typeof SiteWritingSlugRoute
-  '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
   '/writing': typeof SiteWritingIndexRoute
 }
 export interface FileRoutesById {
@@ -82,47 +65,27 @@ export interface FileRoutesById {
   '/_site': typeof SiteRouteRouteWithChildren
   '/_site/projects': typeof SiteProjectsRoute
   '/_site/work': typeof SiteWorkRoute
-  '/api/$': typeof ApiSplatRoute
   '/_site/': typeof SiteIndexRoute
   '/_site/writing/$slug': typeof SiteWritingSlugRoute
-  '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
   '/_site/writing/': typeof SiteWritingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/projects'
-    | '/work'
-    | '/api/$'
-    | '/writing/$slug'
-    | '/api/angry-ankylosaurus/$'
-    | '/writing/'
+  fullPaths: '/' | '/projects' | '/work' | '/writing/$slug' | '/writing/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/projects'
-    | '/work'
-    | '/api/$'
-    | '/'
-    | '/writing/$slug'
-    | '/api/angry-ankylosaurus/$'
-    | '/writing'
+  to: '/projects' | '/work' | '/' | '/writing/$slug' | '/writing'
   id:
     | '__root__'
     | '/_site'
     | '/_site/projects'
     | '/_site/work'
-    | '/api/$'
     | '/_site/'
     | '/_site/writing/$slug'
-    | '/api/angry-ankylosaurus/$'
     | '/_site/writing/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   SiteRouteRoute: typeof SiteRouteRouteWithChildren
-  ApiSplatRoute: typeof ApiSplatRoute
-  ApiAngryAnkylosaurusSplatRoute: typeof ApiAngryAnkylosaurusSplatRoute
 }
 
 declare module '@tanstack/solid-router' {
@@ -155,13 +118,6 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof SiteWorkRouteImport
       parentRoute: typeof SiteRouteRoute
     }
-    '/api/$': {
-      id: '/api/$'
-      path: '/api/$'
-      fullPath: '/api/$'
-      preLoaderRoute: typeof ApiSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_site/writing/': {
       id: '/_site/writing/'
       path: '/writing'
@@ -175,13 +131,6 @@ declare module '@tanstack/solid-router' {
       fullPath: '/writing/$slug'
       preLoaderRoute: typeof SiteWritingSlugRouteImport
       parentRoute: typeof SiteRouteRoute
-    }
-    '/api/angry-ankylosaurus/$': {
-      id: '/api/angry-ankylosaurus/$'
-      path: '/api/angry-ankylosaurus/$'
-      fullPath: '/api/angry-ankylosaurus/$'
-      preLoaderRoute: typeof ApiAngryAnkylosaurusSplatRouteImport
-      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -208,8 +157,6 @@ const SiteRouteRouteWithChildren = SiteRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   SiteRouteRoute: SiteRouteRouteWithChildren,
-  ApiSplatRoute: ApiSplatRoute,
-  ApiAngryAnkylosaurusSplatRoute: ApiAngryAnkylosaurusSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

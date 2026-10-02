@@ -1,10 +1,9 @@
 # Railway deployment
 
 The [frantssb project](https://railway.com/project/b62c5679-8957-453d-b785-795045a745e2)
-contains the `frantssb` app and `Postgres` database in `production`.
-`.railway/railway.ts` manages their configuration, including the existing
-PostgreSQL volume. Database credentials stay in Railway; the app uses a service
-variable reference.
+hosts the `frantssb` app in `production`.
+`.railway/railway.ts` manages the app configuration. The site uses TanStack Start
+SSR and prerendering without an application API or database.
 
 Use Railway CLI 5.42.1 or newer and the repo's pnpm 12.8.1. Install dependencies
 with `pnpm install`; the `railway` SDK is a development dependency.
@@ -26,6 +25,11 @@ The CLI evaluates `.railway/railway.ts`; uploading source does not apply it.
 Review every plan because removing a resource from the file can delete it in
 Railway.
 
+When applying the backend removal, first change the deployed app's health check
+to `/` and deploy this source. After that deployment succeeds, apply the plan
+that removes `DATABASE_URL` and `Postgres`. Railway retains the detached
+`postgres-volume`; deleting that volume separately removes its data.
+
 Deploy local source:
 
 ```sh
@@ -34,9 +38,9 @@ railway deployment list --service frantssb --environment production --json
 railway logs --service frantssb --environment production --lines 100
 ```
 
-Wait for `SUCCESS` in the deployment list. `/api/health` returns
-`{"status":"ok"}` when the server is running; it does not check the database.
+Wait for `SUCCESS` in the deployment list. Railway checks `/` for HTTP 200.
+Browser analytics use `VITE_POSTHOG_HOST` directly; set it to the PostHog
+ingestion host instead of the removed `/api/angry-ankylosaurus` proxy.
 
 There is no Git remote, so deployments use the local checkout. No automatic
-GitHub deployment is configured. There are no database migrations yet, so the
-service has no pre-deploy migration command.
+GitHub deployment is configured.
