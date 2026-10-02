@@ -1,5 +1,5 @@
 export const site = {
-  origin: "https://example.com",
+  origin: "https://frantss.uy",
   name: "frantssb",
   openGraphLocale: "en_US",
 } as const;

@@ -21,7 +21,7 @@ describe("SEO metadata", () => {
     expect(metadata.links).toEqual([
       {
         rel: "canonical",
-        href: "https://example.com/page",
+        href: "https://frantss.uy/page",
       },
     ]);
     expect(metadata.meta).toContainEqual({ title: "Page title" });
@@ -31,11 +31,11 @@ describe("SEO metadata", () => {
     });
     expect(metadata.meta).toContainEqual({
       property: "og:url",
-      content: "https://example.com/page",
+      content: "https://frantss.uy/page",
     });
     expect(metadata.meta).toContainEqual({
       property: "og:image",
-      content: "https://example.com/media/social/page.png?v=abc123",
+      content: "https://frantss.uy/media/social/page.png?v=abc123",
     });
     expect(metadata.meta).toContainEqual({ property: "og:image:width", content: "1200" });
     expect(metadata.meta).toContainEqual({ property: "og:image:height", content: "630" });
@@ -49,7 +49,7 @@ describe("SEO metadata", () => {
   it("keeps the homepage canonical URL at the origin root", () => {
     const metadata = seo({ title: "Home", description: "Home", path: "/", image });
 
-    expect(metadata.links).toEqual([{ rel: "canonical", href: "https://example.com/" }]);
+    expect(metadata.links).toEqual([{ rel: "canonical", href: "https://frantss.uy/" }]);
   });
 
   it("supports noindex pages without publishing a canonical URL", () => {
