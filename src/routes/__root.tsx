@@ -3,6 +3,8 @@ import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/solid-r
 import { HydrationScript } from "solid-js/web";
 import { Suspense, type ParentProps } from "solid-js";
 
+import "@/client/styles/global.css";
+
 export const Route = createRootRoute({
   head: () => ({
     meta: [

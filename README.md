@@ -1,12 +1,12 @@
 # frantssb
 
-TanStack Start project using Solid 1 and Vite+.
+TanStack Start project using Solid 1, Tailwind CSS 4, and Vite+.
 
 Keep Solid on 1.x, its TanStack integrations on compatible 1.x releases, and vite-plugin-solid on 2.x when updating dependencies.
 
 ## Source layout
 
-- `src/client/`: presentation. UI still renders during SSR.
+- `src/client/`: presentation and styles. UI still renders during SSR.
 - `src/routes/`: thin TanStack route adapters; generated routing stays at the source root.
 
 Feature code goes in `src/<side>/features/<feature>/`. Use at most one generic dot

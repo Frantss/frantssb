@@ -1,5 +1,6 @@
 import { defineConfig, lazyPlugins } from "vite-plus";
 import { playwright } from "vite-plus/test/browser-playwright";
+import tailwindcss from "@tailwindcss/vite";
 
 import { tanstackStart } from "@tanstack/solid-start/plugin/vite";
 
@@ -40,6 +41,7 @@ export default defineConfig(({ mode }) => ({
   },
   resolve: { tsconfigPaths: true },
   plugins: lazyPlugins(() => [
+    tailwindcss(),
     tanstackStart(),
     ...(mode === "test" ? [] : [nitro({ preset: "node-server" })]),
     solidPlugin({ ssr: mode !== "test" }),

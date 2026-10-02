@@ -7,8 +7,8 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   return (
-    <main>
-      <h1>frantssb</h1>
+    <main class="mx-auto max-w-3xl px-4 py-16">
+      <h1 class="text-3xl font-semibold">frantssb</h1>
     </main>
   );
 }
