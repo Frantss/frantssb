@@ -106,6 +106,21 @@ DATABASE_URL=postgresql://localhost:1/unused pnpm build
 Routes live in `src/routes`. TanStack Router generates `src/routeTree.gen.ts`; do
 not edit or format that file manually.
 
+## Railway deployment
+
+`railway.json` selects Railpack, runs `pnpm build` and `pnpm start`, and checks
+`/api/health` before routing traffic. The Nitro Vite plugin builds a Node server
+at `.output/server/index.mjs`. Configure these app-service variables:
+
+| Variable                | Value     |
+| ----------------------- | --------- |
+| `RAILPACK_NODE_VERSION` | `24`      |
+| `RAILPACK_NO_SPA`       | `true`    |
+| `HOST`                  | `0.0.0.0` |
+
+Railway supplies `PORT`. Set `DATABASE_URL` to `${{Postgres.DATABASE_URL}}`
+before building.
+
 ## PostHog
 
 The shared adapter in `src/client/posthog/posthog.ts` loads the slim
