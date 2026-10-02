@@ -3,7 +3,7 @@ import { Frame } from "@/client/ui/frame";
 import { Rail } from "@/client/ui/rail";
 import { SiteFooter } from "./site-footer";
 import { SiteHeader } from "./site-header";
-import { SiteNav } from "./site-nav";
+import { SiteDock, SiteNav } from "./site-nav";
 
 export function PortfolioLayout(props: ParentProps) {
   return (
@@ -20,6 +20,7 @@ export function PortfolioLayout(props: ParentProps) {
       <Frame.Band>
         <SiteFooter />
       </Frame.Band>
+      <SiteDock />
     </Frame.Root>
   );
 }

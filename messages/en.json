@@ -13,6 +13,8 @@
   "meta_writing": "Notes and essays by {name}.",
   "header_resume": "Résumé.pdf",
   "header_contact": "Get in touch",
+  "dock_menu": "Menu",
+  "dock_close": "Close",
   "theme_light": "Switch to light theme",
   "theme_dark": "Switch to dark theme",
   "locale_spanish": "Switch to Spanish",

@@ -18,3 +18,10 @@ export function theme_set(theme: Theme) {
   document.documentElement.dataset.theme = theme;
   document.cookie = `theme=${theme}; Path=/; Max-Age=31536000; SameSite=Lax`;
 }
+
+// The document attribute is the source of truth, so every toggle on the page follows any change to it.
+export function theme_observe(onChange: (theme: Theme) => void) {
+  const observer = new MutationObserver(() => onChange(theme_current()));
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  return () => observer.disconnect();
+}

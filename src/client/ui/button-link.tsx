@@ -1,7 +1,8 @@
 import { splitProps, type ComponentProps } from "solid-js";
 import { cn } from "@/client/lib/cn";
 
-const base = "px-2 py-1 font-bold whitespace-nowrap no-underline";
+const base =
+  "inline-flex h-11 items-center px-2 font-bold whitespace-nowrap no-underline sm:h-[34px]";
 
 function ButtonLinkSolid(props: ComponentProps<"a">) {
   const [local, rest] = splitProps(props, ["class"]);

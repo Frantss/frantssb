@@ -1,17 +1,69 @@
+import { useLocation } from "@tanstack/solid-router";
+import { For } from "solid-js";
+import { LocaleToggle } from "@/client/features/localization/locale-toggle";
+import { ThemeToggle } from "@/client/features/theme/theme-toggle";
+import { Dock } from "@/client/ui/dock";
 import { Rail } from "@/client/ui/rail";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+
+const pages = [
+  { to: "/", label: m.nav_about },
+  { to: "/work", label: m.nav_work },
+  { to: "/projects", label: m.nav_projects },
+  { to: "/writing", label: m.nav_writing },
+] as const;
 
 export function SiteNav() {
   const locale = useLocale();
   return (
     <Rail.Nav label={m.nav_pages({}, { locale: locale() })}>
-      <Rail.Link to="/" activeOptions={{ exact: true }}>
-        {m.nav_about({}, { locale: locale() })}
-      </Rail.Link>
-      <Rail.Link to="/work">{m.nav_work({}, { locale: locale() })}</Rail.Link>
-      <Rail.Link to="/projects">{m.nav_projects({}, { locale: locale() })}</Rail.Link>
-      <Rail.Link to="/writing">{m.nav_writing({}, { locale: locale() })}</Rail.Link>
+      <For each={pages}>
+        {(page) => (
+          <Rail.Link to={page.to} activeOptions={{ exact: page.to === "/" }}>
+            {page.label({}, { locale: locale() })}
+          </Rail.Link>
+        )}
+      </For>
     </Rail.Nav>
+  );
+}
+
+export function SiteDock() {
+  const locale = useLocale();
+  const location = useLocation();
+  const current = () =>
+    pages.find((page) =>
+      page.to === "/"
+        ? location().pathname === "/"
+        : location().pathname === page.to || location().pathname.startsWith(`${page.to}/`),
+    );
+
+  return (
+    <Dock.Root>
+      <Dock.Bar>
+        <Dock.Trigger
+          menuLabel={m.dock_menu({}, { locale: locale() })}
+          closeLabel={m.dock_close({}, { locale: locale() })}
+        >
+          ▸ {current()?.label({}, { locale: locale() })}
+        </Dock.Trigger>
+      </Dock.Bar>
+      <Dock.Sheet label={m.nav_pages({}, { locale: locale() })}>
+        <Dock.List>
+          <For each={pages}>
+            {(page) => (
+              <Dock.Link to={page.to} activeOptions={{ exact: page.to === "/" }}>
+                {page.label({}, { locale: locale() })}
+              </Dock.Link>
+            )}
+          </For>
+        </Dock.List>
+        <Dock.Footer>
+          <LocaleToggle class="size-11" />
+          <ThemeToggle class="size-11" />
+        </Dock.Footer>
+      </Dock.Sheet>
+    </Dock.Root>
   );
 }

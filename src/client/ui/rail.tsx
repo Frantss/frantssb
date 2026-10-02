@@ -2,7 +2,7 @@ import { createLink } from "@tanstack/solid-router";
 import { splitProps, type ComponentProps, type ParentProps } from "solid-js";
 import { cn } from "@/client/lib/cn";
 
-// Sidebar navigation beside a content column; the rail stacks above the content on small screens.
+// Sidebar navigation beside a content column; hidden on small screens, where Dock takes over.
 function RailRoot(props: ParentProps) {
   return (
     <div class="grid flex-1 content-start sm:grid-cols-[9rem_1fr] sm:content-stretch">
@@ -13,10 +13,8 @@ function RailRoot(props: ParentProps) {
 
 function RailNav(props: ParentProps<{ label: string }>) {
   return (
-    <nav aria-label={props.label} class="border-b border-line px-4 py-6 sm:border-r sm:border-b-0">
-      <ul class="m-0 flex list-none flex-wrap gap-4 p-0 sm:flex-col sm:items-end sm:gap-1">
-        {props.children}
-      </ul>
+    <nav aria-label={props.label} class="border-r border-line px-4 py-6 max-sm:hidden">
+      <ul class="m-0 flex list-none flex-col items-end gap-1 p-0">{props.children}</ul>
     </nav>
   );
 }

@@ -16,7 +16,7 @@ export function ProjectsPage() {
             <CellGrid.Cell>
               <a
                 href={project.href}
-                class="grid h-full gap-2 p-5 text-fg no-underline hover:bg-surface"
+                class="grid h-full gap-2 p-4 text-fg sm:p-5 no-underline hover:bg-surface"
               >
                 <span class="flex justify-between gap-4">
                   <span class="font-bold">{project.name}</span>
