@@ -1,4 +1,5 @@
-import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/solid-router";
+import type { QueryClient } from "@tanstack/solid-query";
+import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/solid-router";
 
 import { HydrationScript } from "solid-js/web";
 import { onMount, Suspense, type ParentProps } from "solid-js";
@@ -6,7 +7,7 @@ import { posthog_initialize } from "@/client/posthog/posthog";
 
 import "@/client/styles/global.css";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },

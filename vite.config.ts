@@ -43,7 +43,7 @@ export default defineConfig(({ mode }) => ({
       {
         test: {
           name: "browser",
-          include: ["src/client/**/*.test.{ts,tsx}"],
+          include: ["src/client/**/*.test.{ts,tsx}", "src/integrations/orpc/**/*.test.ts"],
           browser: {
             enabled: true,
             headless: true,

@@ -17,8 +17,15 @@
     "db:studio": "varlock run -- drizzle-kit studio"
   },
   "dependencies": {
+    "@orpc/client": "2.0.0-beta.40",
+    "@orpc/contract": "2.0.0-beta.40",
+    "@orpc/openapi": "2.0.0-beta.40",
+    "@orpc/server": "2.0.0-beta.40",
+    "@orpc/tanstack-query": "2.0.0-beta.40",
     "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/solid-query": "5.104.0",
     "@tanstack/solid-router": "1.170.37",
+    "@tanstack/solid-router-ssr-query": "1.167.3",
     "@tanstack/solid-start": "1.168.56",
     "@varlock/vite-integration": "^1.5.2",
     "@zag-js/solid": "^1.44.0",

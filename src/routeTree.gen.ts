@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as ApiAngryAnkylosaurusSplatRouteImport } from './routes/api.angry-ankylosaurus.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: '/api/$',
+  path: '/api/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAngryAnkylosaurusSplatRoute =
@@ -26,27 +32,31 @@ const ApiAngryAnkylosaurusSplatRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/$': typeof ApiSplatRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/$': typeof ApiSplatRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/$': typeof ApiSplatRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/angry-ankylosaurus/$'
+  fullPaths: '/' | '/api/$' | '/api/angry-ankylosaurus/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/angry-ankylosaurus/$'
-  id: '__root__' | '/' | '/api/angry-ankylosaurus/$'
+  to: '/' | '/api/$' | '/api/angry-ankylosaurus/$'
+  id: '__root__' | '/' | '/api/$' | '/api/angry-ankylosaurus/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiSplatRoute: typeof ApiSplatRoute
   ApiAngryAnkylosaurusSplatRoute: typeof ApiAngryAnkylosaurusSplatRoute
 }
 
@@ -57,6 +67,13 @@ declare module '@tanstack/solid-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/$': {
+      id: '/api/$'
+      path: '/api/$'
+      fullPath: '/api/$'
+      preLoaderRoute: typeof ApiSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/angry-ankylosaurus/$': {
@@ -71,6 +88,7 @@ declare module '@tanstack/solid-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiSplatRoute: ApiSplatRoute,
   ApiAngryAnkylosaurusSplatRoute: ApiAngryAnkylosaurusSplatRoute,
 }
 export const routeTree = rootRouteImport

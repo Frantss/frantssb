@@ -7,12 +7,16 @@ Keep Solid on 1.x, its TanStack integrations on compatible 1.x releases, and vit
 ## Source layout
 
 - `src/client/`: presentation, analytics, and styles. UI still renders during SSR.
-- `src/server/`: database access and analytics proxy.
-- `src/shared/`: environment-independent constants, validation, and SEO.
+- `src/server/`: database access, analytics proxy, and oRPC handlers.
+- `src/shared/`: environment-independent schemas, constants, validation, SEO, and oRPC contracts.
+- `src/integrations/`: isomorphic glue — the oRPC browser HTTP / direct SSR client.
 - `src/routes/`: thin TanStack route adapters; generated routing stays at the source root.
 
 Client modules do not import server modules. Shared modules import neither client
-nor server code.
+nor server code. The oRPC integration selects its implementation through Start's
+`createIsomorphicFn`; server modules retain explicit server-only guards.
+Reserve `.client.ts` and `.server.ts` for actual environment-only modules: Start
+enforces these suffixes. The SSR-capable RPC client is named `orpc-client.ts`.
 
 Feature code goes in `src/<side>/features/<feature>/`. Use at most one generic dot
 scope (`<feature>.form.ts`, `<feature>.schema.ts`, `<feature>.data.ts`,
@@ -114,4 +118,20 @@ authorization headers. Server code uses `analytics_capture` from
 both return `false` instead of failing when PostHog is unavailable. Browser code
 uses `analytics_capture`, `analytics_defineEvent`, and `analytics_autocapture`
 from `@/client/analytics/analytics`, and `errors_capture` from
-`@/client/errors/errors`.
+`@/client/errors/errors`. Browser oRPC calls forward the PostHog session and
+distinct IDs so server events join the browser session.
+
+## oRPC
+
+All `@orpc/*` packages are pinned to the same v2 beta version. One OpenAPI
+handler is mounted at `/api/$`. Define procedure contracts with Valibot schemas
+and HTTP routing metadata in `src/shared/orpc/orpc.contract.ts`, then implement
+them in `src/server/orpc/orpc.router.ts`. Request headers and `db` are available
+in context. Import `client` from `@/integrations/orpc/orpc-client` in loaders or
+browser code, or `orpc` from `@/integrations/orpc/orpc.query` for TanStack Query:
+
+```ts
+const health = await client.health(); // { status: "ok" }
+```
+
+`GET /api/health` is a liveness check; it does not check external dependencies.
