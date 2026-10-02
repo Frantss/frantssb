@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteRouteImport } from './routes/_site/route'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteProjectsRouteImport } from './routes/_site/projects'
 import { Route as SiteWorkRouteImport } from './routes/_site/work'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as ApiAngryAnkylosaurusSplatRouteImport } from './routes/api.angry-ankylosaurus.$'
@@ -22,6 +23,11 @@ const SiteRouteRoute = SiteRouteRouteImport.update({
 const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => SiteRouteRoute,
+} as any)
+const SiteProjectsRoute = SiteProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
   getParentRoute: () => SiteRouteRoute,
 } as any)
 const SiteWorkRoute = SiteWorkRouteImport.update({
@@ -43,11 +49,13 @@ const ApiAngryAnkylosaurusSplatRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
   '/api/$': typeof ApiSplatRoute
   '/api/angry-ankylosaurus/$': typeof ApiAngryAnkylosaurusSplatRoute
 }
 export interface FileRoutesByTo {
+  '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
   '/api/$': typeof ApiSplatRoute
   '/': typeof SiteIndexRoute
@@ -56,6 +64,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteRouteWithChildren
+  '/_site/projects': typeof SiteProjectsRoute
   '/_site/work': typeof SiteWorkRoute
   '/api/$': typeof ApiSplatRoute
   '/_site/': typeof SiteIndexRoute
@@ -63,12 +72,14 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/work' | '/api/$' | '/api/angry-ankylosaurus/$'
+  fullPaths:
+    '/' | '/projects' | '/work' | '/api/$' | '/api/angry-ankylosaurus/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/work' | '/api/$' | '/' | '/api/angry-ankylosaurus/$'
+  to: '/projects' | '/work' | '/api/$' | '/' | '/api/angry-ankylosaurus/$'
   id:
     | '__root__'
     | '/_site'
+    | '/_site/projects'
     | '/_site/work'
     | '/api/$'
     | '/_site/'
@@ -97,6 +108,13 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof SiteIndexRouteImport
       parentRoute: typeof SiteRouteRoute
     }
+    '/_site/projects': {
+      id: '/_site/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof SiteProjectsRouteImport
+      parentRoute: typeof SiteRouteRoute
+    }
     '/_site/work': {
       id: '/_site/work'
       path: '/work'
@@ -122,11 +140,13 @@ declare module '@tanstack/solid-router' {
 }
 
 interface SiteRouteRouteChildren {
+  SiteProjectsRoute: typeof SiteProjectsRoute
   SiteWorkRoute: typeof SiteWorkRoute
   SiteIndexRoute: typeof SiteIndexRoute
 }
 
 const SiteRouteRouteChildren: SiteRouteRouteChildren = {
+  SiteProjectsRoute: SiteProjectsRoute,
   SiteWorkRoute: SiteWorkRoute,
   SiteIndexRoute: SiteIndexRoute,
 }

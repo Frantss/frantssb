@@ -74,6 +74,35 @@ export const jobs: Job[] = [
   },
 ];
 
+export type Project = { name: string; year: string; description: string; href: string };
+
+export const projects: Project[] = [
+  {
+    name: "project-alpha",
+    year: "2026",
+    description: "Open-source CLI for scaffolding typed APIs.",
+    href: "#",
+  },
+  {
+    name: "project-beta",
+    year: "2025",
+    description: "A tiny state machine library for Solid.",
+    href: "#",
+  },
+  {
+    name: "project-gamma",
+    year: "2024",
+    description: "Self-hosted analytics with a 2kB client.",
+    href: "#",
+  },
+  {
+    name: "project-delta",
+    year: "2023",
+    description: "Keyboard-first command palette component.",
+    href: "#",
+  },
+];
+
 export const education = [
   { school: "University Placeholder", degree: "BSc Computer Science", years: "2015–2019" },
 ];
