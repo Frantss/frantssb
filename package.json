@@ -1,0 +1,38 @@
+{
+  "name": "frantssb",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev --port 3000",
+    "generate-routes": "tsr generate",
+    "check": "vp check",
+    "test": "vp test",
+    "build": "vp build",
+    "start": "node .output/server/index.mjs",
+    "preview": "vp preview"
+  },
+  "dependencies": {
+    "@tanstack/solid-router": "1.170.37",
+    "@tanstack/solid-start": "1.168.56",
+    "@zag-js/solid": "^1.44.0",
+    "nitro": "3.0.260903-beta",
+    "solid-js": "1.9.15"
+  },
+  "devDependencies": {
+    "@tanstack/router-cli": "^1.167.39",
+    "@vitest/browser-playwright": "catalog:",
+    "playwright": "1.63.0",
+    "typescript": "^7.0.2",
+    "vite": "catalog:",
+    "vite-plugin-solid": "2.11.14",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.8.1",
+      "onFail": "download"
+    }
+  }
+}
