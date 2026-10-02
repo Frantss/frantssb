@@ -1,4 +1,4 @@
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
 import { Entry } from "@/client/ui/entry";
 import { Tags } from "@/client/ui/tags";
 import type { Job } from "./portfolio.data";
@@ -18,12 +18,16 @@ export function JobEntry(props: { job: Job }) {
         </span>
         <span>{props.job.duration}</span>
       </Entry.Meta>
-      <Entry.Bullets>
-        <For each={props.job.bullets}>{(bullet) => <Entry.Bullet>{bullet}</Entry.Bullet>}</For>
-      </Entry.Bullets>
-      <Tags.List>
-        <For each={props.job.stack}>{(tech) => <Tags.Item>{tech}</Tags.Item>}</For>
-      </Tags.List>
+      <Show when={props.job.bullets.length > 0}>
+        <Entry.Bullets>
+          <For each={props.job.bullets}>{(bullet) => <Entry.Bullet>{bullet}</Entry.Bullet>}</For>
+        </Entry.Bullets>
+      </Show>
+      <Show when={props.job.stack.length > 0}>
+        <Tags.List>
+          <For each={props.job.stack}>{(tech) => <Tags.Item>{tech}</Tags.Item>}</For>
+        </Tags.List>
+      </Show>
     </Entry.Root>
   );
 }

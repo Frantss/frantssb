@@ -4,7 +4,11 @@ import { render } from "solid-js/web";
 import { LocaleProvider } from "../locale.context";
 import { WorkPage } from "@/client/features/portfolio/work-page";
 import { ProjectsPage } from "@/client/features/portfolio/projects-page";
-import { portfolio_posts } from "@/client/features/portfolio/portfolio.data";
+import {
+  portfolio_bio,
+  portfolio_jobs,
+  portfolio_posts,
+} from "@/client/features/portfolio/portfolio.data";
 import type { Locale } from "@/paraglide/runtime";
 
 let dispose: (() => void) | undefined;
@@ -32,15 +36,17 @@ describe("localized portfolio", () => {
       </LocaleProvider>
     ));
 
-    expect(container.textContent).toContain("Company One");
+    expect(container.textContent).toContain("Guildara");
+    expect(container.textContent).toContain("Product Engineer");
     expect(container.textContent).toContain("Open-source CLI for scaffolding typed APIs.");
 
     setLocale("es");
 
-    expect(container.textContent).toContain("Empresa Uno");
-    expect(container.textContent).toContain("Ingeniero de software sénior");
+    expect(container.textContent).toContain("Guildara");
+    expect(container.textContent).toContain("Ingeniero de producto");
+    expect(container.textContent).toContain("Líder técnico");
     expect(container.textContent).toContain("CLI de código abierto");
-    expect(container.textContent).not.toContain("Company One");
+    expect(container.textContent).not.toContain("Product Engineer");
     expect(container.querySelectorAll("h1")[0]?.textContent).toBe("Experiencia");
     expect(container.querySelectorAll("h1")[1]?.textContent).toBe("Proyectos");
   });
@@ -61,8 +67,32 @@ describe("localized portfolio", () => {
       </>
     ));
 
-    expect(container.querySelector('[data-locale="en"]')?.textContent).toContain("Company One");
-    expect(container.querySelector('[data-locale="es"]')?.textContent).toContain("Empresa Uno");
+    expect(container.querySelector('[data-locale="en"]')?.textContent).toContain(
+      "Product Engineer",
+    );
+    expect(container.querySelector('[data-locale="es"]')?.textContent).toContain(
+      "Ingeniero de producto",
+    );
+  });
+
+  it("preserves profile facts and work identities across locales", () => {
+    const english = portfolio_jobs("en");
+    const spanish = portfolio_jobs("es");
+    expect(english).toHaveLength(7);
+    expect(
+      spanish.map(({ company, start, end, stack }) => ({ company, start, end, stack })),
+    ).toEqual(english.map(({ company, start, end, stack }) => ({ company, start, end, stack })));
+    expect(portfolio_bio("en").location).toBe("Uruguay");
+    expect(portfolio_bio("es").location).toBe("Uruguay");
+    expect(portfolio_bio("es").about[1]).toContain("Guildara");
+    for (const [index, job] of spanish.entries()) {
+      expect(job.role).not.toBe(english[index]?.role);
+      expect(job.type).not.toBe(english[index]?.type);
+      expect(job.bullets).toHaveLength(english[index]!.bullets.length);
+      job.bullets.forEach((bullet, bulletIndex) => {
+        expect(bullet).not.toBe(english[index]?.bullets[bulletIndex]);
+      });
+    }
   });
 
   it("localizes article titles and bodies without changing route identities", () => {
