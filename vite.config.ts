@@ -2,11 +2,31 @@ import { defineConfig, lazyPlugins } from "vite-plus";
 import { playwright } from "vite-plus/test/browser-playwright";
 import { varlockVitePlugin } from "@varlock/vite-integration";
 import tailwindcss from "@tailwindcss/vite";
+import posthog from "@posthog/rollup-plugin";
 
 import { tanstackStart } from "@tanstack/solid-start/plugin/vite";
 
 import solidPlugin from "vite-plugin-solid";
 import { nitro } from "nitro/vite";
+
+function posthogSourceMapsPlugin() {
+  const personalApiKey = process.env.POSTHOG_API_KEY?.trim();
+  const projectId = process.env.POSTHOG_PROJECT_ID?.trim();
+  if (!personalApiKey || !projectId) return;
+
+  return Object.assign(
+    posthog({
+      personalApiKey,
+      projectId,
+      host: process.env.POSTHOG_HOST,
+      sourcemaps: { deleteAfterUpload: true },
+    }),
+    {
+      apply: "build" as const,
+      applyToEnvironment: ({ name }: { name: string }) => name === "client",
+    },
+  );
+}
 
 export default defineConfig(({ mode }) => ({
   test: {
@@ -45,6 +65,7 @@ export default defineConfig(({ mode }) => ({
     varlockVitePlugin({ ssrInjectMode: "init-only" }),
     tailwindcss(),
     tanstackStart(),
+    posthogSourceMapsPlugin(),
     ...(mode === "test" ? [] : [nitro({ preset: "node-server" })]),
     solidPlugin({ ssr: mode !== "test" }),
   ]),

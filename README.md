@@ -99,12 +99,14 @@ The shared adapter in `src/client/posthog/posthog.ts` loads the slim
 `posthog-js` entry after browser mount in production builds only. Development,
 SSR, and builds with missing settings do not initialize the SDK.
 
-| Variable                   | Value                                                        |
-| -------------------------- | ------------------------------------------------------------ |
-| `VITE_POSTHOG_KEY`         | Public project token (`phc_…`)                               |
-| `VITE_POSTHOG_HOST`        | `/api/angry-ankylosaurus` for the same-origin US Cloud proxy |
-| `VITE_POSTHOG_PERSISTENCE` | `localStorage+cookie` or `memory`; empty disables analytics  |
-| `POSTHOG_HOST`             | `https://us.i.posthog.com` for server ingestion              |
+| Variable                   | Value                                                           |
+| -------------------------- | --------------------------------------------------------------- |
+| `VITE_POSTHOG_KEY`         | Public project token (`phc_…`)                                  |
+| `VITE_POSTHOG_HOST`        | `/api/angry-ankylosaurus` for the same-origin US Cloud proxy    |
+| `VITE_POSTHOG_PERSISTENCE` | `localStorage+cookie` or `memory`; empty disables analytics     |
+| `POSTHOG_HOST`             | `https://us.i.posthog.com` for server ingestion and source maps |
+| `POSTHOG_PROJECT_ID`       | Project ID, for source-map upload                               |
+| `POSTHOG_API_KEY`          | Secret key, for source-map upload; never prefix with `VITE_`    |
 
 `/api/angry-ankylosaurus/*` proxies to PostHog's US hosts, stripping cookies and
 authorization headers. Server code uses `analytics_capture` from
