@@ -1,5 +1,10 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "@fontsource-variable/geist-mono";
+
+@source "..";
+@source "../../routes";
+@source not "../**/tests";
+@source not "../**/*.test.{ts,tsx}";
 
 /* light-dark() follows color-scheme: the system by default, data-theme when the visitor picks one. */
 :root {
@@ -36,7 +41,8 @@
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
   --color-link: var(--link);
-  --font-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-mono:
+    "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas, "Courier New", monospace;
 }
 
 @layer base {
