@@ -1,5 +1,6 @@
 import { defineConfig, lazyPlugins } from "vite-plus";
 import { playwright } from "vite-plus/test/browser-playwright";
+import { varlockVitePlugin } from "@varlock/vite-integration";
 import tailwindcss from "@tailwindcss/vite";
 
 import { tanstackStart } from "@tanstack/solid-start/plugin/vite";
@@ -33,7 +34,7 @@ export default defineConfig(({ mode }) => ({
       },
     ],
   },
-  fmt: { ignorePatterns: ["src/routeTree.gen.ts"] },
+  fmt: { ignorePatterns: ["src/routeTree.gen.ts", "env.d.ts"] },
   lint: {
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
     rules: { "vite-plus/prefer-vite-plus-imports": "error" },
@@ -41,6 +42,7 @@ export default defineConfig(({ mode }) => ({
   },
   resolve: { tsconfigPaths: true },
   plugins: lazyPlugins(() => [
+    varlockVitePlugin({ ssrInjectMode: "init-only" }),
     tailwindcss(),
     tanstackStart(),
     ...(mode === "test" ? [] : [nitro({ preset: "node-server" })]),

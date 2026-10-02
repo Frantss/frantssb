@@ -3,23 +3,25 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vp dev --port 3000",
+    "dev": "varlock run -- vp dev --port 3000",
     "generate-routes": "tsr generate",
-    "check": "vp check",
-    "test": "vp test",
-    "build": "vp build",
-    "start": "node .output/server/index.mjs",
+    "check": "APP_ENV=test vp check",
+    "test": "APP_ENV=test vp test",
+    "build": "varlock run -- vp build",
+    "start": "varlock run -- node .output/server/index.mjs",
     "preview": "vp preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/solid-router": "1.170.37",
     "@tanstack/solid-start": "1.168.56",
+    "@varlock/vite-integration": "^1.5.2",
     "@zag-js/solid": "^1.44.0",
     "cn": "0.4.0",
     "nitro": "3.0.260903-beta",
     "solid-js": "1.9.15",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "varlock": "^1.21.0"
   },
   "devDependencies": {
     "@tanstack/router-cli": "^1.167.39",

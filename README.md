@@ -26,6 +26,13 @@ pnpm dev
 
 The development server runs at `http://localhost:3000`.
 
+Varlock reads `.env.schema` and validates variables when the app starts or builds.
+`APP_ENV` (default `development`) selects an env-specific file: Varlock loads
+`.env.[APP_ENV]` and `.env.[APP_ENV].local` after `.env` and `.env.local`, and
+process environment variables override all files.
+Keep local values in the ignored `.env` file; use `pnpm exec varlock load --agent`
+to inspect redacted resolved values. Varlock generates `env.d.ts` from the schema.
+
 ## Commands
 
 Vitest runs client tests in headless Chromium through Playwright and server and
@@ -41,6 +48,8 @@ pnpm test
 pnpm build
 pnpm start
 ```
+
+`pnpm check` and `pnpm test` set `APP_ENV=test`, so Varlock loads `.env.test` when present.
 
 Routes live in `src/routes`. TanStack Router generates `src/routeTree.gen.ts`; do
 not edit or format that file manually.
