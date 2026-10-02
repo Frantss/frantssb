@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "varlock run -- vp dev --port 3000",
     "generate-routes": "tsr generate",
-    "check": "APP_ENV=test vp check",
-    "test": "APP_ENV=test vp test",
+    "generate-localization": "node scripts/generate-localization.ts",
+    "check": "pnpm generate-localization && APP_ENV=test vp check",
+    "test": "pnpm generate-localization && APP_ENV=test vp test",
     "test:screenshots": "playwright test",
     "test:screenshots:update": "playwright test --update-snapshots",
     "build": "varlock run -- vp build",
@@ -27,6 +28,7 @@
     "varlock": "^1.21.0"
   },
   "devDependencies": {
+    "@inlang/paraglide-js": "2.25.4",
     "@playwright/test": "1.63.0",
     "@posthog/rollup-plugin": "1.6.1",
     "@tanstack/router-cli": "^1.167.39",

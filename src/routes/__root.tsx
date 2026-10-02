@@ -1,10 +1,11 @@
 import { HeadContent, Outlet, ScriptOnce, Scripts, createRootRoute } from "@tanstack/solid-router";
 
 import { HydrationScript } from "solid-js/web";
-import { onMount, Suspense, type ParentProps } from "solid-js";
+import { createSignal, onMount, Suspense, type ParentProps } from "solid-js";
 import { posthog_initialize } from "@/client/posthog/posthog";
 import { theme_script } from "@/client/features/theme/theme";
 import geistMonoUrl from "@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url";
+import { baseLocale, getLocale, type Locale } from "@/paraglide/runtime";
 
 import "@/client/styles/global.css";
 
@@ -29,10 +30,15 @@ export const Route = createRootRoute({
 });
 
 function RootComponent(props: ParentProps) {
+  const [locale, setLocale] = createSignal<Locale>(baseLocale);
+
+  onMount(() => {
+    setLocale(getLocale());
+  });
   onMount(posthog_initialize);
 
   return (
-    <html lang="en">
+    <html lang={locale()}>
       <head>
         <ScriptOnce>{theme_script}</ScriptOnce>
         <HydrationScript />

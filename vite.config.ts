@@ -3,12 +3,14 @@ import { playwright } from "vite-plus/test/browser-playwright";
 import { varlockVitePlugin } from "@varlock/vite-integration";
 import tailwindcss from "@tailwindcss/vite";
 import posthog from "@posthog/rollup-plugin";
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
 
 import { tanstackStart } from "@tanstack/solid-start/plugin/vite";
 
 import solidPlugin from "vite-plugin-solid";
 import { nitro } from "nitro/vite";
 import { cache_publicContent } from "./src/shared/cache-control";
+import paraglideOptions from "./paraglide.config";
 
 const pages = ["/", "/work", "/projects", "/writing", "/writing/**"];
 
@@ -57,16 +59,18 @@ export default defineConfig(({ mode }) => ({
       },
     ],
   },
-  fmt: { ignorePatterns: ["src/routeTree.gen.ts", "env.d.ts"] },
+  fmt: { ignorePatterns: ["src/routeTree.gen.ts", "src/paraglide/**", "env.d.ts"] },
   lint: {
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
     rules: { "vite-plus/prefer-vite-plus-imports": "error" },
     options: { typeAware: true, typeCheck: true },
+    ignorePatterns: ["src/paraglide/**"],
   },
   resolve: { tsconfigPaths: true },
   plugins: lazyPlugins(() => [
     varlockVitePlugin({ ssrInjectMode: "init-only" }),
     tailwindcss(),
+    paraglideVitePlugin(paraglideOptions),
     tanstackStart({ server: { build: { inlineCss: true } } }),
     posthogSourceMapsPlugin(),
     ...(mode === "test"
