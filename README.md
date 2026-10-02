@@ -94,6 +94,15 @@ pnpm start
 `pnpm check` and `pnpm test` set `APP_ENV=test`, so Varlock loads the committed
 `.env.test`, which supplies an unreachable `DATABASE_URL`.
 
+The production build prerenders only `/` and generates Brotli and gzip versions
+of public text assets. Prerendering imports the server route bundle, so the
+required variables must be set during the build. For a local build without a
+database:
+
+```sh
+DATABASE_URL=postgresql://localhost:1/unused pnpm build
+```
+
 Routes live in `src/routes`. TanStack Router generates `src/routeTree.gen.ts`; do
 not edit or format that file manually.
 

@@ -8,6 +8,7 @@ import { tanstackStart } from "@tanstack/solid-start/plugin/vite";
 
 import solidPlugin from "vite-plugin-solid";
 import { nitro } from "nitro/vite";
+import { cache_publicContent } from "./src/shared/cache-control";
 
 function posthogSourceMapsPlugin() {
   const personalApiKey = process.env.POSTHOG_API_KEY?.trim();
@@ -64,9 +65,20 @@ export default defineConfig(({ mode }) => ({
   plugins: lazyPlugins(() => [
     varlockVitePlugin({ ssrInjectMode: "init-only" }),
     tailwindcss(),
-    tanstackStart(),
+    tanstackStart({ server: { build: { inlineCss: true } } }),
     posthogSourceMapsPlugin(),
-    ...(mode === "test" ? [] : [nitro({ preset: "node-server" })]),
+    ...(mode === "test"
+      ? []
+      : [
+          nitro({
+            preset: "node-server",
+            prerender: { routes: ["/"], crawlLinks: false, failOnError: true },
+            compressPublicAssets: { gzip: true, brotli: true },
+            routeRules: {
+              "/": { headers: { "cache-control": cache_publicContent } },
+            },
+          }),
+        ]),
     solidPlugin({ ssr: mode !== "test" }),
   ]),
 }));
