@@ -38,6 +38,7 @@ describe("localized portfolio", () => {
 
     expect(container.textContent).toContain("Guildara");
     expect(container.textContent).toContain("Product Engineer");
+    expect(container.textContent).toContain("1y 8m");
     expect(container.textContent).toContain("Open-source CLI for scaffolding typed APIs.");
 
     setLocale("es");
@@ -45,6 +46,8 @@ describe("localized portfolio", () => {
     expect(container.textContent).toContain("Guildara");
     expect(container.textContent).toContain("Ingeniero de producto");
     expect(container.textContent).toContain("Líder técnico");
+    expect(container.textContent).toContain("1a 8m");
+    expect(container.textContent).not.toContain("1y 8m");
     expect(container.textContent).toContain("CLI de código abierto");
     expect(container.textContent).not.toContain("Product Engineer");
     expect(container.querySelectorAll("h1")[0]?.textContent).toBe("Experiencia");
@@ -82,8 +85,8 @@ describe("localized portfolio", () => {
     expect(
       spanish.map(({ company, start, end, stack }) => ({ company, start, end, stack })),
     ).toEqual(english.map(({ company, start, end, stack }) => ({ company, start, end, stack })));
-    expect(portfolio_bio("en").location).toBe("Uruguay");
-    expect(portfolio_bio("es").location).toBe("Uruguay");
+    expect(portfolio_bio("en").location).toBe("🇺🇾 Uruguay");
+    expect(portfolio_bio("es").location).toBe("🇺🇾 Uruguay");
     expect(portfolio_bio("es").about[1]).toContain("Guildara");
     for (const [index, job] of spanish.entries()) {
       expect(job.role).not.toBe(english[index]?.role);

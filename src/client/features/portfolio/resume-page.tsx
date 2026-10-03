@@ -35,7 +35,7 @@ export function ResumePage() {
             </Facts.Item>
             <Facts.Item label={m.fact_web({}, { locale: locale() })}>
               <a href={site.origin}>{new URL(site.origin).host}</a>
-              <For each={profile.links}>
+              <For each={profile.links.filter((link) => link.label !== "Instagram")}>
                 {(link) => (
                   <>
                     {", "}

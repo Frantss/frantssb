@@ -1,4 +1,4 @@
-// Profile and work details from LinkedIn; contact details, projects, writing, and education are placeholders.
+// Profile and work details from LinkedIn; projects, writing, and education are placeholders.
 
 import { m } from "@/paraglide/messages";
 import { baseLocale, type Locale } from "@/paraglide/runtime";
@@ -7,11 +7,12 @@ export const profile = {
   name: "Francisco Bongiovanni",
   handle: "frantssb",
   utcOffset: -3,
-  email: "hello@example.com",
+  email: "frantss.bongiovanni@gmail.com",
   links: [
-    { label: "GitHub", href: "https://github.com/" },
+    { label: "GitHub", href: "https://github.com/Frantss/" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/frantssb/" },
-    { label: "X", href: "https://x.com/" },
+    { label: "X", href: "https://x.com/frantssb" },
+    { label: "Instagram", href: "https://www.instagram.com/frantss.b" },
   ],
 };
 
@@ -34,12 +35,12 @@ export function portfolio_bio(locale: Locale) {
 
 export type Job = {
   company: string;
+  href?: string;
   location: string;
   role: string;
   type: string;
   start: string;
   end: string;
-  duration: string;
   bullets: string[];
   stack: string[];
 };
@@ -49,34 +50,34 @@ export function portfolio_jobs(locale: Locale): Job[] {
   return [
     {
       company: "Guildara",
+      href: "https://www.guildara.com/",
       location: `Uruguay · ${m.job_remote({}, options)}`,
       role: m.job_product_engineer({}, options),
       type: m.job_full_time({}, options),
       start: "08.2023",
       end: "∞",
-      duration: m.job_duration({ years: 3, months: 3 }, options),
       bullets: [],
       stack: ["React", "Next.js", "TypeScript"],
     },
     {
       company: "Qubika",
-      location: `Montevideo, Uruguay · ${m.job_remote({}, options)}`,
+      href: "https://qubika.com/",
+      location: `Uruguay · ${m.job_remote({}, options)}`,
       role: m.job_technical_leader({}, options),
       type: m.job_full_time({}, options),
       start: "01.2022",
       end: "08.2023",
-      duration: m.job_duration({ years: 1, months: 8 }, options),
       bullets: [m.job_qubika_architecture({}, options), m.job_qubika_leadership({}, options)],
       stack: [],
     },
     {
       company: "Qubika",
-      location: "Montevideo, Uruguay",
+      href: "https://qubika.com/",
+      location: "Uruguay",
       role: m.job_fullstack({}, options),
       type: m.job_full_time({}, options),
       start: "02.2020",
       end: "08.2023",
-      duration: m.job_duration({ years: 3, months: 7 }, options),
       bullets: [m.job_qubika_development({}, options), m.job_qubika_mentoring({}, options)],
       stack: [
         "React",
@@ -97,34 +98,32 @@ export function portfolio_jobs(locale: Locale): Job[] {
     },
     {
       company: "Datum Source",
-      location: `Montevideo, Uruguay · ${m.job_remote({}, options)}`,
+      location: `Uruguay · ${m.job_remote({}, options)}`,
       role: m.job_react_fullstack({}, options),
       type: m.job_contract({}, options),
       start: "01.2023",
       end: "04.2023",
-      duration: m.job_duration_months({ months: 4 }, options),
       bullets: [m.job_datum_mvp({}, options)],
       stack: ["Node.js", "React"],
     },
     {
       company: "Hulu",
-      location: "Montevideo, Uruguay",
+      location: `Uruguay · ${m.job_remote({}, options)}`,
       role: m.job_fullstack({}, options),
       type: m.job_contract({}, options),
       start: "04.2020",
       end: "10.2022",
-      duration: m.job_duration({ years: 2, months: 7 }, options),
       bullets: [m.job_hulu_services({}, options), m.job_hulu_practices({}, options)],
       stack: [],
     },
     {
       company: "Senpai Academy",
-      location: "Montevideo, Uruguay",
+      href: "https://www.senpaiacademy.com/",
+      location: "Uruguay",
       role: m.job_fullstack_teacher({}, options),
       type: m.job_contract({}, options),
       start: "06.2021",
       end: "09.2021",
-      duration: m.job_duration_months({ months: 4 }, options),
       bullets: [],
       stack: [],
     },
@@ -135,7 +134,6 @@ export function portfolio_jobs(locale: Locale): Job[] {
       type: m.job_part_time({}, options),
       start: "09.2019",
       end: "11.2019",
-      duration: m.job_duration_months({ months: 3 }, options),
       bullets: [],
       stack: ["Java"],
     },

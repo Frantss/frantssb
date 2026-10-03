@@ -6,6 +6,6 @@ export const site = {
     path: "/social.png",
     width: 1200,
     height: 630,
-    alt: "Francisco Bongiovanni, Software Engineer. frantss.uy",
+    alt: "Francisco Bongiovanni, Product Engineer. frantss.uy",
   },
 } as const;
