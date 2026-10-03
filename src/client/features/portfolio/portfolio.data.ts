@@ -29,7 +29,11 @@ export function portfolio_bio(locale: Locale) {
   return {
     role: m.profile_role({}, options),
     location: m.profile_location({}, options),
-    about: [m.profile_about_intro({}, options), m.profile_about_background({}, options)],
+    about: [
+      m.profile_about_intro({}, options),
+      m.profile_about_background({}, options),
+      m.profile_about_personal({}, options),
+    ],
   };
 }
 
