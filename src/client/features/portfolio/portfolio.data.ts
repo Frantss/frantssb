@@ -83,7 +83,15 @@ export function portfolio_jobs(locale: Locale): Job[] {
   ];
 }
 
-export type Project = { name: string; year: string; description: string; href: string };
+export type ProjectKind = "oss" | "client" | "misc";
+
+export type Project = {
+  name: string;
+  year: string;
+  description: string;
+  href: string;
+  kind: ProjectKind;
+};
 
 export function portfolio_projects(locale: Locale): Project[] {
   const options = { locale };
@@ -93,26 +101,49 @@ export function portfolio_projects(locale: Locale): Project[] {
       year: "2026",
       description: m.project_alpha_description({}, options),
       href: "#",
+      kind: "oss",
+    },
+    {
+      name: "project-epsilon",
+      year: "2025",
+      description: m.project_epsilon_description({}, options),
+      href: "#",
+      kind: "client",
     },
     {
       name: "project-beta",
       year: "2025",
       description: m.project_beta_description({}, options),
       href: "#",
+      kind: "oss",
     },
     {
       name: "project-gamma",
       year: "2024",
       description: m.project_gamma_description({}, options),
       href: "#",
+      kind: "misc",
     },
     {
       name: "project-delta",
       year: "2023",
       description: m.project_delta_description({}, options),
       href: "#",
+      kind: "oss",
     },
   ];
+}
+
+export function portfolio_project_groups(locale: Locale) {
+  const options = { locale };
+  const projects = portfolio_projects(locale);
+  return [
+    { kind: "oss", label: m.project_group_oss({}, options) },
+    { kind: "client", label: m.project_group_client({}, options) },
+    { kind: "misc", label: m.project_group_misc({}, options) },
+  ]
+    .map((group) => ({ ...group, projects: projects.filter((p) => p.kind === group.kind) }))
+    .filter((group) => group.projects.length > 0);
 }
 
 export type Post = { slug: string; title: string; date: string; body: string[] };
