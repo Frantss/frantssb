@@ -56,6 +56,7 @@
   "job_hulu_practices": "Ayudé al equipo a adoptar mejores prácticas de desarrollo.",
   "project_safeish_description": "Manejo de errores en TypeScript con resultados tipados de éxito y error.",
   "project_oxform_description": "Biblioteca de formularios con un núcleo independiente del framework e integración con React.",
+  "project_frantssb_description": "Este sitio web, hecho con Solid y TanStack Start.",
   "project_altereco_description": "Sitio web para una agencia digital uruguaya liderada por mujeres.",
   "project_atenea_description": "Sitio web con reservas y pedidos para llevar para una cafetería en Montevideo.",
   "project_ruby_memcached_description": "Implementación sencilla de memcached a nivel junior, me consiguió mi primer trabajo",

@@ -172,6 +172,12 @@ function portfolio_projects(locale: Locale): Project[] {
       kind: "oss",
     },
     {
+      name: "frantssb",
+      description: m.project_frantssb_description({}, options),
+      href: "https://github.com/Frantss/frantssb",
+      kind: "oss",
+    },
+    {
       name: "ruby-memcached",
       description: m.project_ruby_memcached_description({}, options),
       href: "https://github.com/Frantss/ruby-memcached",
