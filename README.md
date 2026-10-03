@@ -4,12 +4,17 @@ Personal website with an about page, work history, projects, and writing.
 
 ## Run locally
 
-Requires Node.js and pnpm.
+Requires Node.js, pnpm, and Docker running. Add this to `.env`:
+
+```dotenv
+DATABASE_URL=postgresql://frantssb:frantssb@localhost:5432/frantssb
+```
 
 ```bash
 pnpm install
+pnpm db:up
 pnpm dev
 ```
 
-Open [localhost:3000](http://localhost:3000). Settings are optional;
+Open [localhost:3000](http://localhost:3000). Other settings are optional;
 see [`.env.schema`](.env.schema).

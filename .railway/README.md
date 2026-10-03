@@ -3,7 +3,7 @@
 The [frantssb project](https://railway.com/project/b62c5679-8957-453d-b785-795045a745e2)
 hosts the `frantssb` app in `production`.
 `.railway/railway.ts` manages the app configuration. The site uses TanStack Start
-SSR and prerendering without an application API or database.
+SSR, an oRPC API, and PostgreSQL through Drizzle.
 
 Use Railway CLI 5.42.1 or newer and the repo's pnpm 12.8.1. Install dependencies
 with `pnpm install`; the `railway` SDK is a development dependency.
@@ -25,10 +25,15 @@ The CLI evaluates `.railway/railway.ts`; uploading source does not apply it.
 Review every plan because removing a resource from the file can delete it in
 Railway.
 
-When applying the backend removal, first change the deployed app's health check
-to `/` and deploy this source. After that deployment succeeds, apply the plan
-that removes `DATABASE_URL` and `Postgres`. Railway retains the detached
-`postgres-volume`; deleting that volume separately removes its data.
+The configuration includes `Postgres` and supplies its private `DATABASE_URL`
+to the app. Apply the reviewed configuration before deploying source that
+requires the database. The previously retained `postgres-volume` remains
+declared separately; review its attachment in the plan before applying.
+
+Drizzle commands are `pnpm db:generate`, `pnpm db:migrate`, and `pnpm db:studio`.
+Table definitions belong in `src/server/db/db.schema.ts`; migrations are written
+to `drizzle/`. No application tables are defined yet. Run migrations with a
+database URL reachable from the machine executing the command.
 
 Deploy local source:
 

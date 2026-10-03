@@ -1,10 +1,13 @@
 import { createORPCClient } from "@orpc/client";
 import { OpenAPILink } from "@orpc/openapi/fetch";
 import type { RouterClient } from "@orpc/server";
-import { describe, expect, it } from "vite-plus/test";
+import { afterAll, describe, expect, it } from "vite-plus/test";
+import { db } from "@/server/db/db";
 import { handleAPI } from "@/server/orpc/orpc.handler";
 import type { router } from "@/server/orpc/orpc.router";
 import { contract } from "@/shared/orpc/orpc.contract";
+
+afterAll(() => db.$client.end());
 
 describe("OpenAPI transport", () => {
   it("routes GET /api/health and returns plain JSON", async () => {
