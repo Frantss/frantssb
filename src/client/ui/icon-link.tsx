@@ -7,7 +7,7 @@ export function IconLink(props: ComponentProps<"a"> & { "aria-label": string }) 
     <a
       {...rest}
       class={cn(
-        "grid size-11 shrink-0 place-items-center border border-line-strong bg-transparent p-0 text-muted no-underline hover:text-fg sm:size-[34px]",
+        "grid size-11 shrink-0 place-items-center border border-line-strong bg-transparent p-0 text-muted no-underline transition-colors hover:border-faint hover:text-fg focus-visible:text-fg sm:size-[34px]",
         local.class,
       )}
     />

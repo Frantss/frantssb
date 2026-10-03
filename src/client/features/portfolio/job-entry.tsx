@@ -25,7 +25,7 @@ export function JobEntry(props: { job: Job }) {
             <a
               href={`#${id()}`}
               aria-label={`${props.job.company} · ${props.job.role} · ${props.job.start}`}
-              class="grid size-11 shrink-0 place-items-center text-faint hover:text-fg sm:size-5"
+              class="grid size-11 shrink-0 place-items-center text-faint hover:text-fg focus-visible:text-fg sm:size-5"
             >
               <IconLink size={14} aria-hidden="true" />
             </a>

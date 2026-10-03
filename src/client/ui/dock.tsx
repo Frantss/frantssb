@@ -56,7 +56,7 @@ function DockTrigger(props: ComponentProps<"button"> & { menuLabel: string; clos
       type="button"
       popoverTarget={dock.sheetId}
       class={cn(
-        "flex h-full w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-4 font-[inherit] text-fg",
+        "flex h-full w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-4 font-[inherit] text-fg transition-colors hover:bg-surface focus-visible:bg-surface",
         local.class,
       )}
     >
@@ -102,7 +102,7 @@ function DockAnchor(props: ComponentProps<"a">) {
       <a
         {...rest}
         class={cn(
-          "block py-3 text-faint no-underline hover:text-muted aria-[current=page]:text-fg aria-[current=page]:before:content-['▸_']",
+          "block py-3 text-faint no-underline hover:text-muted focus-visible:text-muted aria-[current=page]:text-fg aria-[current=page]:before:content-['▸_']",
           local.class,
         )}
       />

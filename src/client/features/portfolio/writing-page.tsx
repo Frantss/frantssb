@@ -27,7 +27,7 @@ export function WritingPage() {
                   <Link
                     to="/writing/$slug"
                     params={{ slug: article.slug }}
-                    class="text-fg"
+                    class="text-fg hover:text-link focus-visible:text-link"
                     {...analytics_autocapture({ id: "article-link", article_slug: article.slug })}
                   >
                     {article.title}

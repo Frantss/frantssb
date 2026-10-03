@@ -92,11 +92,12 @@
   a {
     color: var(--link);
     text-decoration: none;
+    transition: color 150ms;
   }
 
-  a:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+  a:hover,
+  a:focus-visible {
+    color: var(--fg);
   }
 
   :focus-visible {

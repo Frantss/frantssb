@@ -27,7 +27,7 @@ function RailAnchor(props: ComponentProps<"a">) {
       <a
         {...rest}
         class={cn(
-          "text-faint no-underline hover:text-muted aria-[current=page]:text-fg aria-[current=page]:before:content-['▸_']",
+          "text-faint no-underline hover:text-muted focus-visible:text-muted aria-[current=page]:text-fg aria-[current=page]:before:content-['▸_']",
           local.class,
         )}
       />

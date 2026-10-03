@@ -13,11 +13,13 @@ export function SiteHeader() {
   const resume = () => m.header_resume({}, { locale: locale() }).replace(/\.pdf$/, "");
   return (
     <header class="flex items-center justify-between gap-2 px-4 py-3 sm:gap-4">
-      <Link to="/" class="flex shrink-0 items-center gap-3 text-fg no-underline">
-        <span class="grid size-11 shrink-0 place-items-center border border-line-strong text-xs font-bold sm:size-9">
+      <Link to="/" class="group flex shrink-0 items-center gap-3 text-fg no-underline">
+        <span class="grid size-11 shrink-0 place-items-center border border-line-strong text-xs font-bold transition-colors group-hover:border-faint group-focus-visible:border-faint sm:size-9">
           FB
         </span>
-        <span class="font-bold max-sm:hidden">{profile.handle}</span>
+        <span class="font-bold transition-colors group-hover:text-link group-focus-visible:text-link max-sm:hidden">
+          {profile.handle}
+        </span>
       </Link>
       <div class="flex flex-wrap justify-end gap-2">
         <ThemeToggle class="max-sm:hidden" />

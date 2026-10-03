@@ -9,7 +9,7 @@ export function IconButton(props: ComponentProps<"button"> & { "aria-label": str
       type="button"
       {...rest}
       class={cn(
-        "grid size-[34px] cursor-pointer place-items-center border border-line-strong bg-transparent p-0 font-[inherit] text-muted hover:text-fg",
+        "grid size-[34px] cursor-pointer place-items-center border border-line-strong bg-transparent p-0 font-[inherit] text-muted transition-colors hover:border-faint hover:text-fg focus-visible:text-fg",
         local.class,
       )}
     />

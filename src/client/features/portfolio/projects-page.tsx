@@ -21,20 +21,32 @@ export function ProjectsPage() {
             >
               <a
                 href={`#${group.kind}`}
-                class="flex min-h-11 w-fit items-center gap-2 text-faint hover:text-fg sm:min-h-0"
+                class="group flex min-h-11 w-fit items-center gap-2 text-faint hover:text-fg focus-visible:text-fg sm:min-h-0"
               >
                 <Switch>
                   <Match when={group.kind === "oss"}>
-                    <IconBrandOpenSource size={14} aria-hidden="true" class="shrink-0 text-muted" />
+                    <IconBrandOpenSource
+                      size={14}
+                      aria-hidden="true"
+                      class="shrink-0 text-muted transition-colors group-hover:text-fg group-focus-visible:text-fg"
+                    />
                   </Match>
                   <Match when={group.kind === "client"}>
-                    <IconBriefcase size={14} aria-hidden="true" class="shrink-0 text-muted" />
+                    <IconBriefcase
+                      size={14}
+                      aria-hidden="true"
+                      class="shrink-0 text-muted transition-colors group-hover:text-fg group-focus-visible:text-fg"
+                    />
                   </Match>
                   <Match when={group.kind === "snippets"}>
                     <IconCode size={14} aria-hidden="true" class="shrink-0 text-muted" />
                   </Match>
                   <Match when={group.kind === "misc"}>
-                    <IconDots size={14} aria-hidden="true" class="shrink-0 text-muted" />
+                    <IconDots
+                      size={14}
+                      aria-hidden="true"
+                      class="shrink-0 text-muted transition-colors group-hover:text-fg group-focus-visible:text-fg"
+                    />
                   </Match>
                 </Switch>
                 {group.label}
@@ -54,10 +66,10 @@ export function ProjectsPage() {
                           project_kind: project.kind,
                         })
                       }
-                      class="group grid gap-1 text-fg no-underline hover:no-underline"
+                      class="group grid gap-1 text-fg no-underline"
                     >
                       <span class="flex items-baseline justify-between gap-3">
-                        <span class="min-w-0 font-bold break-words underline-offset-3 group-hover:underline">
+                        <span class="min-w-0 font-bold break-words transition-colors group-hover:text-link group-focus-visible:text-link">
                           {project.name}
                         </span>
                         <span class="shrink-0 text-xs text-faint tabular-nums">{project.year}</span>
