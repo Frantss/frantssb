@@ -12,7 +12,7 @@ import {
 } from "@/client/features/portfolio/portfolio.data";
 import type { Locale } from "@/paraglide/runtime";
 
-vi.mock("@/content/posts", () => ({ posts: [] }));
+vi.mock("@/content/post-metadata", () => ({ posts: [] }));
 
 let dispose: (() => void) | undefined;
 

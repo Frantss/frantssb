@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from "vite-plus/test";
 import { render } from "solid-js/web";
 import Placeholder, { frontmatter } from "@/content/posts/hello-world.mdx";
-import { posts } from "@/content/posts";
+import { posts } from "@/content/post-metadata";
 
 let dispose: (() => void) | undefined;
 afterEach(() => dispose?.());
