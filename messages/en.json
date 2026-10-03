@@ -44,6 +44,7 @@
   "job_full_time": "Full-time",
   "job_part_time": "Part-time",
   "job_contract": "Contract",
+  "job_present": "present",
   "job_duration": "{years}y {months}m",
   "job_duration_months": "{months}m",
   "job_duration_years": "{years}y",

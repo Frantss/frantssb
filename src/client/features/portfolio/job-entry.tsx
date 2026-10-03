@@ -4,6 +4,7 @@ import { links_openInNewTab } from "@/client/lib/links";
 import { Entry } from "@/client/ui/entry";
 import { Tags } from "@/client/ui/tags";
 import { useLocale } from "@/client/features/localization/locale.context";
+import { m } from "@/paraglide/messages";
 import { JobDuration } from "./job-duration";
 import type { Job } from "./portfolio.data";
 
@@ -36,7 +37,8 @@ export function JobEntry(props: { job: Job }) {
       <Entry.Meta>
         <span>{props.job.type}</span>
         <span>
-          {props.job.start}–{props.job.end}
+          {props.job.start}–
+          {props.job.end === "∞" ? m.job_present({}, { locale: locale() }) : props.job.end}
         </span>
         <JobDuration start={props.job.start} end={props.job.end} locale={locale()} />
       </Entry.Meta>
