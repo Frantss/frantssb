@@ -16,6 +16,7 @@ import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteEducationRouteImport } from './routes/_site/education'
 import { Route as SiteProjectsRouteImport } from './routes/_site/projects'
 import { Route as SiteWorkRouteImport } from './routes/_site/work'
+import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as SiteWritingIndexRouteImport } from './routes/_site/writing/index'
 import { Route as SiteWritingSlugRouteImport } from './routes/_site/writing/$slug'
 
@@ -53,6 +54,11 @@ const SiteWorkRoute = SiteWorkRouteImport.update({
   path: '/work',
   getParentRoute: () => SiteRouteRoute,
 } as any)
+const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: '/api/$',
+  path: '/api/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SiteWritingIndexRoute = SiteWritingIndexRouteImport.update({
   id: '/writing/',
   path: '/writing/',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/education': typeof SiteEducationRoute
   '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
+  '/api/$': typeof ApiSplatRoute
   '/writing/$slug': typeof SiteWritingSlugRoute
   '/writing/': typeof SiteWritingIndexRoute
 }
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/education': typeof SiteEducationRoute
   '/projects': typeof SiteProjectsRoute
   '/work': typeof SiteWorkRoute
+  '/api/$': typeof ApiSplatRoute
   '/': typeof SiteIndexRoute
   '/writing/$slug': typeof SiteWritingSlugRoute
   '/writing': typeof SiteWritingIndexRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/_site/education': typeof SiteEducationRoute
   '/_site/projects': typeof SiteProjectsRoute
   '/_site/work': typeof SiteWorkRoute
+  '/api/$': typeof ApiSplatRoute
   '/_site/': typeof SiteIndexRoute
   '/_site/writing/$slug': typeof SiteWritingSlugRoute
   '/_site/writing/': typeof SiteWritingIndexRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/education'
     | '/projects'
     | '/work'
+    | '/api/$'
     | '/writing/$slug'
     | '/writing/'
   fileRoutesByTo: FileRoutesByTo
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
     | '/education'
     | '/projects'
     | '/work'
+    | '/api/$'
     | '/'
     | '/writing/$slug'
     | '/writing'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/_site/education'
     | '/_site/projects'
     | '/_site/work'
+    | '/api/$'
     | '/_site/'
     | '/_site/writing/$slug'
     | '/_site/writing/'
@@ -134,6 +146,7 @@ export interface RootRouteChildren {
   SiteRouteRoute: typeof SiteRouteRouteWithChildren
   ResumeRoute: typeof ResumeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiSplatRoute: typeof ApiSplatRoute
 }
 
 declare module '@tanstack/solid-router' {
@@ -187,6 +200,13 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof SiteWorkRouteImport
       parentRoute: typeof SiteRouteRoute
     }
+    '/api/$': {
+      id: '/api/$'
+      path: '/api/$'
+      fullPath: '/api/$'
+      preLoaderRoute: typeof ApiSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_site/writing/': {
       id: '/_site/writing/'
       path: '/writing'
@@ -230,6 +250,7 @@ const rootRouteChildren: RootRouteChildren = {
   SiteRouteRoute: SiteRouteRouteWithChildren,
   ResumeRoute: ResumeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiSplatRoute: ApiSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

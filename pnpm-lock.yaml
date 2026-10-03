@@ -188,6 +188,15 @@ importers:
       '@fontsource-variable/geist-mono':
         specifier: ^5.3.0
         version: 5.3.0
+      '@orpc/contract':
+        specifier: 2.0.0-beta.41
+        version: 2.0.0-beta.41
+      '@orpc/openapi':
+        specifier: 2.0.0-beta.41
+        version: 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
+      '@orpc/server':
+        specifier: 2.0.0-beta.41
+        version: 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
       '@tabler/icons-solidjs':
         specifier: 3.48.0
         version: 3.48.0(solid-js@1.9.15)
@@ -224,6 +233,9 @@ importers:
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3
+      valibot:
+        specifier: 1.5.0
+        version: 1.5.0(typescript@7.0.2)
       varlock:
         specifier: ^1.21.0
         version: 1.21.0
@@ -234,6 +246,9 @@ importers:
       '@mdx-js/rollup':
         specifier: ^3.1.1
         version: 3.1.1(rollup@4.63.5)
+      '@orpc/client':
+        specifier: 2.0.0-beta.41
+        version: 2.0.0-beta.41
       '@playwright/test':
         specifier: 1.63.0
         version: 1.63.0
@@ -733,6 +748,49 @@ packages:
   '@oozcitak/util@10.0.0':
     resolution: {integrity: sha512-hAX0pT/73190NLqBPPWSdBVGtbY6VOhWYK3qqHqtXQ1gK7kS2yz4+ivsN07hpJ6I3aeMtKP6J6npsEKOAzuTLA==}
     engines: {node: '>=20.0'}
+
+  '@openapi-spec/downgrader@0.1.0':
+    resolution: {integrity: sha512-za2h8wGa4BFy2+AiKJHutt8BS2ua7Fw7vgNMmAtLyFbreozWHkXRVBRVA86sczyLY1ZN9Gw4rITygs90ehztQg==}
+
+  '@openapi-spec/types@0.1.0':
+    resolution: {integrity: sha512-5m9GUj5ekwmJ5uXH0yctarqLGckGc8X7pX65dirukZDUAGmrUx5lKovvWA7YvEBKd480Q7R2oG3nE5C+SoVgNw==}
+
+  '@orpc/client@2.0.0-beta.41':
+    resolution: {integrity: sha512-0P6UxBpL6+0+lNu/gct5d9OibW94xp97UReblQVjqsWks7g8GOjzNRvP6b8MIGz1qpCKaNMOFAUdMJVF+BflJw==}
+
+  '@orpc/contract@2.0.0-beta.41':
+    resolution: {integrity: sha512-zcRzv6N2SGHBXKEDA6n3nsZvtsPCde1kjhO5ZEH6TQw7BNIgq2v4bGM9GEsbczTptSr5B6ehEwE2/+aTlxEglw==}
+
+  '@orpc/json-schema@2.0.0-beta.41':
+    resolution: {integrity: sha512-rcGsviub56BHA2AhN30iuOuCqqgcN5VeC03FC1lG5+yQsYGZbqaHpIYnpZDkkVkknW0gSkpcFxKW3vcGYjW39A==}
+
+  '@orpc/openapi@2.0.0-beta.41':
+    resolution: {integrity: sha512-r+Q6z7tVdMiLLZlk+HxpPQ3LTgCFri7+13y6xehlg2zB0GEXs6CdjAzR4YtAgGAxOrysdPd1U5kcPd42jf5qoA==}
+    peerDependencies:
+      '@scalar/api-reference': '>=1.57.2'
+      '@types/swagger-ui': '>=5.32.0'
+      swagger-ui: '>=5.32.6'
+    peerDependenciesMeta:
+      '@scalar/api-reference':
+        optional: true
+      '@types/swagger-ui':
+        optional: true
+      swagger-ui:
+        optional: true
+
+  '@orpc/server@2.0.0-beta.41':
+    resolution: {integrity: sha512-66XM0e1p5uP78C77nONozn0igCjkoYiOnUOB1ScP8UE8EeVle0BFDQQViBqttYCYOSVr3P+8u3ru1bpKZk5fUg==}
+    peerDependencies:
+      crossws: '>=0.3.4'
+      fastify: '>=5.6.1'
+    peerDependenciesMeta:
+      crossws:
+        optional: true
+      fastify:
+        optional: true
+
+  '@orpc/shared@2.0.0-beta.41':
+    resolution: {integrity: sha512-bXqVa8wivVpMkdb8X0HnYI1CUA2hVuV1GSsjs2NIJ2oU/H6wRQi/R7XY/PPICYz0qFjwM2x2tUm1EH395fVd3A==}
 
   '@oxc-minify/binding-android-arm-eabi@0.136.0':
     resolution: {integrity: sha512-gk1jzky1vLeOcK7w9Ib2RT/UooZ7O21s8YSeXCsy4tzsmguKb3Cbsv/Ra2fKhMp4mKeKCzvC1Xa41OfSBWfWdQ==}
@@ -1672,6 +1730,35 @@ packages:
     resolution: {integrity: sha512-zdIWBGpR9zGx1p1bzIPqF5Gs+Ks/BH8R6fWhmUa/dcK1L2rUC8BAcZJzNRYBQv74kScf1TSOs0EY//Vd/I0V8g==}
     peerDependencies:
       solid-js: '>=1.8.4'
+
+  '@standard-schema/spec@1.1.0':
+    resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@standard-server/aws-lambda@0.10.0':
+    resolution: {integrity: sha512-UOT2gtDvRaMPEYWsfGIKdIgDillMjF1LdvvpACWfqKn0krkOQ4x7wfhMwwD4rCN5g/5iI5qO8tlvKJLlJtdInQ==}
+
+  '@standard-server/core@0.10.0':
+    resolution: {integrity: sha512-t3anpLtP/Qr64TT8OsJbH4b7T3/ho2r2MYZMzT972yh/MGj6iH2SizXTtKdrN9vU1LvZ8BKldAtGNVCu8lW/Ow==}
+
+  '@standard-server/fastify@0.10.0':
+    resolution: {integrity: sha512-kDpujjB0eujp9Da06i+yhHXU1ZO3nJxL365lVys6BS3yVJ6CgNh03xO2tODUvOL7NvX29bE6P6WO+yQedwoURg==}
+    peerDependencies:
+      fastify: '>=5.6.1'
+    peerDependenciesMeta:
+      fastify:
+        optional: true
+
+  '@standard-server/fetch@0.10.0':
+    resolution: {integrity: sha512-PEyo2yCggoBjQzslvxUGzRkJSr2PWaCFvDw8+JJnCEDvEdTv8hzaTCyU2nog+zPu4XFq6zzVYh1Q6A80gGNlQg==}
+
+  '@standard-server/node@0.10.0':
+    resolution: {integrity: sha512-Jiqzuo/50kQCuD6ET9kDir3tgq4CpMxKHr1kXP/dFkTaxIWKmsgoAlw9oDTpok8TYVvpHtHrnENTBvAavNJpMg==}
+
+  '@standard-server/peer@0.10.0':
+    resolution: {integrity: sha512-HdNxcZsnYXcHySD31RsGOynQXYWUOOSVWSjdb9di2Gm6FW9EP1mB+h6b+5UkzNSs7hMdhL2z1zlaIFhplznQtg==}
+
+  '@standard-server/shared@0.10.0':
+    resolution: {integrity: sha512-yHBLREnJzZg9kugvG7zpaFL25wGLbdKgSCavmjOj4wgJ2dwZZ/w4nl503Y+44Kt87Z1gbd2OjwNIz379QAaZ3Q==}
 
   '@tabler/icons-solidjs@3.48.0':
     resolution: {integrity: sha512-D989B/DXL6KlqO3dH19xe1TFWUx0BF6xcm0lAlhBD0LVHt756sMYnGxsLxJuTcXf2gJzgDxM6O3SbK9SssckpA==}
@@ -2638,6 +2725,10 @@ packages:
   cookie-es@3.1.1:
     resolution: {integrity: sha512-UaXxwISYJPTr9hwQxMFYZ7kNhSXboMXP+Z3TRX6f1/NyaGPfuNUZOWP1pUEb75B2HjfklIYLVRfWiFZJyC6Npg==}
 
+  cookie@2.0.1:
+    resolution: {integrity: sha512-yuToqVvRrj6pfDXREyQAAv8SkAEk/8GS3jQRTiUMm66TVtBYmqQeoEjL2Lmq8Rpo6271vH76InTChTitEAm65w==}
+    engines: {node: '>=22'}
+
   core-js@3.50.0:
     resolution: {integrity: sha512-BRWgOLKkFeCgRudR6zrs8p9XJZcE14grzKMMssoYrk6krtuEZ7MTKPIY5RzOnqsEKIR9kst7wNzphttraT+Yqw==}
 
@@ -3424,6 +3515,10 @@ packages:
   query-selector-shadow-dom@1.0.1:
     resolution: {integrity: sha512-lT5yCqEBgfoMYpf3F2xQRK7zEr1rhIIZuceDK6+xRkJQ4NMbHTwXqk4NkwDwQMNqXgG9r9fyHnzwNVs6zV5KRw==}
 
+  radash@12.1.1:
+    resolution: {integrity: sha512-h36JMxKRqrAxVD8201FrCpyeNuUY9Y5zZwujr20fFO77tpUtGa6EZzfKw/3WaiBX95fq7+MpsuMLNdSnORAwSA==}
+    engines: {node: '>=14.18.0'}
+
   railway@3.12.0:
     resolution: {integrity: sha512-a6th+76NE3fZ8QMTOtEIe15sPTjObWOJYx0pCHCR/rd00r++I2rZHLKTn2R1qmPAwvGdAj6vY45GDVJs0AzOXA==}
     engines: {node: '>=22'}
@@ -3596,6 +3691,10 @@ packages:
   style-to-object@1.0.14:
     resolution: {integrity: sha512-LIN7rULI0jBscWQYaSswptyderlarFkjQ+t79nzty8tcIAceVomEVlLzH5VP4Cmsv6MtKhs7qaAiwlcp+Mgaxw==}
 
+  tagged-tag@1.0.0:
+    resolution: {integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==}
+    engines: {node: '>=20'}
+
   tailwindcss@4.3.3:
     resolution: {integrity: sha512-gOhV3P7ufE62QDGg1zVaTgCR+EtPv92k2nIhVcVKcLmxT1sUBsQGhnZj175j+MqRt4zLF7ic+sCYjfhxMxj7YQ==}
 
@@ -3640,6 +3739,10 @@ packages:
     resolution: {integrity: sha512-Yiex1Ovn8z2xPpOWckIiysV1SSyRMY9BkLF++q0yKiDxCqRhosKfMg3janKkiLBwZ5c/YryloKwGZcrEmtwxKw==}
     engines: {node: '>=18.0.0'}
     hasBin: true
+
+  type-fest@5.10.0:
+    resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
+    engines: {node: '>=20'}
 
   typescript@7.0.2:
     resolution: {integrity: sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==}
@@ -4344,6 +4447,74 @@ snapshots:
 
   '@oozcitak/util@10.0.0': {}
 
+  '@openapi-spec/downgrader@0.1.0':
+    dependencies:
+      '@openapi-spec/types': 0.1.0
+
+  '@openapi-spec/types@0.1.0': {}
+
+  '@orpc/client@2.0.0-beta.41':
+    dependencies:
+      '@orpc/shared': 2.0.0-beta.41
+      '@standard-server/core': 0.10.0
+      '@standard-server/fetch': 0.10.0
+      '@standard-server/peer': 0.10.0
+
+  '@orpc/contract@2.0.0-beta.41':
+    dependencies:
+      '@orpc/client': 2.0.0-beta.41
+      '@orpc/shared': 2.0.0-beta.41
+      '@standard-schema/spec': 1.1.0
+
+  '@orpc/json-schema@2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))':
+    dependencies:
+      '@openapi-spec/types': 0.1.0
+      '@orpc/client': 2.0.0-beta.41
+      '@orpc/contract': 2.0.0-beta.41
+      '@orpc/server': 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
+      '@orpc/shared': 2.0.0-beta.41
+      '@standard-schema/spec': 1.1.0
+    transitivePeerDependencies:
+      - crossws
+      - fastify
+
+  '@orpc/openapi@2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))':
+    dependencies:
+      '@openapi-spec/downgrader': 0.1.0
+      '@openapi-spec/types': 0.1.0
+      '@orpc/client': 2.0.0-beta.41
+      '@orpc/contract': 2.0.0-beta.41
+      '@orpc/json-schema': 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
+      '@orpc/server': 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
+      '@orpc/shared': 2.0.0-beta.41
+      '@standard-server/core': 0.10.0
+      '@standard-server/fetch': 0.10.0
+      rou3: 0.9.2
+    transitivePeerDependencies:
+      - crossws
+      - fastify
+
+  '@orpc/server@2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))':
+    dependencies:
+      '@orpc/client': 2.0.0-beta.41
+      '@orpc/contract': 2.0.0-beta.41
+      '@orpc/shared': 2.0.0-beta.41
+      '@standard-server/aws-lambda': 0.10.0
+      '@standard-server/core': 0.10.0
+      '@standard-server/fastify': 0.10.0
+      '@standard-server/fetch': 0.10.0
+      '@standard-server/node': 0.10.0
+      '@standard-server/peer': 0.10.0
+      cookie: 2.0.1
+    optionalDependencies:
+      crossws: 0.4.12(srvx@1.0.5)
+
+  '@orpc/shared@2.0.0-beta.41':
+    dependencies:
+      '@standard-server/shared': 0.10.0
+      radash: 12.1.1
+      type-fest: 5.10.0
+
   '@oxc-minify/binding-android-arm-eabi@0.136.0':
     optional: true
 
@@ -4846,6 +5017,42 @@ snapshots:
   '@solidjs/meta@0.29.4(solid-js@1.9.15)':
     dependencies:
       solid-js: 1.9.15
+
+  '@standard-schema/spec@1.1.0': {}
+
+  '@standard-server/aws-lambda@0.10.0':
+    dependencies:
+      '@standard-server/core': 0.10.0
+      '@standard-server/fetch': 0.10.0
+      '@standard-server/node': 0.10.0
+      '@standard-server/shared': 0.10.0
+
+  '@standard-server/core@0.10.0':
+    dependencies:
+      '@standard-server/shared': 0.10.0
+
+  '@standard-server/fastify@0.10.0':
+    dependencies:
+      '@standard-server/core': 0.10.0
+      '@standard-server/node': 0.10.0
+
+  '@standard-server/fetch@0.10.0':
+    dependencies:
+      '@standard-server/core': 0.10.0
+      '@standard-server/shared': 0.10.0
+
+  '@standard-server/node@0.10.0':
+    dependencies:
+      '@standard-server/core': 0.10.0
+      '@standard-server/fetch': 0.10.0
+      '@standard-server/shared': 0.10.0
+
+  '@standard-server/peer@0.10.0':
+    dependencies:
+      '@standard-server/core': 0.10.0
+      '@standard-server/shared': 0.10.0
+
+  '@standard-server/shared@0.10.0': {}
 
   '@tabler/icons-solidjs@3.48.0(solid-js@1.9.15)':
     dependencies:
@@ -5686,6 +5893,8 @@ snapshots:
   convert-source-map@2.0.0: {}
 
   cookie-es@3.1.1: {}
+
+  cookie@2.0.1: {}
 
   core-js@3.50.0: {}
 
@@ -6802,6 +7011,8 @@ snapshots:
 
   query-selector-shadow-dom@1.0.1: {}
 
+  radash@12.1.1: {}
+
   railway@3.12.0:
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.14.2)
@@ -7053,6 +7264,8 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.7
 
+  tagged-tag@1.0.0: {}
+
   tailwindcss@4.3.3: {}
 
   tapable@2.3.3: {}
@@ -7084,6 +7297,10 @@ snapshots:
       esbuild: 0.28.2
     optionalDependencies:
       fsevents: 2.3.3
+
+  type-fest@5.10.0:
+    dependencies:
+      tagged-tag: 1.0.0
 
   typescript@7.0.2:
     optionalDependencies:
