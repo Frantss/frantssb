@@ -107,4 +107,23 @@ describe("article frontmatter validation", () => {
       ),
     ).toThrow("expected frontmatter tags");
   });
+
+  it("preserves keywords separately from tags and validates their format", () => {
+    const source =
+      '---\ntitle: Article\ndescription: Description\ndate: "2026.10.03"\ntags: [log]\n';
+    expect(
+      article_parseFrontmatter(
+        `${source}keywords: [software engineering, web portfolio]\n---`,
+        "article.mdx",
+      ),
+    ).toMatchObject({ tags: ["log"], keywords: ["software engineering", "web portfolio"] });
+    expect(article_parseFrontmatter(`${source}keywords: []\n---`, "article.mdx").keywords).toEqual(
+      [],
+    );
+    for (const keywords of ["mdx", '["", 7]', "[null]", '[" "]']) {
+      expect(() =>
+        article_parseFrontmatter(`${source}keywords: ${keywords}\n---`, "article.mdx"),
+      ).toThrow("expected frontmatter keywords to be a list of non-empty strings");
+    }
+  });
 });

@@ -5,6 +5,7 @@ export type ArticleFrontmatter = {
   description: string;
   date: string;
   tags: string[];
+  keywords?: string[];
 };
 
 export function article_parseFrontmatter(source: string, path: string): ArticleFrontmatter {
@@ -32,10 +33,18 @@ export function article_parseFrontmatter(source: string, path: string): ArticleF
   ) {
     throw new Error(`${path}: expected frontmatter tags to be a list of non-empty strings`);
   }
+  if (
+    "keywords" in frontmatter &&
+    (!Array.isArray(frontmatter.keywords) ||
+      frontmatter.keywords.some((keyword) => typeof keyword !== "string" || !keyword.trim()))
+  ) {
+    throw new Error(`${path}: expected frontmatter keywords to be a list of non-empty strings`);
+  }
   return {
     title: frontmatter.title,
     description: frontmatter.description,
     date: frontmatter.date,
     tags: "tags" in frontmatter ? (frontmatter.tags as string[]) : [],
+    ...("keywords" in frontmatter ? { keywords: frontmatter.keywords as string[] } : {}),
   };
 }

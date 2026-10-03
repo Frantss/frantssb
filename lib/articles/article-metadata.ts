@@ -6,10 +6,14 @@ export type Article = {
   date: string;
   description: string;
   tags: string[];
+  keywords: string[];
   socialImage: { path: string; width: number; height: number; alt: string };
 };
 
-type ArticleFrontmatter = Omit<Article, "slug" | "tags"> & { tags?: string[] };
+type ArticleFrontmatter = Omit<Article, "slug" | "tags" | "keywords"> & {
+  tags?: string[];
+  keywords?: string[];
+};
 
 const metadata = import.meta.glob<ArticleFrontmatter>("../../src/content/articles/*.{md,mdx}", {
   eager: true,
@@ -29,6 +33,7 @@ export const article_metadata: Article[] = Object.entries(metadata)
       date: frontmatter.date,
       description: frontmatter.description,
       tags: frontmatter.tags ?? [],
+      keywords: frontmatter.keywords ?? frontmatter.tags ?? [],
       socialImage: frontmatter.socialImage,
     };
   })

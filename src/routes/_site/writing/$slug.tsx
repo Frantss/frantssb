@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_site/writing/$slug")({
         headline: loaderData.title,
         datePublished: loaderData.date.replaceAll(".", "-"),
         author: { name: profile.name, url: `${site.origin}/` },
-        keywords: loaderData.tags,
+        keywords: loaderData.keywords,
       },
     });
     return { meta: metadata.meta, links: metadata.links, scripts: metadata.scripts };
