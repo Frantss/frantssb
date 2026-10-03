@@ -15,7 +15,10 @@ export function ProjectsPage() {
       <For each={portfolio_project_groups(locale())}>
         {(group) => (
           <section id={group.kind} class="grid min-w-0 scroll-mt-6 grid-cols-[minmax(0,1fr)] gap-3">
-            <h2 class="m-0 text-[10px] font-normal uppercase">
+            <h2
+              id={group.kind === "misc" ? "miscellaneous" : undefined}
+              class="m-0 text-[10px] font-normal uppercase"
+            >
               <a
                 href={`#${group.kind}`}
                 class="flex min-h-11 w-fit items-center gap-2 text-faint hover:text-fg sm:min-h-0"

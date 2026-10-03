@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from "vite-plus/test";
 import { render } from "solid-js/web";
-import Placeholder, { frontmatter } from "@/content/articles/hello-world.mdx";
+import { frontmatter } from "@/content/articles/log-001-enough-to-start.mdx";
+import MdxFixture from "@/client/features/portfolio/tests/fixtures/mdx.mdx";
 import { article_metadata } from "@/lib/articles/article-metadata";
 
 let dispose: (() => void) | undefined;
@@ -8,14 +9,14 @@ afterEach(() => dispose?.());
 
 describe("MDX articles", () => {
   it("discovers frontmatter as serializable article metadata", () => {
-    expect(article_metadata.find((article) => article.slug === "hello-world")).toEqual({
-      slug: "hello-world",
+    expect(article_metadata.find((article) => article.slug === "log-001-enough-to-start")).toEqual({
+      slug: "log-001-enough-to-start",
       ...(frontmatter as Record<string, unknown>),
       socialImage: {
-        path: expect.stringMatching(/^\/og\/articles\/hello-world-[a-f0-9]{20}\.png$/),
+        path: expect.stringMatching(/^\/og\/articles\/log-001-enough-to-start-[a-f0-9]{20}\.png$/),
         width: 1200,
         height: 630,
-        alt: "Hello world. Francisco Bongiovanni. frantss.uy",
+        alt: "Log #001: Enough to Start. Francisco Bongiovanni. frantss.uy",
       },
     });
     expect(JSON.parse(JSON.stringify(article_metadata))).toEqual(article_metadata);
@@ -24,7 +25,7 @@ describe("MDX articles", () => {
   it("compiles Markdown, JSX, and highlighted code into Solid elements", () => {
     const container = document.createElement("div");
     document.body.append(container);
-    const stop = render(() => <Placeholder />, container);
+    const stop = render(() => <MdxFixture />, container);
     dispose = () => {
       stop();
       container.remove();
