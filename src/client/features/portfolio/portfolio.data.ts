@@ -60,7 +60,11 @@ export function portfolio_jobs(locale: Locale): Job[] {
       type: m.job_full_time({}, options),
       start: "08.2023",
       end: "∞",
-      bullets: [],
+      bullets: [
+        m.job_guildara_typescript({}, options),
+        m.job_guildara_codebase({}, options),
+        m.job_guildara_ux({}, options),
+      ],
       stack: ["React", "Next.js", "TypeScript"],
     },
     {
