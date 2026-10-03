@@ -1,6 +1,15 @@
 import { Link } from "@tanstack/solid-router";
-import { For } from "solid-js";
+import type { ParentProps } from "solid-js";
+import { mergeProps } from "@zag-js/solid";
+import {
+  IconBrandGithub,
+  IconBrandInstagram,
+  IconBrandLinkedin,
+  IconBrandX,
+} from "@tabler/icons-solidjs";
 import { Facts } from "@/client/ui/facts";
+import { IconLink } from "@/client/ui/icon-link";
+import { Tooltip } from "@/client/ui/tooltip";
 import { LocalTime } from "@/client/ui/local-time";
 import { Page, PageTitle, Paragraphs } from "@/client/ui/page";
 import { portfolio_bio, profile } from "./portfolio.data";
@@ -52,33 +61,59 @@ export function AboutPage() {
         >
           {m.nav_projects({}, { locale: locale() })}
         </Link>
-        ; {m.about_find({}, { locale: locale() })} <ProfileLinks />
+        .
       </p>
+      <ProfileLinks />
     </Page>
   );
 }
 
 function ProfileLinks() {
   const locale = useLocale();
+  const [github, linkedin, x, instagram] = profile.links;
   return (
-    <For each={profile.links}>
-      {(link, index) => (
-        <>
-          <a
-            href={link.href}
-            onClick={() =>
-              analytics_capture("profile_link_clicked", {
-                locale: locale(),
-                platform: link.platform,
-                placement: "about",
-              })
-            }
+    <ul
+      aria-label={m.about_find({}, { locale: locale() })}
+      class="m-0 flex flex-wrap gap-2 p-0 list-none"
+    >
+      <ProfileLink link={github}>
+        <IconBrandGithub size={18} aria-hidden="true" />
+      </ProfileLink>
+      <ProfileLink link={linkedin}>
+        <IconBrandLinkedin size={18} aria-hidden="true" />
+      </ProfileLink>
+      <ProfileLink link={x}>
+        <IconBrandX size={18} aria-hidden="true" />
+      </ProfileLink>
+      <ProfileLink link={instagram}>
+        <IconBrandInstagram size={18} aria-hidden="true" />
+      </ProfileLink>
+    </ul>
+  );
+}
+
+function ProfileLink(props: ParentProps<{ link: (typeof profile.links)[number] }>) {
+  const locale = useLocale();
+  return (
+    <li>
+      <Tooltip label={props.link.label}>
+        {(triggerProps) => (
+          <IconLink
+            {...mergeProps(triggerProps, {
+              onClick: () =>
+                analytics_capture("profile_link_clicked", {
+                  locale: locale(),
+                  platform: props.link.platform,
+                  placement: "about",
+                }),
+            })}
+            href={props.link.href}
+            aria-label={props.link.label}
           >
-            {link.label}
-          </a>
-          {index() < profile.links.length - 1 ? ", " : "."}
-        </>
-      )}
-    </For>
+            {props.children}
+          </IconLink>
+        )}
+      </Tooltip>
+    </li>
   );
 }
