@@ -1,0 +1,60 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "1b3335a4-0f4a-4082-b975-5ded8bcfd2ce",
+  "prevIds": ["57e546c0-f577-402a-b6ab-38d954e943da"],
+  "ddl": [
+    {
+      "isRlsEnabled": false,
+      "name": "article_like_counts",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "article_slug",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_like_counts"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "count",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_like_counts"
+    },
+    {
+      "columns": ["article_slug"],
+      "nameExplicit": false,
+      "name": "post_like_counts_pkey",
+      "schema": "public",
+      "table": "article_like_counts",
+      "entityType": "pks"
+    },
+    {
+      "value": "\"count\" >= 0",
+      "name": "article_like_counts_count_nonnegative",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "article_like_counts"
+    }
+  ],
+  "renames": [
+    "public.post_like_counts->public.article_like_counts",
+    "public.article_like_counts.post_slug->public.article_like_counts.article_slug",
+    "public.article_like_counts.post_like_counts_count_nonnegative->public.article_like_counts.article_like_counts_count_nonnegative"
+  ]
+}

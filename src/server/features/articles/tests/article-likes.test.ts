@@ -5,18 +5,18 @@ import { inArray } from "drizzle-orm";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vite-plus/test";
 import { db } from "@/server/db/db";
-import { postLikeCounts } from "@/server/db/db.schema";
+import { articleLikeCounts } from "@/server/db/db.schema";
 import { router } from "@/server/orpc/orpc.router";
 import { contract } from "@/shared/orpc/orpc.contract";
 
-vi.mock("@/shared/features/writing/writing.data", () => ({
-  writing_posts: (locale: string) =>
+vi.mock("@/lib/articles/article-metadata", () => ({
+  article_list: (locale: string) =>
     (locale === "es" ? ["likes-test-es"] : ["likes-test-first", "likes-test-second"]).map(
       (slug) => ({ slug, title: slug, date: "2026-10-03", body: [] }),
     ),
 }));
 
-describe("post likes with PostgreSQL", () => {
+describe("article likes with PostgreSQL", () => {
   const handler = new OpenAPIHandler(router);
 
   async function request(slug: string, method: "GET" | "POST" = "GET", body?: string) {
@@ -25,7 +25,7 @@ describe("post likes with PostgreSQL", () => {
         ? { method, body, headers: body ? { "Content-Type": "application/json" } : undefined }
         : { method };
     const { response } = await handler.handle(
-      new Request(`http://localhost/api/posts/${slug}/likes`, init),
+      new Request(`http://localhost/api/articles/${slug}/likes`, init),
       { prefix: "/api", context: { headers: new Headers(), db } },
     );
     expect(response?.status).toBe(200);
@@ -38,9 +38,9 @@ describe("post likes with PostgreSQL", () => {
 
   afterEach(async () => {
     await db
-      .delete(postLikeCounts)
+      .delete(articleLikeCounts)
       .where(
-        inArray(postLikeCounts.postSlug, [
+        inArray(articleLikeCounts.articleSlug, [
           "likes-test-first",
           "likes-test-second",
           "likes-test-es",
@@ -54,8 +54,8 @@ describe("post likes with PostgreSQL", () => {
     await expect(request("likes-test-first")).resolves.toEqual({ count: 0 });
     const rows = await db
       .select()
-      .from(postLikeCounts)
-      .where(inArray(postLikeCounts.postSlug, ["likes-test-first"]));
+      .from(articleLikeCounts)
+      .where(inArray(articleLikeCounts.articleSlug, ["likes-test-first"]));
     expect(rows).toEqual([]);
   });
 
@@ -82,7 +82,7 @@ describe("post likes with PostgreSQL", () => {
     await expect(request("likes-test-first")).resolves.toEqual({ count: 40 });
   });
 
-  it("accepts posts published in either locale and keeps their counters separate", async () => {
+  it("accepts articles published in either locale and keeps their counters separate", async () => {
     await expect(request("likes-test-first", "POST")).resolves.toEqual({ count: 1 });
     await expect(request("likes-test-es", "POST")).resolves.toEqual({ count: 1 });
     await expect(request("likes-test-es", "POST")).resolves.toEqual({ count: 2 });
@@ -104,17 +104,17 @@ describe("post likes with PostgreSQL", () => {
       }),
     );
 
-    await expect(client.posts.likes.get({ slug: "likes-test-first" })).resolves.toEqual({
+    await expect(client.articles.likes.get({ slug: "likes-test-first" })).resolves.toEqual({
       count: 0,
     });
-    await expect(client.posts.likes.add({ slug: "likes-test-first" })).resolves.toEqual({
+    await expect(client.articles.likes.add({ slug: "likes-test-first" })).resolves.toEqual({
       count: 1,
     });
   });
 
   it("enforces nonnegative counts in PostgreSQL", async () => {
     await expect(
-      db.insert(postLikeCounts).values({ postSlug: "likes-test-first", count: -1 }),
+      db.insert(articleLikeCounts).values({ articleSlug: "likes-test-first", count: -1 }),
     ).rejects.toMatchObject({ cause: { code: "23514" } });
   });
 });
