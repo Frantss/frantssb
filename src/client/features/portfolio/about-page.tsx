@@ -6,6 +6,7 @@ import { Page, PageTitle, Paragraphs } from "@/client/ui/page";
 import { portfolio_bio, profile } from "./portfolio.data";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+import { analytics_autocapture, analytics_capture } from "@/client/analytics/analytics";
 
 export function AboutPage() {
   const locale = useLocale();
@@ -21,26 +22,60 @@ export function AboutPage() {
           <LocalTime utcOffset={profile.utcOffset} />
         </Facts.Item>
         <Facts.Item label={m.fact_mail({}, { locale: locale() })}>
-          <a href={`mailto:${profile.email}`}>{profile.email}</a>
+          <a
+            href={`mailto:${profile.email}`}
+            onClick={() =>
+              analytics_capture("contact_clicked", { locale: locale(), placement: "about" })
+            }
+          >
+            {profile.email}
+          </a>
         </Facts.Item>
       </Facts.List>
       <Paragraphs items={bio().about} />
       <p class="m-0">
         {m.about_more({}, { locale: locale() })}{" "}
-        <Link to="/work">{m.nav_work({}, { locale: locale() })}</Link>,{" "}
-        <Link to="/projects">{m.nav_projects({}, { locale: locale() })}</Link>;{" "}
-        {m.about_find({}, { locale: locale() })} <ProfileLinks />
+        <Link
+          to="/work"
+          {...analytics_autocapture({ id: "nav-link", destination: "/work", placement: "about" })}
+        >
+          {m.nav_work({}, { locale: locale() })}
+        </Link>
+        ,{" "}
+        <Link
+          to="/projects"
+          {...analytics_autocapture({
+            id: "nav-link",
+            destination: "/projects",
+            placement: "about",
+          })}
+        >
+          {m.nav_projects({}, { locale: locale() })}
+        </Link>
+        ; {m.about_find({}, { locale: locale() })} <ProfileLinks />
       </p>
     </Page>
   );
 }
 
 function ProfileLinks() {
+  const locale = useLocale();
   return (
     <For each={profile.links}>
       {(link, index) => (
         <>
-          <a href={link.href}>{link.label}</a>
+          <a
+            href={link.href}
+            onClick={() =>
+              analytics_capture("profile_link_clicked", {
+                locale: locale(),
+                platform: link.platform,
+                placement: "about",
+              })
+            }
+          >
+            {link.label}
+          </a>
           {index() < profile.links.length - 1 ? ", " : "."}
         </>
       )}

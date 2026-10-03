@@ -6,6 +6,7 @@ import { PostDate } from "./post-date";
 import { portfolio_posts } from "./portfolio.data";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+import { analytics_autocapture } from "@/client/analytics/analytics";
 
 export function WritingPage() {
   const locale = useLocale();
@@ -16,7 +17,12 @@ export function WritingPage() {
         <For each={portfolio_posts(locale())}>
           {(post) => (
             <IndexList.Row>
-              <Link to="/writing/$slug" params={{ slug: post.slug }} class="text-fg">
+              <Link
+                to="/writing/$slug"
+                params={{ slug: post.slug }}
+                class="text-fg"
+                {...analytics_autocapture({ id: "post-link", post_slug: post.slug })}
+              >
                 {post.title}
               </Link>
               <IndexList.Leader />

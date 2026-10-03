@@ -47,17 +47,22 @@ function DockBar(props: ParentProps) {
   );
 }
 
-function DockTrigger(props: ParentProps<{ menuLabel: string; closeLabel: string }>) {
+function DockTrigger(props: ComponentProps<"button"> & { menuLabel: string; closeLabel: string }) {
   const dock = useDock();
+  const [local, rest] = splitProps(props, ["menuLabel", "closeLabel", "children", "class"]);
   return (
     <button
+      {...rest}
       type="button"
       popoverTarget={dock.sheetId}
-      class="flex h-full w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-4 font-[inherit] text-fg"
+      class={cn(
+        "flex h-full w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-4 font-[inherit] text-fg",
+        local.class,
+      )}
     >
-      <span>{props.children}</span>
-      <span class="text-muted group-has-[:popover-open]:hidden">{props.menuLabel} ≡</span>
-      <span class="hidden text-muted group-has-[:popover-open]:inline">{props.closeLabel} ×</span>
+      <span>{local.children}</span>
+      <span class="text-muted group-has-[:popover-open]:hidden">{local.menuLabel} ≡</span>
+      <span class="hidden text-muted group-has-[:popover-open]:inline">{local.closeLabel} ×</span>
     </button>
   );
 }

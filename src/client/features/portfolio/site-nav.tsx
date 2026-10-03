@@ -6,6 +6,7 @@ import { Dock } from "@/client/ui/dock";
 import { Rail } from "@/client/ui/rail";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+import { analytics_autocapture } from "@/client/analytics/analytics";
 
 const pages = [
   { to: "/", label: m.nav_about },
@@ -20,7 +21,15 @@ export function SiteNav() {
     <Rail.Nav label={m.nav_pages({}, { locale: locale() })}>
       <For each={pages}>
         {(page) => (
-          <Rail.Link to={page.to} activeOptions={{ exact: page.to === "/" }}>
+          <Rail.Link
+            to={page.to}
+            activeOptions={{ exact: page.to === "/" }}
+            {...analytics_autocapture({
+              id: "nav-link",
+              destination: page.to,
+              placement: "sidebar",
+            })}
+          >
             {page.label({}, { locale: locale() })}
           </Rail.Link>
         )}
@@ -43,6 +52,7 @@ export function SiteDock() {
     <Dock.Root>
       <Dock.Bar>
         <Dock.Trigger
+          {...analytics_autocapture({ id: "mobile-menu-toggle" })}
           menuLabel={m.dock_menu({}, { locale: locale() })}
           closeLabel={m.dock_close({}, { locale: locale() })}
         >
@@ -53,14 +63,22 @@ export function SiteDock() {
         <Dock.List>
           <For each={pages}>
             {(page) => (
-              <Dock.Link to={page.to} activeOptions={{ exact: page.to === "/" }}>
+              <Dock.Link
+                to={page.to}
+                activeOptions={{ exact: page.to === "/" }}
+                {...analytics_autocapture({
+                  id: "nav-link",
+                  destination: page.to,
+                  placement: "dock",
+                })}
+              >
                 {page.label({}, { locale: locale() })}
               </Dock.Link>
             )}
           </For>
         </Dock.List>
         <Dock.Footer>
-          <LocaleToggle class="size-11" />
+          <LocaleToggle class="size-11" placement="dock" />
           <ThemeToggle class="size-11" />
         </Dock.Footer>
       </Dock.Sheet>

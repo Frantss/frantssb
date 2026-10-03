@@ -3,6 +3,7 @@ import { Page, PageTitle } from "@/client/ui/page";
 import { portfolio_project_groups } from "./portfolio.data";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+import { analytics_capture } from "@/client/analytics/analytics";
 
 export function ProjectsPage() {
   const locale = useLocale();
@@ -19,6 +20,13 @@ export function ProjectsPage() {
                   <li>
                     <a
                       href={project.href}
+                      onClick={() =>
+                        analytics_capture("project_clicked", {
+                          locale: locale(),
+                          project_id: project.name,
+                          project_kind: project.kind,
+                        })
+                      }
                       class="group grid gap-1 text-fg no-underline hover:no-underline"
                     >
                       <span class="flex items-baseline justify-between gap-3">

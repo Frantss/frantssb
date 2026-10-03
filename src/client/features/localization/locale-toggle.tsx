@@ -3,8 +3,9 @@ import { IconButton } from "@/client/ui/icon-button";
 import { m } from "@/paraglide/messages";
 import { setLocale } from "@/paraglide/runtime";
 import { useLocale } from "./locale.context";
+import { analytics_autocapture } from "@/client/analytics/analytics";
 
-export function LocaleToggle(props: { class?: string }) {
+export function LocaleToggle(props: { class?: string; placement: "header" | "dock" }) {
   const locale = useLocale();
   const toggle = () => {
     void setLocale(locale() === "en" ? "es" : "en");
@@ -12,6 +13,7 @@ export function LocaleToggle(props: { class?: string }) {
 
   return (
     <IconButton
+      {...analytics_autocapture({ id: "locale-toggle", placement: props.placement })}
       class={cn("shrink-0 text-xs font-bold", props.class)}
       aria-label={
         locale() === "en"

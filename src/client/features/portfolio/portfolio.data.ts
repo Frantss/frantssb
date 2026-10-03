@@ -9,10 +9,10 @@ export const profile = {
   utcOffset: -3,
   email: "frantss.bongiovanni@gmail.com",
   links: [
-    { label: "GitHub", href: "https://github.com/Frantss/" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/frantssb/" },
-    { label: "X", href: "https://x.com/frantssb" },
-    { label: "Instagram", href: "https://www.instagram.com/frantss.b" },
+    { platform: "github", label: "GitHub", href: "https://github.com/Frantss/" },
+    { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/frantssb/" },
+    { platform: "x", label: "X", href: "https://x.com/frantssb" },
+    { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/frantss.b" },
   ],
 };
 

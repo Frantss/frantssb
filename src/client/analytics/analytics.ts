@@ -16,7 +16,11 @@ export const analytics_capture = createIsomorphicFn()
   .server((_event: string, _properties: Record<string, unknown>) => undefined)
   .client((event: string, properties: Record<string, unknown>) => {
     const timestamp = new Date();
-    const page = { $current_url: window.location.href, $pathname: window.location.pathname };
+    const page = {
+      $current_url: window.location.href,
+      $pathname: window.location.pathname,
+      page: window.location.pathname.split("/")[1] || "about",
+    };
     void posthog_initialize()
       ?.then((client) => {
         client?.capture(event, { ...page, ...properties }, { timestamp });
