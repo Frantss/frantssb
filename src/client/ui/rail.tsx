@@ -14,7 +14,7 @@ function RailRoot(props: ParentProps) {
 function RailNav(props: ParentProps<{ label: string }>) {
   return (
     <nav aria-label={props.label} class="border-r border-line px-4 py-6 max-sm:hidden">
-      <ul class="m-0 flex list-none flex-col items-end gap-1 p-0">{props.children}</ul>
+      <ul class="sticky top-6 m-0 flex list-none flex-col items-end gap-1 p-0">{props.children}</ul>
     </nav>
   );
 }
