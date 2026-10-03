@@ -3,6 +3,7 @@ import { HeadContent, Outlet, ScriptOnce, Scripts, createRootRoute } from "@tans
 import { HydrationScript } from "solid-js/web";
 import { createSignal, onMount, Suspense, type ParentProps } from "solid-js";
 import { posthog_initialize } from "@/client/posthog/posthog";
+import { console_install } from "@/client/features/console/console";
 import { theme_script } from "@/client/features/theme/theme";
 import geistMonoUrl from "@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2?url";
 import { getLocale } from "@/paraglide/runtime";
@@ -35,6 +36,7 @@ export const Route = createRootRoute({
 function RootComponent(props: ParentProps) {
   const [locale] = createSignal(getLocale());
   onMount(posthog_initialize);
+  onMount(console_install);
 
   return (
     <LocaleProvider locale={locale}>
