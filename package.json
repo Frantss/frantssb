@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "varlock run -- vp dev --port 3000",
     "generate:favicon": "node scripts/generate-favicon.ts",
+    "generate:social": "node scripts/generate-social.ts",
     "generate-routes": "tsr generate",
     "generate-localization": "node scripts/generate-localization.ts",
     "generate-resume": "pnpm generate-localization && node scripts/generate-resume.ts",

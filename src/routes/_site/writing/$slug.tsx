@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/solid-router";
 import { PostPage } from "@/client/features/portfolio/post-page";
 import { portfolio_posts, profile } from "@/client/features/portfolio/portfolio.data";
 import { seo } from "@/shared/seo/seo";
+import { site } from "@/shared/seo/site";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { getLocale } from "@/paraglide/runtime";
 import { m } from "@/paraglide/messages";
@@ -12,10 +13,12 @@ export const Route = createFileRoute("/_site/writing/$slug")({
     if (!post) throw notFound();
     return post;
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     const metadata = seo({
       title: `${loaderData?.title ?? m.page_writing()} · ${profile.name}`,
       description: loaderData?.body[0] ?? m.meta_writing({ name: profile.name }),
+      path: `/writing/${params.slug}`,
+      image: site.socialImage,
     });
     return { meta: metadata.meta, links: metadata.links };
   },
