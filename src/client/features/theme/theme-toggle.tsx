@@ -1,4 +1,5 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { IconMoon, IconSun } from "@tabler/icons-solidjs";
 import { mergeProps } from "@zag-js/solid";
 import { IconButton } from "@/client/ui/icon-button";
 import { Tooltip } from "@/client/ui/tooltip";
@@ -32,7 +33,9 @@ export function ThemeToggle(props: { class?: string }) {
           aria-label={label()}
           class={props.class}
         >
-          <span aria-hidden="true">{theme() === "light" ? "☀" : "☾"}</span>
+          <Show when={theme() === "light"} fallback={<IconMoon size={18} aria-hidden="true" />}>
+            <IconSun size={18} aria-hidden="true" />
+          </Show>
         </IconButton>
       )}
     </Tooltip>
