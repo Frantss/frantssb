@@ -150,7 +150,7 @@ export type Project = {
   kind: ProjectKind;
 };
 
-export function portfolio_projects(locale: Locale): Project[] {
+function portfolio_projects(locale: Locale): Project[] {
   const options = { locale };
   return [
     {

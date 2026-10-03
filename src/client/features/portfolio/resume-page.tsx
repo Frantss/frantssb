@@ -9,7 +9,7 @@ import {
   portfolio_bio,
   portfolio_education,
   portfolio_jobs,
-  portfolio_projects,
+  portfolio_project_groups,
   profile,
   stack,
 } from "./portfolio.data";
@@ -110,27 +110,34 @@ export function ResumePage() {
       </ResumeSection>
 
       <ResumeSection title={m.page_projects({}, { locale: locale() })}>
-        <IndexList.Root>
-          <For each={portfolio_projects(locale())}>
-            {(project) => (
-              <IndexList.Row>
-                <span>
-                  <span class="font-bold">{project.name}</span>{" "}
-                  <span class="text-muted">{project.description}</span>
-                  <Show when={project.href !== "#"}>
-                    {" "}
-                    <a href={project.href}>{resume_url(project.href)}</a>
-                  </Show>
-                </span>
-                <IndexList.Leader />
-                <IndexList.Value>
-                  <span class="hidden print:inline">{"\u00a0"}</span>
-                  {project.year}
-                </IndexList.Value>
-              </IndexList.Row>
-            )}
-          </For>
-        </IndexList.Root>
+        <For each={portfolio_project_groups(locale())}>
+          {(group) => (
+            <div class="grid gap-2 break-inside-avoid">
+              <h3 class="m-0 text-xs font-bold text-muted">{group.label}</h3>
+              <IndexList.Root>
+                <For each={group.projects}>
+                  {(project) => (
+                    <IndexList.Row>
+                      <span>
+                        <span class="font-bold">{project.name}</span>{" "}
+                        <span class="text-muted">{project.description}</span>
+                        <Show when={project.href !== "#"}>
+                          {" "}
+                          <a href={project.href}>{resume_url(project.href)}</a>
+                        </Show>
+                      </span>
+                      <IndexList.Leader />
+                      <IndexList.Value>
+                        <span class="hidden print:inline">{"\u00a0"}</span>
+                        {project.year}
+                      </IndexList.Value>
+                    </IndexList.Row>
+                  )}
+                </For>
+              </IndexList.Root>
+            </div>
+          )}
+        </For>
       </ResumeSection>
 
       <ResumeSection title={m.resume_education({}, { locale: locale() })}>
