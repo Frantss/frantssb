@@ -1,7 +1,7 @@
 export const site = {
   origin: "https://frantss.uy",
   name: "frantssb",
-  openGraphLocale: "en_US",
+  openGraphLocales: { en: "en_US", es: "es_UY" },
   socialImage: {
     path: "/social.png",
     width: 1200,

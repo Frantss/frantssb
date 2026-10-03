@@ -1,4 +1,6 @@
 import { site } from "@/shared/seo/site";
+import { getLocale } from "@/paraglide/runtime";
+import { createJsonLd, type JsonLdOptions } from "@/shared/seo/json-ld";
 
 interface SocialImage {
   path: string;
@@ -11,6 +13,8 @@ type SeoOptions = {
   title: string;
   description: string;
   robots?: string;
+  type?: "website" | "article";
+  jsonLd?: JsonLdOptions;
 } & ({ path?: undefined } | { path: `/${string}`; image: SocialImage });
 
 export function seo(options: SeoOptions) {
@@ -19,7 +23,15 @@ export function seo(options: SeoOptions) {
     { name: "description", content: options.description },
     ...(options.robots ? [{ name: "robots", content: options.robots }] : []),
   ];
-  if (!options.path) return { meta, links: [] };
+  const scripts = options.jsonLd
+    ? [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify(createJsonLd(options.jsonLd)).replaceAll("<", "\\u003c"),
+        },
+      ]
+    : [];
+  if (!options.path) return { meta, links: [], scripts };
 
   const canonicalUrl = new URL(options.path, site.origin).href;
   const { image } = options;
@@ -30,10 +42,10 @@ export function seo(options: SeoOptions) {
       ...meta,
       { property: "og:title", content: options.title },
       { property: "og:description", content: options.description },
-      { property: "og:type", content: "website" },
+      { property: "og:type", content: options.type ?? "website" },
       { property: "og:url", content: canonicalUrl },
       { property: "og:site_name", content: site.name },
-      { property: "og:locale", content: site.openGraphLocale },
+      { property: "og:locale", content: site.openGraphLocales[getLocale()] },
       { property: "og:image", content: socialImageUrl },
       { property: "og:image:type", content: "image/png" },
       { property: "og:image:width", content: String(image.width) },
@@ -46,5 +58,6 @@ export function seo(options: SeoOptions) {
       { name: "twitter:image:alt", content: image.alt },
     ],
     links: [{ rel: "canonical", href: canonicalUrl }],
+    scripts,
   };
 }

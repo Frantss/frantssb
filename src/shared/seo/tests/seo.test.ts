@@ -52,6 +52,25 @@ describe("SEO metadata", () => {
     expect(metadata.links).toEqual([{ rel: "canonical", href: "https://frantss.uy/" }]);
   });
 
+  it("marks writing as an article while keeping social previews on noindex pages", () => {
+    const metadata = seo({
+      title: "Draft article",
+      description: "This article contains placeholder text.",
+      path: "/writing/draft",
+      image,
+      type: "article",
+      robots: "noindex",
+    });
+
+    expect(metadata.meta).toContainEqual({ property: "og:type", content: "article" });
+    expect(metadata.meta).toContainEqual({ name: "robots", content: "noindex" });
+    expect(metadata.meta).toContainEqual({
+      property: "og:url",
+      content: "https://frantss.uy/writing/draft",
+    });
+    expect(metadata.meta).toContainEqual({ name: "twitter:card", content: "summary_large_image" });
+  });
+
   it("supports noindex pages without publishing a canonical URL", () => {
     const metadata = seo({
       title: "Private page",

@@ -8,12 +8,20 @@ import { m } from "@/paraglide/messages";
 export const Route = createFileRoute("/_site/")({
   head: () => {
     const metadata = seo({
-      title: profile.name,
-      description: m.profile_tagline(),
+      title: `${profile.name} · ${m.profile_role()}`,
+      description: m.meta_about({ name: profile.name }),
       path: "/",
       image: site.socialImage,
+      jsonLd: {
+        name: profile.name,
+        alternateName: profile.handle,
+        description: m.profile_about_intro(),
+        jobTitle: m.profile_role(),
+        email: profile.email,
+        sameAs: profile.links.map((link) => link.href),
+      },
     });
-    return { meta: metadata.meta, links: metadata.links };
+    return { meta: metadata.meta, links: metadata.links, scripts: metadata.scripts };
   },
   component: AboutPage,
 });

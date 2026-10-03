@@ -14,9 +14,17 @@ export const Route = createFileRoute("/_site/writing/$slug")({
     return post;
   },
   head: ({ loaderData, params }) => {
+    if (!loaderData) {
+      return seo({
+        title: `${m.page_writing()} · ${profile.name}`,
+        description: m.meta_writing({ name: profile.name }),
+        robots: "noindex",
+      });
+    }
     const metadata = seo({
-      title: `${loaderData?.title ?? m.page_writing()} · ${profile.name}`,
-      description: loaderData?.body[0] ?? m.meta_writing({ name: profile.name }),
+      title: `${loaderData.title} · ${profile.name}`,
+      description: loaderData.body[0] ?? m.meta_writing({ name: profile.name }),
+      type: "article",
       path: `/writing/${params.slug}`,
       image: site.socialImage,
     });

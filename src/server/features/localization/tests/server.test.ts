@@ -3,6 +3,8 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import server from "@/server";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
+import { seo } from "@/shared/seo/seo";
+import { site } from "@/shared/seo/site";
 
 vi.mock("@tanstack/solid-start/server-entry", () => ({
   default: { fetch: vi.fn() },
@@ -59,5 +61,27 @@ describe("server locale", () => {
       "Work",
       "Experiencia",
     ]);
+  });
+
+  it.each([
+    ["", "en_US"],
+    ["x-frantss-locale=es", "es_UY"],
+    ["x-frantss-locale=fr", "en_US"],
+  ])("matches social metadata to the request locale for %s", async (cookie, locale) => {
+    vi.mocked(handler.fetch).mockImplementation(async () => {
+      const metadata = seo({
+        title: m.page_work(),
+        description: m.meta_work({ name: "Francisco Bongiovanni" }),
+        path: "/work",
+        image: site.socialImage,
+      });
+      return Response.json(metadata);
+    });
+
+    const response = await server.fetch(
+      new Request("http://localhost/work", { headers: { cookie } }),
+    );
+    const metadata = await response.json();
+    expect(metadata.meta).toContainEqual({ property: "og:locale", content: locale });
   });
 });
