@@ -39,7 +39,9 @@ describe("localized portfolio", () => {
     expect(container.textContent).toContain("Guildara");
     expect(container.textContent).toContain("Product Engineer");
     expect(container.textContent).toContain("1y 8m");
-    expect(container.textContent).toContain("Open-source CLI for scaffolding typed APIs.");
+    expect(container.textContent).toContain(
+      "TypeScript error handling with typed success and error results.",
+    );
 
     setLocale("es");
 
@@ -48,7 +50,7 @@ describe("localized portfolio", () => {
     expect(container.textContent).toContain("Líder técnico");
     expect(container.textContent).toContain("1a 8m");
     expect(container.textContent).not.toContain("1y 8m");
-    expect(container.textContent).toContain("CLI de código abierto");
+    expect(container.textContent).toContain("Manejo de errores en TypeScript");
     expect(container.textContent).not.toContain("Product Engineer");
     expect(container.querySelectorAll("h1")[0]?.textContent).toBe("Experiencia");
     expect(container.querySelectorAll("h1")[1]?.textContent).toBe("Proyectos");

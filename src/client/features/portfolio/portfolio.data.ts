@@ -1,4 +1,4 @@
-// Profile and work details from LinkedIn; projects, writing, and education are placeholders.
+// Profile and work details from LinkedIn; writing and education are placeholders.
 
 import { m } from "@/paraglide/messages";
 import { baseLocale, type Locale } from "@/paraglide/runtime";
@@ -144,7 +144,7 @@ type ProjectKind = "oss" | "client" | "misc";
 
 export type Project = {
   name: string;
-  year: string;
+  year?: string;
   description: string;
   href: string;
   kind: ProjectKind;
@@ -154,39 +154,46 @@ function portfolio_projects(locale: Locale): Project[] {
   const options = { locale };
   return [
     {
-      name: "project-alpha",
-      year: "2026",
-      description: m.project_alpha_description({}, options),
-      href: "#",
+      name: "safeish",
+      description: m.project_safeish_description({}, options),
+      href: "https://github.com/Frantss/safeish",
       kind: "oss",
     },
     {
-      name: "project-epsilon",
-      year: "2025",
-      description: m.project_epsilon_description({}, options),
-      href: "#",
+      name: "altereco.com.uy",
+      description: m.project_altereco_description({}, options),
+      href: "https://altereco.com.uy",
       kind: "client",
     },
     {
-      name: "project-beta",
-      year: "2025",
-      description: m.project_beta_description({}, options),
-      href: "#",
+      name: "oxform",
+      description: m.project_oxform_description({}, options),
+      href: "https://github.com/Frantss/oxform",
       kind: "oss",
     },
     {
-      name: "project-gamma",
-      year: "2024",
-      description: m.project_gamma_description({}, options),
-      href: "#",
+      name: "ruby-memcached",
+      description: m.project_ruby_memcached_description({}, options),
+      href: "https://github.com/Frantss/ruby-memcached",
       kind: "misc",
     },
     {
-      name: "project-delta",
-      year: "2023",
-      description: m.project_delta_description({}, options),
-      href: "#",
-      kind: "oss",
+      name: "react-hookful",
+      description: m.project_react_hookful_description({}, options),
+      href: "https://github.com/Frantss/react-hookful",
+      kind: "misc",
+    },
+    {
+      name: "npms-lib",
+      description: m.project_npms_lib_description({}, options),
+      href: "https://github.com/Frantss/npms-lib",
+      kind: "misc",
+    },
+    {
+      name: "atenea-coffee.com",
+      description: m.project_atenea_description({}, options),
+      href: "https://atenea-coffee.com",
+      kind: "client",
     },
   ];
 }
