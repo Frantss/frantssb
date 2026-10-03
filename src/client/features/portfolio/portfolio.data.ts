@@ -140,7 +140,7 @@ export function portfolio_jobs(locale: Locale): Job[] {
   ];
 }
 
-type ProjectKind = "oss" | "client" | "misc";
+type ProjectKind = "oss" | "client" | "snippets" | "misc";
 
 export type Project = {
   name: string;
@@ -201,6 +201,12 @@ function portfolio_projects(locale: Locale): Project[] {
       href: "https://atenea-coffee.com",
       kind: "client",
     },
+    {
+      name: "StoreAttachment",
+      description: m.project_store_attachment_description({}, options),
+      href: "https://gist.github.com/Frantss/7c71fa69fd8cf754a55acf4557e2111f",
+      kind: "snippets",
+    },
   ];
 }
 
@@ -210,6 +216,7 @@ export function portfolio_project_groups(locale: Locale) {
   return [
     { kind: "oss", label: m.project_group_oss({}, options) },
     { kind: "client", label: m.project_group_client({}, options) },
+    { kind: "snippets", label: m.project_group_snippets({}, options) },
     { kind: "misc", label: m.project_group_misc({}, options) },
   ]
     .map((group) => ({ ...group, projects: projects.filter((p) => p.kind === group.kind) }))

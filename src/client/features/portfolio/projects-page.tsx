@@ -1,5 +1,5 @@
 import { For, Match, Switch } from "solid-js";
-import { IconBrandOpenSource, IconBriefcase, IconDots } from "@tabler/icons-solidjs";
+import { IconBrandOpenSource, IconBriefcase, IconCode, IconDots } from "@tabler/icons-solidjs";
 import { links_openInNewTab } from "@/client/lib/links";
 import { Page, PageTitle } from "@/client/ui/page";
 import { portfolio_project_groups } from "./portfolio.data";
@@ -29,6 +29,9 @@ export function ProjectsPage() {
                   </Match>
                   <Match when={group.kind === "client"}>
                     <IconBriefcase size={14} aria-hidden="true" class="shrink-0 text-muted" />
+                  </Match>
+                  <Match when={group.kind === "snippets"}>
+                    <IconCode size={14} aria-hidden="true" class="shrink-0 text-muted" />
                   </Match>
                   <Match when={group.kind === "misc"}>
                     <IconDots size={14} aria-hidden="true" class="shrink-0 text-muted" />
