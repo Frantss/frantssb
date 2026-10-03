@@ -1,8 +1,13 @@
 import type { ParentProps } from "solid-js";
+import { cn } from "@/client/lib/cn";
 
 // A titled record (job, role, education): header row, subtitle, meta line, bullets.
-function EntryRoot(props: ParentProps) {
-  return <article class="grid gap-2">{props.children}</article>;
+function EntryRoot(props: ParentProps<{ id?: string; class?: string }>) {
+  return (
+    <article id={props.id} class={cn("grid gap-2", props.class)}>
+      {props.children}
+    </article>
+  );
 }
 
 function EntryHeader(props: ParentProps) {

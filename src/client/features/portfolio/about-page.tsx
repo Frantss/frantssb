@@ -8,6 +8,7 @@ import {
   IconBrandX,
 } from "@tabler/icons-solidjs";
 import { Facts } from "@/client/ui/facts";
+import { links_openInNewTab } from "@/client/lib/links";
 import { IconLink } from "@/client/ui/icon-link";
 import { Tooltip } from "@/client/ui/tooltip";
 import { LocalTime } from "@/client/ui/local-time";
@@ -108,6 +109,7 @@ function ProfileLink(props: ParentProps<{ link: (typeof profile.links)[number] }
                 }),
             })}
             href={props.link.href}
+            {...links_openInNewTab}
             aria-label={props.link.label}
           >
             {props.children}

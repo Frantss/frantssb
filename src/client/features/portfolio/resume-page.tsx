@@ -1,4 +1,5 @@
 import { For, Show, type ParentProps } from "solid-js";
+import { links_openInNewTab } from "@/client/lib/links";
 import { Entry } from "@/client/ui/entry";
 import { Facts } from "@/client/ui/facts";
 import { IndexList } from "@/client/ui/index-list";
@@ -49,7 +50,9 @@ export function ResumePage() {
                 {(link) => (
                   <>
                     {", "}
-                    <a href={link.href}>{resume_url(link.href)}</a>
+                    <a href={link.href} {...links_openInNewTab}>
+                      {resume_url(link.href)}
+                    </a>
                   </>
                 )}
               </For>
@@ -82,7 +85,9 @@ export function ResumePage() {
                 <Entry.Header>
                   <h3 class="m-0 text-sm font-bold">
                     <Show when={job.href} fallback={job.company}>
-                      <a href={job.href}>{job.company}</a>
+                      <a href={job.href} {...links_openInNewTab}>
+                        {job.company}
+                      </a>
                     </Show>
                   </h3>
                   <Entry.Aside>{job.location}</Entry.Aside>
@@ -123,7 +128,9 @@ export function ResumePage() {
                         <span class="text-muted">{project.description}</span>
                         <Show when={project.href !== "#"}>
                           {" "}
-                          <a href={project.href}>{resume_url(project.href)}</a>
+                          <a href={project.href} {...links_openInNewTab}>
+                            {resume_url(project.href)}
+                          </a>
                         </Show>
                       </span>
                       <IndexList.Leader />
