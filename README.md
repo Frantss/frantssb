@@ -13,6 +13,7 @@ DATABASE_URL=postgresql://frantssb:frantssb@localhost:5432/frantssb
 ```bash
 pnpm install
 pnpm db:up
+pnpm db:migrate
 pnpm dev
 ```
 

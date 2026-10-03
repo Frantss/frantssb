@@ -44,4 +44,19 @@ describe("OpenAPI transport", () => {
 
     expect(response.status).toBe(404);
   });
+
+  it.each(["GET", "POST"])(
+    "rejects unknown posts on %s without querying the database",
+    async (method) => {
+      const response = await handleAPI(
+        new Request("http://localhost/api/posts/missing/likes", { method }),
+      );
+
+      expect(response.status).toBe(404);
+      await expect(response.json()).resolves.toMatchObject({
+        code: "NOT_FOUND",
+        message: "Post not found",
+      });
+    },
+  );
 });

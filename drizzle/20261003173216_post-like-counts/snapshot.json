@@ -1,0 +1,56 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "57e546c0-f577-402a-b6ab-38d954e943da",
+  "prevIds": ["00000000-0000-0000-0000-000000000000"],
+  "ddl": [
+    {
+      "isRlsEnabled": false,
+      "name": "post_like_counts",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "post_slug",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "post_like_counts"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "count",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "post_like_counts"
+    },
+    {
+      "columns": ["post_slug"],
+      "nameExplicit": false,
+      "name": "post_like_counts_pkey",
+      "schema": "public",
+      "table": "post_like_counts",
+      "entityType": "pks"
+    },
+    {
+      "value": "\"count\" >= 0",
+      "name": "post_like_counts_count_nonnegative",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "post_like_counts"
+    }
+  ],
+  "renames": []
+}
