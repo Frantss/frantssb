@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://frantss.uy/</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/work</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/projects</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/writing</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/writing/notes-on-boring-architecture</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/writing/ssr-without-the-tears</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/writing/what-i-learned-shipping-a-design-system</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/writing/on-deleting-code</loc>
+  </url>
+  <url>
+    <loc>https://frantss.uy/writing/a-year-of-typescript-strict-mode</loc>
+  </url>
+</urlset>
