@@ -68,6 +68,9 @@ function DockTrigger(props: ComponentProps<"button"> & { menuLabel: string; clos
 }
 
 // Following a link closes the sheet; client-side navigation would otherwise leave it open.
+// Slides out from behind the bar: the popover stays put and clips at the bar's edge while only the
+// panel inside translates, so the motion stays on the compositor. Display and overlay transition
+// discretely so closing animates too.
 function DockSheet(props: ParentProps<{ label: string }>) {
   const dock = useDock();
   return (
@@ -78,14 +81,11 @@ function DockSheet(props: ParentProps<{ label: string }>) {
       onClick={(event) => {
         if ((event.target as Element).closest("a")) event.currentTarget.hidePopover();
       }}
-      class={cn(
-        "inset-x-0 top-auto bottom-[calc(3rem+env(safe-area-inset-bottom))] m-0 w-full max-w-none border-0 border-t border-line bg-bg px-4 py-2 text-fg",
-        // Slides out from behind the bar: the clip hides whatever is translated past the bar's edge.
-        // Display and overlay transition discretely so closing animates too.
-        "translate-y-full [clip-path:inset(0_0_100%_0)] transition-[translate,clip-path,display,overlay] transition-discrete duration-250 ease-out open:translate-y-0 open:[clip-path:inset(0_0_0_0)] starting:open:translate-y-full starting:open:[clip-path:inset(0_0_100%_0)] motion-reduce:transition-none",
-      )}
+      class="group/sheet inset-x-0 top-auto bottom-[calc(3rem+env(safe-area-inset-bottom))] m-0 w-full max-w-none overflow-hidden border-0 bg-transparent p-0 transition-[display,overlay] transition-discrete duration-200 motion-reduce:transition-none"
     >
-      {props.children}
+      <div class="translate-y-full border-t border-line bg-bg px-4 py-2 text-fg transition-[translate] duration-200 ease-in group-open/sheet:translate-y-0 group-open/sheet:duration-300 group-open/sheet:ease-[cubic-bezier(0.32,0.72,0,1)] starting:group-open/sheet:translate-y-full motion-reduce:transition-none">
+        {props.children}
+      </div>
     </nav>
   );
 }
