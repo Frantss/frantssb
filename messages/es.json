@@ -14,7 +14,7 @@
   "meta_projects": "Bibliotecas de código abierto y sitios web de {name}, incluidos safeish, oxform y proyectos con TypeScript y JavaScript.",
   "meta_writing": "Artículos de {name}. Todavía no hay publicaciones.",
   "meta_resume": "Currículum de {name}: ingeniería de producto, desarrollo fullstack, liderazgo técnico y proyectos en TypeScript y JavaScript.",
-  "header_resume": "Currículum.pdf",
+  "header_resume": "cv.pdf",
   "header_contact": "Contactame",
   "dock_menu": "Menú",
   "dock_close": "Cerrar",

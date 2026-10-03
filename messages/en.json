@@ -14,7 +14,7 @@
   "meta_projects": "Open-source libraries and client websites by {name}, including safeish, oxform, and projects built with TypeScript and JavaScript.",
   "meta_writing": "Writing by {name}. No articles have been published yet.",
   "meta_resume": "{name}'s résumé: product engineering, fullstack development, technical leadership, and projects in TypeScript and JavaScript.",
-  "header_resume": "Résumé.pdf",
+  "header_resume": "cv.pdf",
   "header_contact": "Get in touch",
   "dock_menu": "Menu",
   "dock_close": "Close",
