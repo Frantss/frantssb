@@ -1,4 +1,5 @@
-import { For } from "solid-js";
+import { For, Match, Switch } from "solid-js";
+import { IconBrandOpenSource, IconBriefcase, IconDots } from "@tabler/icons-solidjs";
 import { Page, PageTitle } from "@/client/ui/page";
 import { portfolio_project_groups } from "./portfolio.data";
 import { useLocale } from "@/client/features/localization/locale.context";
@@ -13,7 +14,20 @@ export function ProjectsPage() {
       <For each={portfolio_project_groups(locale())}>
         {(group) => (
           <section class="grid min-w-0 grid-cols-[minmax(0,1fr)] gap-3">
-            <h2 class="m-0 text-[10px] font-normal text-faint uppercase">{group.label}</h2>
+            <h2 class="m-0 flex items-center gap-2 text-[10px] font-normal text-faint uppercase">
+              <Switch>
+                <Match when={group.kind === "oss"}>
+                  <IconBrandOpenSource size={14} aria-hidden="true" class="shrink-0 text-muted" />
+                </Match>
+                <Match when={group.kind === "client"}>
+                  <IconBriefcase size={14} aria-hidden="true" class="shrink-0 text-muted" />
+                </Match>
+                <Match when={group.kind === "misc"}>
+                  <IconDots size={14} aria-hidden="true" class="shrink-0 text-muted" />
+                </Match>
+              </Switch>
+              {group.label}
+            </h2>
             <ul class="m-0 grid list-none grid-cols-[minmax(0,1fr)] gap-4 p-0">
               <For each={group.projects}>
                 {(project) => (
