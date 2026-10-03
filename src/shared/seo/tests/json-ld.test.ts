@@ -64,7 +64,7 @@ describe("JSON-LD metadata", () => {
     expect(seo({ title: "Resume", description: "Resume", robots: "noindex" }).scripts).toEqual([]);
   });
 
-  it("describes a blog post using its content, author, publication date, and keywords", () => {
+  it("describes a blog article using its content, author, publication date, and keywords", () => {
     const metadata = seo({
       title: "Article title · Francisco Bongiovanni",
       description: "An article about MDX.",

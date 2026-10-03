@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/solid-router";
-import { PostPage } from "@/client/features/portfolio/post-page";
-import { portfolio_posts, profile } from "@/client/features/portfolio/portfolio.data";
+import { ArticlePage } from "@/client/features/portfolio/article-page";
+import { profile } from "@/client/features/portfolio/portfolio.data";
+import { article_list } from "@/lib/articles/article-metadata";
 import { seo } from "@/shared/seo/seo";
 import { site } from "@/shared/seo/site";
 import { useLocale } from "@/client/features/localization/locale.context";
@@ -9,9 +10,9 @@ import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_site/writing/$slug")({
   loader: ({ params }) => {
-    const post = portfolio_posts(getLocale()).find((candidate) => candidate.slug === params.slug);
-    if (!post) throw notFound();
-    return post;
+    const article = article_list(getLocale()).find((candidate) => candidate.slug === params.slug);
+    if (!article) throw notFound();
+    return article;
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) {
@@ -26,7 +27,7 @@ export const Route = createFileRoute("/_site/writing/$slug")({
       description: loaderData.description,
       type: "article",
       path: `/writing/${encodeURIComponent(params.slug)}`,
-      image: site.socialImage,
+      image: loaderData.socialImage,
       article: {
         headline: loaderData.title,
         datePublished: loaderData.date.replaceAll(".", "-"),
@@ -36,13 +37,13 @@ export const Route = createFileRoute("/_site/writing/$slug")({
     });
     return { meta: metadata.meta, links: metadata.links, scripts: metadata.scripts };
   },
-  component: PostRoute,
+  component: ArticleRoute,
 });
 
-function PostRoute() {
+function ArticleRoute() {
   const locale = useLocale();
-  const post = Route.useLoaderData();
-  const localizedPost = () =>
-    portfolio_posts(locale()).find((candidate) => candidate.slug === post().slug) ?? post();
-  return <PostPage post={localizedPost()} />;
+  const article = Route.useLoaderData();
+  const localizedArticle = () =>
+    article_list(locale()).find((candidate) => candidate.slug === article().slug) ?? article();
+  return <ArticlePage article={localizedArticle()} />;
 }

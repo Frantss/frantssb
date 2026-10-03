@@ -1,11 +1,7 @@
 import { site } from "@/shared/seo/site";
 import { getLocale } from "@/paraglide/runtime";
-import {
-  createJsonLd,
-  createArticleJsonLd,
-  type JsonLdOptions,
-  type ArticleJsonLdOptions,
-} from "@/shared/seo/json-ld";
+import { createJsonLd, type JsonLdOptions } from "@/shared/seo/json-ld";
+import { article_createJsonLd, type ArticleJsonLdOptions } from "@/lib/articles/article-json-ld";
 
 interface SocialImage {
   path: string;
@@ -48,7 +44,7 @@ export function seo(options: SeoOptions) {
   if (options.article) {
     scripts.push(
       jsonLdScript(
-        createArticleJsonLd({
+        article_createJsonLd({
           ...options.article,
           description: options.description,
           url: canonicalUrl,

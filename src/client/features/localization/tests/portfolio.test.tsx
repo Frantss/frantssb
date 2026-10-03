@@ -5,14 +5,11 @@ import { LocaleProvider } from "../locale.context";
 import { WorkPage } from "@/client/features/portfolio/work-page";
 import { ProjectsPage } from "@/client/features/portfolio/projects-page";
 import { WritingPage } from "@/client/features/portfolio/writing-page";
-import {
-  portfolio_bio,
-  portfolio_jobs,
-  portfolio_posts,
-} from "@/client/features/portfolio/portfolio.data";
+import { portfolio_bio, portfolio_jobs } from "@/client/features/portfolio/portfolio.data";
+import { article_list } from "@/lib/articles/article-metadata";
 import type { Locale } from "@/paraglide/runtime";
 
-vi.mock("@/content/post-metadata", () => ({ posts: [] }));
+vi.mock("@/lib/articles/article-metadata", () => ({ article_list: () => [] }));
 
 let dispose: (() => void) | undefined;
 
@@ -111,8 +108,8 @@ describe("localized portfolio", () => {
       </LocaleProvider>
     ));
 
-    expect(portfolio_posts("en")).toEqual([]);
-    expect(portfolio_posts("es")).toEqual([]);
+    expect(article_list("en")).toEqual([]);
+    expect(article_list("es")).toEqual([]);
     expect(container.querySelector("h1")?.textContent).toBe("Writing");
     expect(container.querySelector("p")?.textContent).toBe("Still thinking of something to write.");
     expect(container.querySelector("ul, a")).toBeNull();

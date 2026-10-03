@@ -2,41 +2,41 @@ import { Link } from "@tanstack/solid-router";
 import { For, Show } from "solid-js";
 import { IndexList } from "@/client/ui/index-list";
 import { Page, PageTitle } from "@/client/ui/page";
-import { PostDate } from "./post-date";
-import { PostTags } from "./post-tags";
-import { portfolio_posts } from "./portfolio.data";
+import { ArticleDate } from "@/client/features/portfolio/article-date";
+import { ArticleTags } from "@/client/features/portfolio/article-tags";
+import { article_list } from "@/lib/articles/article-metadata";
 import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
 import { analytics_autocapture } from "@/client/analytics/analytics";
 
 export function WritingPage() {
   const locale = useLocale();
-  const posts = () => portfolio_posts(locale());
+  const articles = () => article_list(locale());
   return (
     <Page>
       <PageTitle>{m.page_writing({}, { locale: locale() })}</PageTitle>
       <Show
-        when={posts().length > 0}
+        when={articles().length > 0}
         fallback={<p class="m-0 text-muted">{m.writing_empty({}, { locale: locale() })}</p>}
       >
         <IndexList.Root>
-          <For each={posts()}>
-            {(post) => (
+          <For each={articles()}>
+            {(article) => (
               <IndexList.Row>
                 <div class="grid min-w-0 gap-1.5">
                   <Link
                     to="/writing/$slug"
-                    params={{ slug: post.slug }}
+                    params={{ slug: article.slug }}
                     class="text-fg"
-                    {...analytics_autocapture({ id: "post-link", post_slug: post.slug })}
+                    {...analytics_autocapture({ id: "article-link", article_slug: article.slug })}
                   >
-                    {post.title}
+                    {article.title}
                   </Link>
-                  <PostTags tags={post.tags} />
+                  <ArticleTags tags={article.tags} />
                 </div>
                 <IndexList.Leader />
                 <IndexList.Value>
-                  <PostDate date={post.date} />
+                  <ArticleDate date={article.date} />
                 </IndexList.Value>
               </IndexList.Row>
             )}

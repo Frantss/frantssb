@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig, lazyPlugins } from "vite-plus";
 import { playwright } from "vite-plus/test/browser-playwright";
 import { varlockVitePlugin } from "@varlock/vite-integration";
@@ -42,7 +43,11 @@ export default defineConfig(({ mode }) => ({
       {
         test: {
           name: "node",
-          include: ["src/server/**/*.test.ts", "src/shared/**/*.test.ts"],
+          include: [
+            "src/server/**/*.test.ts",
+            "src/shared/**/*.test.ts",
+            "lib/articles/**/*.test.ts",
+          ],
           environment: "node",
         },
       },
@@ -67,7 +72,13 @@ export default defineConfig(({ mode }) => ({
     options: { typeAware: true, typeCheck: true },
     ignorePatterns: ["src/paraglide/**"],
   },
-  resolve: { tsconfigPaths: true },
+  resolve: {
+    tsconfigPaths: true,
+    alias: {
+      "@/lib": fileURLToPath(new URL("./lib", import.meta.url)),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
   plugins: lazyPlugins(() => [
     varlockVitePlugin({ ssrInjectMode: "init-only" }),
     tailwindcss(),
@@ -81,6 +92,9 @@ export default defineConfig(({ mode }) => ({
           nitro({
             preset: "node-server",
             compressPublicAssets: { gzip: true, brotli: true },
+            publicAssets: [
+              { dir: ".generated/social/articles", baseURL: "/og/articles", maxAge: 31536000 },
+            ],
             routeRules: Object.fromEntries(
               pages.map((page) => [page, { headers: { "cache-control": cache_personalContent } }]),
             ),

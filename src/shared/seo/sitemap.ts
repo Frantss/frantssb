@@ -1,13 +1,13 @@
-import type { Post } from "@/content/post-metadata";
+import type { Article } from "@/lib/articles/article-metadata";
 import { site } from "./site";
 
-export function createSitemap(posts: readonly Pick<Post, "slug">[]) {
+export function createSitemap(articles: readonly Pick<Article, "slug">[]) {
   const paths = [
     "/",
     "/work",
     "/projects",
     "/writing",
-    ...posts.map((post) => `/writing/${encodeURIComponent(post.slug)}`),
+    ...articles.map((article) => `/writing/${encodeURIComponent(article.slug)}`),
   ];
   const urls = paths.map((path) => {
     const url = new URL(path, site.origin).href;

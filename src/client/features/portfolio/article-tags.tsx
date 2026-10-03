@@ -1,7 +1,7 @@
 import { For, Show } from "solid-js";
 import { Tags } from "@/client/ui/tags";
 
-export function PostTags(props: { tags: string[] }) {
+export function ArticleTags(props: { tags: string[] }) {
   return (
     <Show when={props.tags.length > 0}>
       <Tags.List>

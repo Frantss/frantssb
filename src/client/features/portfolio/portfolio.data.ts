@@ -1,8 +1,7 @@
 // Profile and work details from LinkedIn; education is a placeholder.
 
 import { m } from "@/paraglide/messages";
-import { baseLocale, type Locale } from "@/paraglide/runtime";
-import { posts, type Post } from "@/content/post-metadata";
+import type { Locale } from "@/paraglide/runtime";
 
 export const profile = {
   name: "Francisco Bongiovanni",
@@ -215,12 +214,6 @@ export function portfolio_project_groups(locale: Locale) {
   ]
     .map((group) => ({ ...group, projects: projects.filter((p) => p.kind === group.kind) }))
     .filter((group) => group.projects.length > 0);
-}
-
-export type { Post } from "@/content/post-metadata";
-
-export function portfolio_posts(_locale: Locale = baseLocale): Post[] {
-  return posts;
 }
 
 export function portfolio_education(locale: Locale) {

@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "varlock run -- vp dev --port 3000",
+    "dev": "pnpm generate:article-social && varlock run -- vp dev --port 3000",
     "generate:favicon": "node scripts/generate-favicon.ts",
     "generate:social": "node scripts/generate-social.ts",
+    "generate:article-social": "node --import=tsx scripts/generate-article-social.ts",
     "generate-routes": "tsr generate",
     "generate-localization": "node scripts/generate-localization.ts",
     "generate-resume": "pnpm generate-localization && node scripts/generate-resume.ts",
@@ -14,7 +15,7 @@
     "knip": "pnpm generate-localization && knip",
     "test:screenshots": "playwright test",
     "test:screenshots:update": "playwright test --update-snapshots",
-    "build": "varlock run -- vp build",
+    "build": "pnpm generate:article-social && varlock run -- vp build",
     "start": "varlock run -- node .output/server/index.mjs",
     "preview": "vp preview"
   },
@@ -49,6 +50,7 @@
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.1",
     "remark-mdx-frontmatter": "^6.0.0",
+    "tsx": "4.23.15",
     "typescript": "^7.0.2",
     "vite": "catalog:",
     "vite-plugin-solid": "2.11.14",

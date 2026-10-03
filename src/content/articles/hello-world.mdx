@@ -7,9 +7,9 @@ tags:
   - mdx
 ---
 
-import { PostDate } from "../../client/features/portfolio/post-date";
+import { ArticleDate } from "@/client/features/portfolio/article-date";
 
-This is a placeholder article. Replace it with your first post.
+This is a placeholder article. Replace it with your first article.
 
 ## Writing in Markdown
 
@@ -35,4 +35,4 @@ pnpm dev
 
 <p>A little JSX works here too: {2 + 2}.</p>
 
-A Solid component can render the date: <PostDate date={frontmatter.date} />.
+A Solid component can render the date: <ArticleDate date={frontmatter.date} />.

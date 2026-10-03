@@ -1,5 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { readFile } from "node:fs/promises";
+import { basename } from "node:path";
 import type { PluginOption } from "vite-plus";
 import mdx from "@mdx-js/rollup";
 import remarkFrontmatter from "remark-frontmatter";
@@ -17,7 +18,16 @@ import { rehypeHighlightCodeBlocks } from "@tanstack/highlight/rehype";
 import { createThemeCss, themeTokenClasses, type HighlightTheme } from "@tanstack/highlight/theme";
 import { githubLightTheme } from "@tanstack/highlight/themes/github-light";
 import { githubDarkTheme } from "@tanstack/highlight/themes/github-dark";
-import { parse } from "yaml";
+import { tsImport } from "tsx/esm/api";
+
+const { article_parseFrontmatter } = (await tsImport(
+  "@/lib/articles/article-frontmatter",
+  import.meta.url,
+)) as typeof import("@/lib/articles/article-frontmatter");
+const { article_generateSocialImage } = (await tsImport(
+  "@/lib/articles/article-social-image",
+  import.meta.url,
+)) as typeof import("@/lib/articles/article-social-image");
 
 const highlighter = createHighlighter({ languages: [css, html, js, json, shell, ts, tsx] });
 const theme: HighlightTheme = { ...githubLightTheme, tokens: { ...githubLightTheme.tokens } };
@@ -45,31 +55,12 @@ export const mdxPlugins: PluginOption[] = [
       if (!id.endsWith("?frontmatter")) return;
       const path = id.slice(0, -"?frontmatter".length);
       const source = await readFile(path, "utf8");
-      const yaml = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(source)?.[1];
-      const frontmatter: unknown = yaml ? parse(yaml) : undefined;
-      if (
-        !frontmatter ||
-        typeof frontmatter !== "object" ||
-        !("title" in frontmatter) ||
-        typeof frontmatter.title !== "string" ||
-        !frontmatter.title.trim() ||
-        !("description" in frontmatter) ||
-        typeof frontmatter.description !== "string" ||
-        !frontmatter.description.trim() ||
-        !("date" in frontmatter) ||
-        typeof frontmatter.date !== "string" ||
-        !/^\d{4}\.\d{2}\.\d{2}$/.test(frontmatter.date)
-      ) {
-        throw new Error(`${path}: expected frontmatter title, description, and date (YYYY.MM.DD)`);
-      }
-      if (
-        "tags" in frontmatter &&
-        (!Array.isArray(frontmatter.tags) ||
-          frontmatter.tags.some((tag) => typeof tag !== "string" || !tag.trim()))
-      ) {
-        throw new Error(`${path}: expected frontmatter tags to be a list of non-empty strings`);
-      }
-      return `export default ${JSON.stringify(frontmatter)}`;
+      const frontmatter = article_parseFrontmatter(source, path);
+      const socialImage = await article_generateSocialImage(
+        frontmatter,
+        basename(path).replace(/\.(md|mdx)$/, ""),
+      );
+      return `export default ${JSON.stringify({ ...frontmatter, socialImage })}`;
     },
   },
   {
@@ -90,8 +81,8 @@ export const mdxPlugins: PluginOption[] = [
       if (id === resolvedThemeId) {
         return createThemeCss({
           light: theme,
-          lightSelector: ".post-body",
-          codeBlockSelector: ".post-body pre.th-code",
+          lightSelector: ".article-body",
+          codeBlockSelector: ".article-body pre.th-code",
         });
       }
     },
