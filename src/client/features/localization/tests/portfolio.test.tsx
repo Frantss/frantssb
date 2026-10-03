@@ -4,6 +4,7 @@ import { render } from "solid-js/web";
 import { LocaleProvider } from "../locale.context";
 import { WorkPage } from "@/client/features/portfolio/work-page";
 import { ProjectsPage } from "@/client/features/portfolio/projects-page";
+import { WritingPage } from "@/client/features/portfolio/writing-page";
 import {
   portfolio_bio,
   portfolio_jobs,
@@ -100,18 +101,25 @@ describe("localized portfolio", () => {
     }
   });
 
-  it("localizes article titles and bodies without changing route identities", () => {
-    const english = portfolio_posts("en");
-    const spanish = portfolio_posts("es");
+  it("localizes the writing empty state without rendering placeholder links", () => {
+    const [locale, setLocale] = createSignal<Locale>("en");
+    const container = mount(() => (
+      <LocaleProvider locale={locale}>
+        <WritingPage />
+      </LocaleProvider>
+    ));
 
-    expect(spanish.map(({ slug, date }) => ({ slug, date }))).toEqual(
-      english.map(({ slug, date }) => ({ slug, date })),
-    );
-    for (const [index, post] of spanish.entries()) {
-      expect(post.title).toContain("Texto de ejemplo:");
-      expect(post.title).not.toBe(english[index]?.title);
-      expect(post.body).toHaveLength(3);
-      expect(post.body.every((paragraph) => paragraph.startsWith("Texto de ejemplo:"))).toBe(true);
-    }
+    expect(portfolio_posts("en")).toEqual([]);
+    expect(portfolio_posts("es")).toEqual([]);
+    expect(container.querySelector("h1")?.textContent).toBe("Writing");
+    expect(container.querySelector("p")?.textContent).toBe("Still thinking of something to write.");
+    expect(container.querySelector("ul, a")).toBeNull();
+
+    setLocale("es");
+
+    expect(container.querySelector("h1")?.textContent).toBe("Artículos");
+    expect(container.querySelector("p")?.textContent).toBe("Todavía estoy pensando qué escribir.");
+    expect(container.textContent).not.toContain("Still thinking of something to write.");
+    expect(container.querySelector("ul, a")).toBeNull();
   });
 });

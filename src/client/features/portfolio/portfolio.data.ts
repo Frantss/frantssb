@@ -1,4 +1,4 @@
-// Profile and work details from LinkedIn; writing and education are placeholders.
+// Profile and work details from LinkedIn; education is a placeholder.
 
 import { m } from "@/paraglide/messages";
 import { baseLocale, type Locale } from "@/paraglide/runtime";
@@ -212,45 +212,8 @@ export function portfolio_project_groups(locale: Locale) {
 
 export type Post = { slug: string; title: string; date: string; body: string[] };
 
-export function portfolio_posts(locale: Locale = baseLocale): Post[] {
-  const options = { locale };
-  const placeholderBody = [
-    m.post_body_opening({}, options),
-    m.post_body_middle({}, options),
-    m.post_body_closing({}, options),
-  ];
-  return [
-    {
-      slug: "notes-on-boring-architecture",
-      title: m.post_boring_architecture({}, options),
-      date: "2026.09.12",
-      body: placeholderBody,
-    },
-    {
-      slug: "ssr-without-the-tears",
-      title: m.post_ssr({}, options),
-      date: "2026.03.02",
-      body: placeholderBody,
-    },
-    {
-      slug: "what-i-learned-shipping-a-design-system",
-      title: m.post_design_system({}, options),
-      date: "2025.11.20",
-      body: placeholderBody,
-    },
-    {
-      slug: "on-deleting-code",
-      title: m.post_deleting_code({}, options),
-      date: "2025.06.08",
-      body: placeholderBody,
-    },
-    {
-      slug: "a-year-of-typescript-strict-mode",
-      title: m.post_typescript({}, options),
-      date: "2024.12.30",
-      body: placeholderBody,
-    },
-  ];
+export function portfolio_posts(_locale: Locale = baseLocale): Post[] {
+  return [];
 }
 
 export function portfolio_education(locale: Locale) {
