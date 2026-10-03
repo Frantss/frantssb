@@ -25,10 +25,16 @@ export const Route = createFileRoute("/_site/writing/$slug")({
       title: `${loaderData.title} · ${profile.name}`,
       description: loaderData.description,
       type: "article",
-      path: `/writing/${params.slug}`,
+      path: `/writing/${encodeURIComponent(params.slug)}`,
       image: site.socialImage,
+      article: {
+        headline: loaderData.title,
+        datePublished: loaderData.date.replaceAll(".", "-"),
+        author: { name: profile.name, url: `${site.origin}/` },
+        keywords: loaderData.tags,
+      },
     });
-    return { meta: metadata.meta, links: metadata.links };
+    return { meta: metadata.meta, links: metadata.links, scripts: metadata.scripts };
   },
   component: PostRoute,
 });
