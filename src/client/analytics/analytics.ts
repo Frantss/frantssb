@@ -1,6 +1,7 @@
 import { posthog_initialize } from "@/client/posthog/posthog";
 import { createIsomorphicFn } from "@tanstack/solid-start";
 
+/** @public */
 export function analytics_autocapture<Properties extends { id: string } & Record<string, string>>(
   properties: Properties,
 ) {

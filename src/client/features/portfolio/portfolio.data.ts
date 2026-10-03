@@ -140,7 +140,7 @@ export function portfolio_jobs(locale: Locale): Job[] {
   ];
 }
 
-export type ProjectKind = "oss" | "client" | "misc";
+type ProjectKind = "oss" | "client" | "misc";
 
 export type Project = {
   name: string;
