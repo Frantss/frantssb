@@ -1,0 +1,38 @@
+---
+title: Hello world
+date: "2026.10.03"
+description: A placeholder article with Markdown, MDX, and highlighted code.
+tags:
+  - solid
+  - mdx
+---
+
+import { PostDate } from "../../client/features/portfolio/post-date";
+
+This is a placeholder article. Replace it with your first post.
+
+## Writing in Markdown
+
+Use **bold text**, _emphasis_, and lists:
+
+- Keep the title, date, and description in the frontmatter.
+- Write the article below it.
+- Name the file after the URL you want.
+
+## Code examples
+
+```tsx title="greeting.tsx" {2} lineNumbers
+export function Greeting() {
+  return <p>Hello from Solid.</p>;
+}
+```
+
+```shell
+pnpm dev
+```
+
+## MDX expressions
+
+<p>A little JSX works here too: {2 + 2}.</p>
+
+A Solid component can render the date: <PostDate date={frontmatter.date} />.

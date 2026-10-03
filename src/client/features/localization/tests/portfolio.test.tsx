@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vite-plus/test";
+import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { createSignal, type JSX } from "solid-js";
 import { render } from "solid-js/web";
 import { LocaleProvider } from "../locale.context";
@@ -11,6 +11,8 @@ import {
   portfolio_posts,
 } from "@/client/features/portfolio/portfolio.data";
 import type { Locale } from "@/paraglide/runtime";
+
+vi.mock("@/content/posts", () => ({ posts: [] }));
 
 let dispose: (() => void) | undefined;
 

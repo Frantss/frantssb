@@ -23,7 +23,7 @@ export const Route = createFileRoute("/_site/writing/$slug")({
     }
     const metadata = seo({
       title: `${loaderData.title} · ${profile.name}`,
-      description: loaderData.body[0] ?? m.meta_writing({ name: profile.name }),
+      description: loaderData.description,
       type: "article",
       path: `/writing/${params.slug}`,
       image: site.socialImage,

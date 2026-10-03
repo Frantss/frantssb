@@ -36,19 +36,25 @@
   },
   "devDependencies": {
     "@inlang/paraglide-js": "2.25.4",
+    "@mdx-js/rollup": "^3.1.1",
     "@playwright/test": "1.63.0",
     "@posthog/rollup-plugin": "1.6.1",
     "@takumi-rs/core": "2.14.0",
+    "@tanstack/highlight": "^1.0.0",
     "@tanstack/router-cli": "^1.167.39",
     "@vitest/browser-playwright": "catalog:",
     "knip": "6.39.0",
     "playwright": "1.63.0",
     "railway": "3.12.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx-frontmatter": "^6.0.0",
     "typescript": "^7.0.2",
     "vite": "catalog:",
     "vite-plugin-solid": "2.11.14",
     "vite-plus": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "yaml": "^2.9.1"
   },
   "devEngines": {
     "packageManager": {

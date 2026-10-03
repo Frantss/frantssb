@@ -11,6 +11,7 @@ import solidPlugin from "vite-plugin-solid";
 import { nitro } from "nitro/vite";
 import { cache_personalContent } from "./src/shared/cache-control";
 import paraglideOptions from "./paraglide.config";
+import { mdxPlugins } from "./mdx.config";
 
 const pages = ["/", "/work", "/projects", "/writing", "/writing/**", "/resume"];
 
@@ -71,6 +72,7 @@ export default defineConfig(({ mode }) => ({
     varlockVitePlugin({ ssrInjectMode: "init-only" }),
     tailwindcss(),
     paraglideVitePlugin(paraglideOptions),
+    ...mdxPlugins,
     tanstackStart({ server: { build: { inlineCss: true } } }),
     posthogSourceMapsPlugin(),
     ...(mode === "test"
@@ -84,6 +86,6 @@ export default defineConfig(({ mode }) => ({
             ),
           }),
         ]),
-    solidPlugin({ ssr: mode !== "test" }),
+    solidPlugin({ ssr: mode !== "test", extensions: [".md", ".mdx"] }),
   ]),
 }));

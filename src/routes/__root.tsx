@@ -10,6 +10,7 @@ import { getLocale } from "@/paraglide/runtime";
 import { LocaleProvider } from "@/client/features/localization/locale.context";
 
 import "@/client/styles/global.css";
+import "virtual:highlight.css";
 
 export const Route = createRootRoute({
   head: () => ({

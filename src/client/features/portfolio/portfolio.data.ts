@@ -2,6 +2,7 @@
 
 import { m } from "@/paraglide/messages";
 import { baseLocale, type Locale } from "@/paraglide/runtime";
+import { posts, type Post } from "@/content/posts";
 
 export const profile = {
   name: "Francisco Bongiovanni",
@@ -216,10 +217,10 @@ export function portfolio_project_groups(locale: Locale) {
     .filter((group) => group.projects.length > 0);
 }
 
-export type Post = { slug: string; title: string; date: string; body: string[] };
+export type { Post } from "@/content/posts";
 
 export function portfolio_posts(_locale: Locale = baseLocale): Post[] {
-  return [];
+  return posts;
 }
 
 export function portfolio_education(locale: Locale) {
