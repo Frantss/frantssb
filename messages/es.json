@@ -71,6 +71,10 @@
   "post_all_writing": "← Todos los artículos",
   "education_school": "Universidad de ejemplo",
   "education_degree": "Licenciatura en Ciencias de la Computación",
-  "resume_education": "Formación",
-  "resume_stack": "Tecnologías"
+  "resume_education": "Educación",
+  "resume_stack": "Habilidades técnicas",
+  "resume_summary": "Perfil profesional",
+  "resume_summary_text": "Ingeniero de software enfocado en aplicaciones web, herramientas para desarrolladores e interfaces de usuario.",
+  "resume_experience": "Experiencia profesional",
+  "resume_present": "Actualidad"
 }

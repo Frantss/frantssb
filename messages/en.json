@@ -72,5 +72,9 @@
   "education_school": "University Placeholder",
   "education_degree": "BSc Computer Science",
   "resume_education": "Education",
-  "resume_stack": "Stack"
+  "resume_stack": "Technical Skills",
+  "resume_summary": "Summary",
+  "resume_summary_text": "Software engineer focused on web applications, developer tooling, and user interfaces.",
+  "resume_experience": "Professional Experience",
+  "resume_present": "Present"
 }

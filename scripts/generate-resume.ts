@@ -30,6 +30,7 @@ try {
         preferCSSPageSize: true,
         printBackground: true,
         tagged: true,
+        outline: true,
       });
       await context.close();
       console.log(`public/resume-${locale}.pdf`);
