@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm generate:article-social && varlock run -- vp dev --port 3000",
+    "prebuild": "pnpm generate:resume",
     "build": "pnpm generate:article-social && varlock run -- vp build",
     "start": "varlock run -- node .output/server/index.mjs",
     "preview": "vp preview",
