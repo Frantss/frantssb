@@ -12,7 +12,10 @@ export default defineRailway(() => {
   });
 
   const frantssb = service("frantssb", {
-    build: { builder: "RAILPACK", buildCommand: "pnpm build" },
+    build: {
+      builder: "RAILPACK",
+      buildCommand: "pnpm exec playwright install --with-deps --only-shell chromium && pnpm build",
+    },
     deploy: {
       preDeployCommand: ["pnpm db:migrate && pnpm articles:sync"],
       startCommand: "pnpm start",
