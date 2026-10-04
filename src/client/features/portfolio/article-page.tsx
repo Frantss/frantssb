@@ -5,6 +5,7 @@ import { Page, PageTitle } from "@/client/ui/page";
 import { article_content } from "@/lib/articles/article-content";
 import { ArticleDate } from "@/client/features/portfolio/article-date";
 import { ArticleTags } from "@/client/features/portfolio/article-tags";
+import { ArticleShare } from "@/client/features/portfolio/article-share";
 import type { Article } from "@/lib/articles/article-metadata";
 import { m } from "@/paraglide/messages";
 
@@ -21,9 +22,12 @@ export function ArticlePage(props: { article: Article }) {
           <Dynamic component={article_content(props.article.slug)} />
         </Suspense>
       </article>
-      <Link to="/writing" class="text-xs">
-        {m.article_all_writing()}
-      </Link>
+      <div class="flex items-center justify-between gap-4">
+        <Link to="/writing" class="text-xs">
+          {m.article_all_writing()}
+        </Link>
+        <ArticleShare article={props.article} />
+      </div>
     </Page>
   );
 }
