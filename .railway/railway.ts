@@ -19,7 +19,7 @@ export default defineRailway(() => {
     },
     deploy: {
       preDeployCommand: ["pnpm db:migrate && pnpm articles:sync"],
-      startCommand: "cd .output && node varlock/bin/cli.js run -- node server/index.mjs",
+      startCommand: "pnpm start",
       healthcheckPath: "/",
       healthcheckTimeout: 120,
       restartPolicyMaxRetries: 3,

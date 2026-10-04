@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "pnpm generate:articles && varlock run -- vp dev --port 3000",
     "prebuild": "pnpm generate:resume",
-    "build": "pnpm generate:articles && varlock run -- vp build && node --import=tsx scripts/package-deployment.ts",
+    "build": "pnpm generate:articles && varlock run -- vp build && node --import=tsx scripts/package-articles.ts",
     "start": "varlock run -- node .output/server/index.mjs",
     "preview": "vp preview",
     "check": "pnpm generate:localization && APP_ENV=test vp check",
@@ -69,6 +69,7 @@
     "@types/pg": "8.23.1",
     "@vitest/browser-playwright": "catalog:",
     "drizzle-kit": "1.0.0-rc.4",
+    "esbuild": "0.25.12",
     "knip": "6.39.0",
     "playwright": "1.63.0",
     "railway": "3.12.0",
