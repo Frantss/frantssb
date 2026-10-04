@@ -1,4 +1,12 @@
-import { HeadContent, Outlet, ScriptOnce, Scripts, createRootRoute } from "@tanstack/solid-router";
+import {
+  HeadContent,
+  Outlet,
+  ScriptOnce,
+  Scripts,
+  createRootRouteWithContext,
+} from "@tanstack/solid-router";
+import type { QueryClient } from "@tanstack/solid-query";
+import type { orpc } from "@/client/orpc/orpc.query";
 
 import { HydrationScript } from "solid-js/web";
 import { onMount, Suspense, type ParentProps } from "solid-js";
@@ -11,7 +19,7 @@ import { getLocale } from "@/paraglide/runtime";
 import "@/client/styles/global.css";
 import "virtual:highlight.css";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient; orpc: typeof orpc }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
