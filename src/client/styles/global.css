@@ -211,6 +211,10 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    .article-like-heart {
+      animation: article-like-heart 400ms ease-out;
+    }
+
     .page-content {
       view-transition-name: page-content;
     }
@@ -245,6 +249,29 @@
     from {
       opacity: 0;
       transform: translateY(4px);
+    }
+  }
+
+  @keyframes article-like-heart {
+    0% {
+      opacity: 0.4;
+      transform: scale(0.35);
+    }
+    30% {
+      opacity: 1;
+      transform: scale(1.2) rotate(-8deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(6deg);
+    }
+    70% {
+      transform: scale(1) rotate(-4deg);
+    }
+    85% {
+      transform: scale(1) rotate(2deg);
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
     }
   }
 }

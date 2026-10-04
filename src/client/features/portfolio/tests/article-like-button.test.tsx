@@ -11,6 +11,9 @@ let dispose: (() => void) | undefined;
 afterEach(async () => {
   dispose?.();
   vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+  localStorage.removeItem("article:liked:first");
+  localStorage.removeItem("article:liked:second");
   await setLocale("en", { reload: false });
 });
 
@@ -80,6 +83,8 @@ describe("article like button", () => {
     expect(button.textContent).toBe("2");
     expect(button.getAttribute("aria-label")).toBe("Like this article. Current likes: 2.");
     expect(container.querySelector("[role='status']")?.textContent).toBe("2 likes");
+    expect(button.querySelector(".tabler-icon-heart-filled")).not.toBeNull();
+    expect(localStorage.getItem("article:liked:first")).toBe("true");
   });
 
   it("keeps the saved count after a failed write and retries only on another click", async () => {
@@ -98,6 +103,8 @@ describe("article like button", () => {
     button.click();
     await vi.waitFor(() => expect(container.querySelector("[role='alert']")).not.toBeNull());
     expect(button.textContent).toBe("4");
+    expect(button.querySelector(".tabler-icon-heart-filled")).toBeNull();
+    expect(localStorage.getItem("article:liked:first")).toBeNull();
     expect(button.getAttribute("aria-describedby")).toBe(
       container.querySelector("[role='alert']")?.id,
     );
@@ -149,8 +156,52 @@ describe("article like button", () => {
     pending.resolve(Response.json({ count: 4 }));
     await vi.waitFor(() => expect(queryClient.isMutating()).toBe(0));
     expect(container.querySelector("button")?.textContent).toBe("8");
+    expect(container.querySelector(".tabler-icon-heart-filled")).toBeNull();
+    expect(localStorage.getItem("article:liked:first")).toBe("true");
+    expect(localStorage.getItem("article:liked:second")).toBeNull();
     expect(
       queryClient.getQueryData(orpc.articles.likes.get.queryKey({ input: { slug: "first" } })),
     ).toEqual({ count: 4 });
+  });
+
+  it("restores a saved like for its article without adding another like", async () => {
+    localStorage.setItem("article:liked:first", "true");
+    const fetch = vi.fn(async () => Response.json({ count: 4 }));
+
+    vi.stubGlobal("fetch", fetch);
+    const { container, setSlug } = mount();
+
+    await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("4"));
+    expect(container.querySelector(".tabler-icon-heart-filled")).not.toBeNull();
+    setSlug("second");
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(2));
+    expect(container.querySelector(".tabler-icon-heart-filled")).toBeNull();
+    setSlug("first");
+    await vi.waitFor(() =>
+      expect(container.querySelector(".tabler-icon-heart-filled")).not.toBeNull(),
+    );
+    expect(fetch.mock.calls).toHaveLength(2);
+  });
+
+  it("keeps liking available when browser storage cannot be read or written", async () => {
+    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
+      throw new DOMException("Storage unavailable", "SecurityError");
+    });
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+      throw new DOMException("Storage unavailable", "SecurityError");
+    });
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce(Response.json({ count: 4 }))
+      .mockResolvedValueOnce(Response.json({ count: 5 }));
+
+    vi.stubGlobal("fetch", fetch);
+    const { container } = mount();
+
+    await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("4"));
+    container.querySelector("button")!.click();
+    await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("5"));
+    expect(container.querySelector(".tabler-icon-heart-filled")).not.toBeNull();
+    expect(container.querySelector("[role='alert']")).toBeNull();
   });
 });

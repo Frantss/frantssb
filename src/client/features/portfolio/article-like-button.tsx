@@ -1,15 +1,17 @@
-import { IconHeartFilled } from "@tabler/icons-solidjs";
+import { IconHeart, IconHeartFilled } from "@tabler/icons-solidjs";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/solid-query";
 import {
   createSignal,
   createUniqueId,
   ErrorBoundary,
+  onMount,
   Show,
   splitProps,
   Suspense,
   type ComponentProps,
 } from "solid-js";
 import { orpc } from "@/client/orpc/orpc.query";
+import { IconButton } from "@/client/ui/icon-button";
 import { article_likesQueryOptions } from "@/client/features/portfolio/article-likes.query";
 import { m } from "@/paraglide/messages";
 
@@ -20,9 +22,9 @@ export function ArticleLikeButton(props: { slug: string }) {
         <ErrorBoundary
           fallback={(_error, reset) => (
             <div class="grid justify-items-end gap-2">
-              <LikePill aria-label={m.article_likes_retry()} onClick={reset}>
+              <LikeButton aria-label={m.article_likes_retry()} onClick={reset}>
                 {m.article_likes_retry()}
-              </LikePill>
+              </LikeButton>
               <p role="alert" class="m-0 max-w-[28ch] text-right text-xs text-muted">
                 {m.article_likes_load_error()}
               </p>
@@ -31,9 +33,9 @@ export function ArticleLikeButton(props: { slug: string }) {
         >
           <Suspense
             fallback={
-              <LikePill disabled aria-label={m.article_likes_loading()}>
+              <LikeButton disabled aria-label={m.article_likes_loading()}>
                 …
-              </LikePill>
+              </LikeButton>
             }
           >
             <ArticleLikeCounter slug={slug} />
@@ -47,9 +49,19 @@ export function ArticleLikeButton(props: { slug: string }) {
 function ArticleLikeCounter(props: { slug: string }) {
   const queryClient = useQueryClient();
   const [failed, setFailed] = createSignal(false);
+  const [liked, setLiked] = createSignal(false);
+  const [animationKey, setAnimationKey] = createSignal(1);
   const errorId = createUniqueId();
   const query = useQuery(() => article_likesQueryOptions(props.slug));
   const mutation = useMutation(() => orpc.articles.likes.add.mutationOptions({ retry: false }));
+
+  onMount(() => {
+    try {
+      setLiked(localStorage.getItem(`article:liked:${props.slug}`) === "true");
+    } catch {
+      setLiked(false);
+    }
+  });
 
   async function addLike() {
     const input = { slug: props.slug };
@@ -65,18 +77,29 @@ function ArticleLikeCounter(props: { slug: string }) {
       }));
     } catch {
       setFailed(true);
+
+      return;
+    }
+    setLiked(true);
+    setAnimationKey((key) => key + 1);
+    try {
+      localStorage.setItem(`article:liked:${input.slug}`, "true");
+    } catch {
+      // A saved like still applies to this visit when browser storage is unavailable.
     }
   }
 
   return (
     <div class="grid justify-items-end gap-2">
-      <LikePill
+      <LikeButton
+        liked={liked()}
+        animationKey={animationKey()}
         aria-label={m.article_like({ count: query.data?.count ?? 0 })}
         aria-describedby={failed() ? errorId : undefined}
         onClick={addLike}
       >
         {query.data?.count}
-      </LikePill>
+      </LikeButton>
       <span role="status" class="sr-only">
         {m.article_likes_count({ count: query.data?.count ?? 0 })}
       </span>
@@ -89,19 +112,36 @@ function ArticleLikeCounter(props: { slug: string }) {
   );
 }
 
-function LikePill(props: ComponentProps<"button"> & { "aria-label": string }) {
-  const [local, rest] = splitProps(props, ["children"]);
+function LikeButton(
+  props: ComponentProps<"button"> & {
+    "aria-label": string;
+    liked?: boolean;
+    animationKey?: number;
+  },
+) {
+  const [local, rest] = splitProps(props, ["children", "liked", "animationKey"]);
 
   return (
-    <button
-      type="button"
+    <IconButton
       {...rest}
-      class="inline-flex min-h-9 cursor-pointer items-center justify-center gap-2 rounded-full border border-line-strong bg-surface px-4 py-1.5 font-[inherit] text-sm font-semibold text-muted hover:bg-line hover:text-fg disabled:cursor-wait motion-safe:transition-[color,background-color,transform] motion-safe:duration-150 motion-safe:active:scale-95"
+      class="inline-flex h-11 w-auto items-center justify-center gap-2 px-2 text-sm disabled:cursor-wait sm:h-[34px]"
     >
-      <IconHeartFilled size={20} aria-hidden="true" />
+      <Show when={local.animationKey ?? 1} keyed>
+        {(key) => (
+          <span
+            class="inline-flex size-[18px] shrink-0"
+            classList={{ "article-like-heart": key > 1 }}
+            aria-hidden="true"
+          >
+            <Show when={local.liked} fallback={<IconHeart size={18} />}>
+              <IconHeartFilled size={18} class="text-red-500" />
+            </Show>
+          </span>
+        )}
+      </Show>
       <span class="tabular-nums" aria-hidden="true">
         {local.children}
       </span>
-    </button>
+    </IconButton>
   );
 }
