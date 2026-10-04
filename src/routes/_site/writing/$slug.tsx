@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/solid-router";
 import { ArticlePage } from "@/client/features/portfolio/article-page";
+import { article_likesQueryOptions } from "@/client/features/portfolio/article-likes.query";
 import { profile } from "@/client/features/portfolio/portfolio.data";
 import { article_list } from "@/lib/articles/article-metadata";
 import { seo } from "@/shared/seo/seo";
@@ -8,10 +9,12 @@ import { getLocale } from "@/paraglide/runtime";
 import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_site/writing/$slug")({
-  loader: ({ params }) => {
+  loader: async ({ params, context }) => {
     const article = article_list(getLocale()).find((candidate) => candidate.slug === params.slug);
 
     if (!article) throw notFound();
+
+    await context.queryClient.prefetchQuery(article_likesQueryOptions(article.slug));
 
     return article;
   },
