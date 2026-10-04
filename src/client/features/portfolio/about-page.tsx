@@ -44,14 +44,39 @@ export function AboutPage() {
       </Facts.List>
       <Paragraphs items={bio().about} />
       <p class="m-0">
+        {m.about_writing_intro({}, { locale: locale() })}{" "}
+        <Link
+          to="/writing"
+          {...analytics_autocapture({
+            id: "nav-link",
+            destination: "/writing",
+            placement: "about",
+          })}
+        >
+          {m.about_writing_thoughts({}, { locale: locale() })}
+        </Link>{" "}
+        {m.about_writing_and({}, { locale: locale() })}{" "}
+        <Link
+          to="/writing/$slug"
+          params={{ slug: "log-001-enough-to-start" }}
+          {...analytics_autocapture({
+            id: "article-link",
+            article_slug: "log-001-enough-to-start",
+            placement: "about",
+          })}
+        >
+          {m.about_writing_portfolio({}, { locale: locale() })}
+        </Link>
+      </p>
+      <p class="m-0">
         {m.about_more({}, { locale: locale() })}{" "}
         <Link
           to="/work"
           {...analytics_autocapture({ id: "nav-link", destination: "/work", placement: "about" })}
         >
           {m.nav_work({}, { locale: locale() })}
-        </Link>
-        ,{" "}
+        </Link>{" "}
+        {m.about_more_and({}, { locale: locale() })}{" "}
         <Link
           to="/projects"
           {...analytics_autocapture({
@@ -62,7 +87,6 @@ export function AboutPage() {
         >
           {m.nav_projects({}, { locale: locale() })}
         </Link>
-        .
       </p>
       <ProfileLinks />
     </Page>
