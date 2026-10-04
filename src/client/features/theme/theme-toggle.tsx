@@ -2,7 +2,7 @@ import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import { IconMoon, IconSun } from "@tabler/icons-solidjs";
 import { IconButton } from "@/client/ui/icon-button";
 import { Tooltip } from "@/client/ui/tooltip";
-import { theme_current, theme_observe, theme_set, type Theme } from "./theme";
+import { theme_current, theme_observe, theme_reveal, type Theme } from "./theme";
 import { m } from "@/paraglide/messages";
 
 export function ThemeToggle(props: { class?: string }) {
@@ -13,10 +13,10 @@ export function ThemeToggle(props: { class?: string }) {
     onCleanup(theme_observe(setTheme));
   });
 
-  const toggle = () => {
+  const toggle = (event: MouseEvent & { currentTarget: HTMLButtonElement }) => {
     const next = theme_current() === "dark" ? "light" : "dark";
 
-    theme_set(next);
+    void theme_reveal(next, event.currentTarget);
   };
 
   const label = () => (theme() === "dark" ? m.theme_light() : m.theme_dark());
