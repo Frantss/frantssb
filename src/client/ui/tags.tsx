@@ -5,7 +5,11 @@ function TagsList(props: ParentProps) {
 }
 
 function TagsItem(props: ParentProps) {
-  return <li class="border border-line px-1.5 text-xs text-muted">{props.children}</li>;
+  return (
+    <li class="inline-flex h-6 items-center border border-line px-1.5 text-xs text-muted">
+      {props.children}
+    </li>
+  );
 }
 
 export const Tags = { List: TagsList, Item: TagsItem };

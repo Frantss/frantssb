@@ -12,17 +12,18 @@ import {
 } from "solid-js";
 import { orpc } from "@/client/orpc/orpc.query";
 import { IconButton } from "@/client/ui/icon-button";
+import { cn } from "@/client/lib/cn";
 import { article_likesQueryOptions } from "@/client/features/portfolio/article-likes.query";
 import { m } from "@/paraglide/messages";
 
-export function ArticleLikeButton(props: { slug: string }) {
+export function ArticleLikeButton(props: { slug: string; size?: "sm" | "md" }) {
   return (
     <Show when={props.slug} keyed>
       {(slug) => (
         <ErrorBoundary
           fallback={(_error, reset) => (
             <div class="grid justify-items-end gap-2">
-              <LikeButton aria-label={m.article_likes_retry()} onClick={reset}>
+              <LikeButton size={props.size} aria-label={m.article_likes_retry()} onClick={reset}>
                 {m.article_likes_retry()}
               </LikeButton>
               <p role="alert" class="m-0 max-w-[28ch] text-right text-xs text-muted">
@@ -33,12 +34,12 @@ export function ArticleLikeButton(props: { slug: string }) {
         >
           <Suspense
             fallback={
-              <LikeButton disabled aria-label={m.article_likes_loading()}>
+              <LikeButton size={props.size} disabled aria-label={m.article_likes_loading()}>
                 …
               </LikeButton>
             }
           >
-            <ArticleLikeCounter slug={slug} />
+            <ArticleLikeCounter slug={slug} size={props.size} />
           </Suspense>
         </ErrorBoundary>
       )}
@@ -46,7 +47,7 @@ export function ArticleLikeButton(props: { slug: string }) {
   );
 }
 
-function ArticleLikeCounter(props: { slug: string }) {
+function ArticleLikeCounter(props: { slug: string; size?: "sm" | "md" }) {
   const queryClient = useQueryClient();
   const [failed, setFailed] = createSignal(false);
   const [liked, setLiked] = createSignal(false);
@@ -92,6 +93,7 @@ function ArticleLikeCounter(props: { slug: string }) {
   return (
     <div class="grid justify-items-end gap-2">
       <LikeButton
+        size={props.size}
         liked={liked()}
         animationKey={animationKey()}
         aria-label={m.article_like({ count: query.data?.count ?? 0 })}
@@ -117,24 +119,28 @@ function LikeButton(
     "aria-label": string;
     liked?: boolean;
     animationKey?: number;
+    size?: "sm" | "md";
   },
 ) {
-  const [local, rest] = splitProps(props, ["children", "liked", "animationKey"]);
+  const [local, rest] = splitProps(props, ["children", "liked", "animationKey", "size"]);
 
   return (
     <IconButton
       {...rest}
-      class="inline-flex h-11 w-auto items-center justify-center gap-2 px-2 text-sm disabled:cursor-wait sm:h-[34px]"
+      class={cn(
+        "inline-flex w-auto items-center justify-center disabled:cursor-wait",
+        local.size === "sm" ? "h-6 gap-1.5 px-1.5 text-xs" : "h-11 gap-2 px-2 text-sm sm:h-[34px]",
+      )}
     >
       <Show when={local.animationKey ?? 1} keyed>
         {(key) => (
           <span
-            class="inline-flex size-[18px] shrink-0"
+            class={cn("inline-flex shrink-0", local.size === "sm" ? "size-3.5" : "size-[18px]")}
             classList={{ "article-like-heart": key > 1 }}
             aria-hidden="true"
           >
-            <Show when={local.liked} fallback={<IconHeart size={18} />}>
-              <IconHeartFilled size={18} class="text-red-500" />
+            <Show when={local.liked} fallback={<IconHeart size={local.size === "sm" ? 14 : 18} />}>
+              <IconHeartFilled size={local.size === "sm" ? 14 : 18} class="text-red-500" />
             </Show>
           </span>
         )}

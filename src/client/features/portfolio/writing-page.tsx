@@ -4,6 +4,7 @@ import { IndexList } from "@/client/ui/index-list";
 import { Page, PageTitle } from "@/client/ui/page";
 import { ArticleDate } from "@/client/features/portfolio/article-date";
 import { ArticleTags } from "@/client/features/portfolio/article-tags";
+import { ArticleLikeButton } from "@/client/features/portfolio/article-like-button";
 import { article_list } from "@/lib/articles/article-metadata";
 import { m } from "@/paraglide/messages";
 import { analytics_autocapture } from "@/client/analytics/analytics";
@@ -28,7 +29,10 @@ export function WritingPage() {
                   >
                     {article.title}
                   </Link>
-                  <ArticleTags tags={article.tags} />
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <ArticleTags tags={article.tags} />
+                    <ArticleLikeButton slug={article.slug} size="sm" />
+                  </div>
                 </div>
                 <IndexList.Leader />
                 <IndexList.Value>
