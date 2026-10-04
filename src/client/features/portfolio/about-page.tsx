@@ -14,28 +14,27 @@ import { Tooltip } from "@/client/ui/tooltip";
 import { LocalTime } from "@/client/ui/local-time";
 import { Page, PageTitle, Paragraphs } from "@/client/ui/page";
 import { portfolio_bio, profile } from "./portfolio.data";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 import { analytics_autocapture, analytics_capture } from "@/client/analytics/analytics";
 
 export function AboutPage() {
-  const locale = useLocale();
-  const bio = () => portfolio_bio(locale());
+  const bio = () => portfolio_bio();
 
   return (
     <Page class="max-w-[60ch]">
       <PageTitle>{profile.name}</PageTitle>
       <Facts.List>
-        <Facts.Item label={m.fact_role({}, { locale: locale() })}>{bio().role}</Facts.Item>
-        <Facts.Item label={m.fact_based({}, { locale: locale() })}>{bio().location}</Facts.Item>
-        <Facts.Item label={m.fact_time({}, { locale: locale() })}>
+        <Facts.Item label={m.fact_role()}>{bio().role}</Facts.Item>
+        <Facts.Item label={m.fact_based()}>{bio().location}</Facts.Item>
+        <Facts.Item label={m.fact_time()}>
           <LocalTime utcOffset={profile.utcOffset} />
         </Facts.Item>
-        <Facts.Item label={m.fact_mail({}, { locale: locale() })}>
+        <Facts.Item label={m.fact_mail()}>
           <a
             href={`mailto:${profile.email}`}
             onClick={() =>
-              analytics_capture("contact_clicked", { locale: locale(), placement: "about" })
+              analytics_capture("contact_clicked", { locale: getLocale(), placement: "about" })
             }
           >
             {profile.email}
@@ -44,7 +43,7 @@ export function AboutPage() {
       </Facts.List>
       <Paragraphs items={bio().about} />
       <p class="m-0">
-        {m.about_writing_intro({}, { locale: locale() })}{" "}
+        {m.about_writing_intro()}{" "}
         <Link
           to="/writing"
           {...analytics_autocapture({
@@ -53,9 +52,9 @@ export function AboutPage() {
             placement: "about",
           })}
         >
-          {m.about_writing_thoughts({}, { locale: locale() })}
+          {m.about_writing_thoughts()}
         </Link>{" "}
-        {m.about_writing_and({}, { locale: locale() })}{" "}
+        {m.about_writing_and()}{" "}
         <Link
           to="/writing/$slug"
           params={{ slug: "log-001-enough-to-start" }}
@@ -65,18 +64,18 @@ export function AboutPage() {
             placement: "about",
           })}
         >
-          {m.about_writing_portfolio({}, { locale: locale() })}
+          {m.about_writing_portfolio()}
         </Link>
       </p>
       <p class="m-0">
-        {m.about_more({}, { locale: locale() })}{" "}
+        {m.about_more()}{" "}
         <Link
           to="/work"
           {...analytics_autocapture({ id: "nav-link", destination: "/work", placement: "about" })}
         >
-          {m.nav_work({}, { locale: locale() })}
+          {m.nav_work()}
         </Link>{" "}
-        {m.about_more_and({}, { locale: locale() })}{" "}
+        {m.about_more_and()}{" "}
         <Link
           to="/projects"
           {...analytics_autocapture({
@@ -85,7 +84,7 @@ export function AboutPage() {
             placement: "about",
           })}
         >
-          {m.nav_projects({}, { locale: locale() })}
+          {m.nav_projects()}
         </Link>
       </p>
       <ProfileLinks />
@@ -94,13 +93,9 @@ export function AboutPage() {
 }
 
 function ProfileLinks() {
-  const locale = useLocale();
   const [github, linkedin, x, instagram] = profile.links;
   return (
-    <ul
-      aria-label={m.about_find({}, { locale: locale() })}
-      class="m-0 flex flex-wrap gap-2 p-0 list-none"
-    >
+    <ul aria-label={m.about_find()} class="m-0 flex flex-wrap gap-2 p-0 list-none">
       <ProfileLink link={github}>
         <IconBrandGithub size={18} aria-hidden="true" />
       </ProfileLink>
@@ -118,7 +113,6 @@ function ProfileLinks() {
 }
 
 function ProfileLink(props: ParentProps<{ link: (typeof profile.links)[number] }>) {
-  const locale = useLocale();
   return (
     <li>
       <Tooltip label={props.link.label}>
@@ -127,7 +121,7 @@ function ProfileLink(props: ParentProps<{ link: (typeof profile.links)[number] }
             {...mergeProps(triggerProps, {
               onClick: () =>
                 analytics_capture("profile_link_clicked", {
-                  locale: locale(),
+                  locale: getLocale(),
                   platform: props.link.platform,
                   placement: "about",
                 }),

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { render } from "solid-js/web";
 import { JobDuration, jobDuration_format } from "../job-duration";
+import { setLocale } from "@/paraglide/runtime";
 
 let dispose: (() => void) | undefined;
 
@@ -8,6 +9,7 @@ afterEach(() => {
   dispose?.();
   dispose = undefined;
   vi.useRealTimers();
+  document.cookie = "x-frantss-locale=; Path=/; Max-Age=0";
 });
 
 describe("job duration", () => {
@@ -31,11 +33,12 @@ describe("job duration", () => {
     expect(jobDuration_format("08.2023", "∞", new Date(2026, 10, 1))).toBe("3y 4m");
   });
 
-  it("formats calculated durations in the selected locale", () => {
-    expect(jobDuration_format("01.2022", "08.2023", undefined, "es")).toBe("1a 8m");
-    expect(jobDuration_format("12.2025", "11.2026", undefined, "es")).toBe("1a");
-    expect(jobDuration_format("06.2021", "09.2021", undefined, "es")).toBe("4m");
-    expect(jobDuration_format("08.2023", "∞", new Date(2026, 9, 2), "es")).toBe("3a 3m");
+  it("formats calculated durations in the cookie locale", async () => {
+    await setLocale("es", { reload: false });
+    expect(jobDuration_format("01.2022", "08.2023")).toBe("1a 8m");
+    expect(jobDuration_format("12.2025", "11.2026")).toBe("1a");
+    expect(jobDuration_format("06.2021", "09.2021")).toBe("4m");
+    expect(jobDuration_format("08.2023", "∞", new Date(2026, 9, 2))).toBe("3a 3m");
   });
 
   it("refreshes an ongoing role across a month boundary and clears its timer", () => {
@@ -43,7 +46,7 @@ describe("job duration", () => {
     vi.setSystemTime(new Date(2026, 9, 31, 23, 59, 30));
     const container = document.createElement("div");
     document.body.append(container);
-    const stop = render(() => <JobDuration start="08.2023" end="∞" locale="en" />, container);
+    const stop = render(() => <JobDuration start="08.2023" end="∞" />, container);
     dispose = () => {
       stop();
       container.remove();

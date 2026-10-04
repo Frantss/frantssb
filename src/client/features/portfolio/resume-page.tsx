@@ -14,15 +14,13 @@ import {
   profile,
   stack,
 } from "./portfolio.data";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
-import type { Locale } from "@/paraglide/runtime";
+import { getLocale } from "@/paraglide/runtime";
 
 // Source document for the generated résumé PDF; sized to an A4 sheet.
 export function ResumePage() {
-  const locale = useLocale();
-  const bio = () => portfolio_bio(locale());
-  const jobs = () => portfolio_jobs(locale());
+  const bio = () => portfolio_bio();
+  const jobs = () => portfolio_jobs();
   const skills = () => [
     ...new Set([...stack, ...jobs().flatMap((job) => job.stack)].map(resume_technology)),
   ];
@@ -36,15 +34,15 @@ export function ResumePage() {
         <div class="grid min-w-0 gap-3">
           <PageTitle>{profile.name}</PageTitle>
           <Facts.List>
-            <Facts.Item label={m.fact_role({}, { locale: locale() })}>{bio().role}</Facts.Item>
-            <Facts.Item label={m.fact_based({}, { locale: locale() })}>{bio().location}</Facts.Item>
-            <Facts.Item label={m.fact_mail({}, { locale: locale() })}>
+            <Facts.Item label={m.fact_role()}>{bio().role}</Facts.Item>
+            <Facts.Item label={m.fact_based()}>{bio().location}</Facts.Item>
+            <Facts.Item label={m.fact_mail()}>
               <a href={`mailto:${profile.email}`}>
                 <span class="hidden print:inline">{"\u00a0"}</span>
                 {profile.email}
               </a>
             </Facts.Item>
-            <Facts.Item label={m.fact_web({}, { locale: locale() })}>
+            <Facts.Item label={m.fact_web()}>
               <a href={site.origin}>{new URL(site.origin).host}</a>
               <For each={links}>
                 {(link) => (
@@ -67,17 +65,17 @@ export function ResumePage() {
         </span>
       </header>
 
-      <ResumeSection title={m.resume_summary({}, { locale: locale() })}>
-        <p class="m-0">{m.resume_summary_text({}, { locale: locale() })}</p>
+      <ResumeSection title={m.resume_summary()}>
+        <p class="m-0">{m.resume_summary_text()}</p>
       </ResumeSection>
 
-      <ResumeSection title={m.resume_stack({}, { locale: locale() })}>
+      <ResumeSection title={m.resume_stack()}>
         <Tags.List>
           <For each={skills()}>{(tech) => <ResumeTechnology value={tech} />}</For>
         </Tags.List>
       </ResumeSection>
 
-      <ResumeSection title={m.resume_experience({}, { locale: locale() })}>
+      <ResumeSection title={m.resume_experience()}>
         <For each={jobs()}>
           {(job) => (
             <div class="break-inside-avoid">
@@ -94,7 +92,7 @@ export function ResumePage() {
                 </Entry.Header>
                 <Entry.Subtitle>{job.role}</Entry.Subtitle>
                 <div class="text-xs text-muted">
-                  {job.type} | {resume_date(job.start, locale())} - {resume_date(job.end, locale())}
+                  {job.type} | {resume_date(job.start)} - {resume_date(job.end)}
                 </div>
                 <Show when={job.bullets.length > 0}>
                   <Entry.Bullets>
@@ -114,8 +112,8 @@ export function ResumePage() {
         </For>
       </ResumeSection>
 
-      <ResumeSection title={m.page_projects({}, { locale: locale() })}>
-        <For each={portfolio_project_groups(locale())}>
+      <ResumeSection title={m.page_projects()}>
+        <For each={portfolio_project_groups()}>
           {(group) => (
             <div class="grid gap-2 break-inside-avoid">
               <h3 class="m-0 text-xs font-bold text-muted">{group.label}</h3>
@@ -147,8 +145,8 @@ export function ResumePage() {
         </For>
       </ResumeSection>
 
-      <ResumeSection title={m.resume_education({}, { locale: locale() })}>
-        <For each={portfolio_education(locale())}>
+      <ResumeSection title={m.resume_education()}>
+        <For each={portfolio_education()}>
           {(education) => (
             <div class="break-inside-avoid">
               <Entry.Root>
@@ -177,10 +175,10 @@ function ResumeSection(props: ParentProps<{ title: string }>) {
   );
 }
 
-function resume_date(value: string, locale: Locale) {
-  if (value === "∞") return m.resume_present({}, { locale });
+function resume_date(value: string) {
+  if (value === "∞") return m.resume_present();
   const [month, year] = value.split(".").map(Number);
-  return new Intl.DateTimeFormat(locale, {
+  return new Intl.DateTimeFormat(getLocale(), {
     month: "short",
     year: "numeric",
     timeZone: "UTC",

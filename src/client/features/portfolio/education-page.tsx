@@ -1,16 +1,14 @@
 import { For, Show } from "solid-js";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { Entry } from "@/client/ui/entry";
 import { Page, PageTitle } from "@/client/ui/page";
 import { m } from "@/paraglide/messages";
 import { portfolio_education } from "./portfolio.data";
 
 export function EducationPage() {
-  const locale = useLocale();
   return (
     <Page class="max-w-[64ch] gap-8 wrap-anywhere">
-      <PageTitle>{m.page_education({}, { locale: locale() })}</PageTitle>
-      <For each={portfolio_education(locale())}>
+      <PageTitle>{m.page_education()}</PageTitle>
+      <For each={portfolio_education()}>
         {(education) => (
           <Entry.Root>
             <Entry.Header>

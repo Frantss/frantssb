@@ -4,7 +4,6 @@ import { profile } from "@/client/features/portfolio/portfolio.data";
 import { article_list } from "@/lib/articles/article-metadata";
 import { seo } from "@/shared/seo/seo";
 import { site } from "@/shared/seo/site";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { getLocale } from "@/paraglide/runtime";
 import { m } from "@/paraglide/messages";
 
@@ -41,9 +40,8 @@ export const Route = createFileRoute("/_site/writing/$slug")({
 });
 
 function ArticleRoute() {
-  const locale = useLocale();
   const article = Route.useLoaderData();
   const localizedArticle = () =>
-    article_list(locale()).find((candidate) => candidate.slug === article().slug) ?? article();
+    article_list(getLocale()).find((candidate) => candidate.slug === article().slug) ?? article();
   return <ArticlePage article={localizedArticle()} />;
 }

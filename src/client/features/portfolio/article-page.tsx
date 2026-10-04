@@ -6,11 +6,9 @@ import { article_content } from "@/lib/articles/article-content";
 import { ArticleDate } from "@/client/features/portfolio/article-date";
 import { ArticleTags } from "@/client/features/portfolio/article-tags";
 import type { Article } from "@/lib/articles/article-metadata";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
 
 export function ArticlePage(props: { article: Article }) {
-  const locale = useLocale();
   return (
     <Page class="min-w-0 max-w-[64ch]">
       <PageTitle>{props.article.title}</PageTitle>
@@ -24,7 +22,7 @@ export function ArticlePage(props: { article: Article }) {
         </Suspense>
       </article>
       <Link to="/writing" class="text-xs">
-        {m.article_all_writing({}, { locale: locale() })}
+        {m.article_all_writing()}
       </Link>
     </Page>
   );

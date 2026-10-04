@@ -3,16 +3,15 @@ import { IconBrandOpenSource, IconBriefcase, IconCode, IconDots } from "@tabler/
 import { links_openInNewTab } from "@/client/lib/links";
 import { Page, PageTitle } from "@/client/ui/page";
 import { portfolio_project_groups } from "./portfolio.data";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 import { analytics_capture } from "@/client/analytics/analytics";
 
 export function ProjectsPage() {
-  const locale = useLocale();
   return (
     <Page class="gap-8">
-      <PageTitle>{m.page_projects({}, { locale: locale() })}</PageTitle>
-      <For each={portfolio_project_groups(locale())}>
+      <PageTitle>{m.page_projects()}</PageTitle>
+      <For each={portfolio_project_groups()}>
         {(group) => (
           <section id={group.kind} class="grid min-w-0 scroll-mt-6 grid-cols-[minmax(0,1fr)] gap-3">
             <h2
@@ -61,7 +60,7 @@ export function ProjectsPage() {
                       {...links_openInNewTab}
                       onClick={() =>
                         analytics_capture("project_clicked", {
-                          locale: locale(),
+                          locale: getLocale(),
                           project_id: project.name,
                           project_kind: project.kind,
                         })

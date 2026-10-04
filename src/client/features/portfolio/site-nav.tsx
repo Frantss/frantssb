@@ -4,7 +4,6 @@ import { LocaleToggle } from "@/client/features/localization/locale-toggle";
 import { ThemeToggle } from "@/client/features/theme/theme-toggle";
 import { Dock } from "@/client/ui/dock";
 import { Rail } from "@/client/ui/rail";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
 import { analytics_autocapture } from "@/client/analytics/analytics";
 
@@ -17,9 +16,8 @@ const pages = [
 ] as const;
 
 export function SiteNav() {
-  const locale = useLocale();
   return (
-    <Rail.Nav label={m.nav_pages({}, { locale: locale() })}>
+    <Rail.Nav label={m.nav_pages()}>
       <For each={pages}>
         {(page) => (
           <Rail.Link
@@ -31,7 +29,7 @@ export function SiteNav() {
               placement: "sidebar",
             })}
           >
-            {page.label({}, { locale: locale() })}
+            {page.label()}
           </Rail.Link>
         )}
       </For>
@@ -40,7 +38,6 @@ export function SiteNav() {
 }
 
 export function SiteDock() {
-  const locale = useLocale();
   const location = useLocation();
   const current = () =>
     pages.find((page) =>
@@ -54,13 +51,13 @@ export function SiteDock() {
       <Dock.Bar>
         <Dock.Trigger
           {...analytics_autocapture({ id: "mobile-menu-toggle" })}
-          menuLabel={m.dock_menu({}, { locale: locale() })}
-          closeLabel={m.dock_close({}, { locale: locale() })}
+          menuLabel={m.dock_menu()}
+          closeLabel={m.dock_close()}
         >
-          ▸ {current()?.label({}, { locale: locale() })}
+          ▸ {current()?.label()}
         </Dock.Trigger>
       </Dock.Bar>
-      <Dock.Sheet label={m.nav_pages({}, { locale: locale() })}>
+      <Dock.Sheet label={m.nav_pages()}>
         <Dock.List>
           <For each={pages}>
             {(page) => (
@@ -73,7 +70,7 @@ export function SiteDock() {
                   placement: "dock",
                 })}
               >
-                {page.label({}, { locale: locale() })}
+                {page.label()}
               </Dock.Link>
             )}
           </For>

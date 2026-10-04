@@ -24,16 +24,11 @@ export function portfolio_resume(locale: Locale) {
   };
 }
 
-export function portfolio_bio(locale: Locale) {
-  const options = { locale };
+export function portfolio_bio() {
   return {
-    role: m.profile_role({}, options),
-    location: m.profile_location({}, options),
-    about: [
-      m.profile_about_intro({}, options),
-      m.profile_about_background({}, options),
-      m.profile_about_personal({}, options),
-    ],
+    role: m.profile_role(),
+    location: m.profile_location(),
+    about: [m.profile_about_intro(), m.profile_about_background(), m.profile_about_personal()],
   };
 }
 
@@ -49,44 +44,39 @@ export type Job = {
   stack: string[];
 };
 
-export function portfolio_jobs(locale: Locale): Job[] {
-  const options = { locale };
+export function portfolio_jobs(): Job[] {
   return [
     {
       company: "Guildara",
       href: "https://www.guildara.com/",
-      location: `Uruguay · ${m.job_remote({}, options)}`,
-      role: m.job_product_engineer({}, options),
-      type: m.job_full_time({}, options),
+      location: `Uruguay · ${m.job_remote()}`,
+      role: m.job_product_engineer(),
+      type: m.job_full_time(),
       start: "08.2023",
       end: "∞",
-      bullets: [
-        m.job_guildara_typescript({}, options),
-        m.job_guildara_codebase({}, options),
-        m.job_guildara_ux({}, options),
-      ],
+      bullets: [m.job_guildara_typescript(), m.job_guildara_codebase(), m.job_guildara_ux()],
       stack: ["React", "Next.js", "TypeScript"],
     },
     {
       company: "Qubika",
       href: "https://qubika.com/",
-      location: `Uruguay · ${m.job_remote({}, options)}`,
-      role: m.job_technical_leader({}, options),
-      type: m.job_full_time({}, options),
+      location: `Uruguay · ${m.job_remote()}`,
+      role: m.job_technical_leader(),
+      type: m.job_full_time(),
       start: "01.2022",
       end: "08.2023",
-      bullets: [m.job_qubika_architecture({}, options), m.job_qubika_leadership({}, options)],
+      bullets: [m.job_qubika_architecture(), m.job_qubika_leadership()],
       stack: [],
     },
     {
       company: "Qubika",
       href: "https://qubika.com/",
       location: "Uruguay",
-      role: m.job_fullstack({}, options),
-      type: m.job_full_time({}, options),
+      role: m.job_fullstack(),
+      type: m.job_full_time(),
       start: "02.2020",
       end: "08.2023",
-      bullets: [m.job_qubika_development({}, options), m.job_qubika_mentoring({}, options)],
+      bullets: [m.job_qubika_development(), m.job_qubika_mentoring()],
       stack: [
         "React",
         "Node.js",
@@ -106,30 +96,30 @@ export function portfolio_jobs(locale: Locale): Job[] {
     },
     {
       company: "Datum Source",
-      location: `Uruguay · ${m.job_remote({}, options)}`,
-      role: m.job_react_fullstack({}, options),
-      type: m.job_contract({}, options),
+      location: `Uruguay · ${m.job_remote()}`,
+      role: m.job_react_fullstack(),
+      type: m.job_contract(),
       start: "01.2023",
       end: "04.2023",
-      bullets: [m.job_datum_mvp({}, options)],
+      bullets: [m.job_datum_mvp()],
       stack: ["Node.js", "React"],
     },
     {
       company: "Hulu",
-      location: `Uruguay · ${m.job_remote({}, options)}`,
-      role: m.job_fullstack({}, options),
-      type: m.job_contract({}, options),
+      location: `Uruguay · ${m.job_remote()}`,
+      role: m.job_fullstack(),
+      type: m.job_contract(),
       start: "04.2020",
       end: "10.2022",
-      bullets: [m.job_hulu_services({}, options), m.job_hulu_practices({}, options)],
+      bullets: [m.job_hulu_services(), m.job_hulu_practices()],
       stack: [],
     },
     {
       company: "Senpai Academy",
       href: "https://www.senpaiacademy.com/",
       location: "Uruguay",
-      role: m.job_fullstack_teacher({}, options),
-      type: m.job_contract({}, options),
+      role: m.job_fullstack_teacher(),
+      type: m.job_contract(),
       start: "06.2021",
       end: "09.2021",
       bullets: [],
@@ -138,8 +128,8 @@ export function portfolio_jobs(locale: Locale): Job[] {
     {
       company: "ST Consultores",
       location: "Uruguay",
-      role: m.job_java({}, options),
-      type: m.job_part_time({}, options),
+      role: m.job_java(),
+      type: m.job_part_time(),
       start: "09.2019",
       end: "11.2019",
       bullets: [],
@@ -158,105 +148,102 @@ export type Project = {
   kind: ProjectKind;
 };
 
-function portfolio_projects(locale: Locale): Project[] {
-  const options = { locale };
+function portfolio_projects(): Project[] {
   return [
     {
       name: "safeish",
-      description: m.project_safeish_description({}, options),
+      description: m.project_safeish_description(),
       href: "https://github.com/Frantss/safeish",
       kind: "oss",
     },
     {
       name: "altereco.com.uy",
-      description: m.project_altereco_description({}, options),
+      description: m.project_altereco_description(),
       href: "https://altereco.com.uy",
       kind: "client",
     },
     {
       name: "oxform",
-      description: m.project_oxform_description({}, options),
+      description: m.project_oxform_description(),
       href: "https://github.com/Frantss/oxform",
       kind: "oss",
     },
     {
       name: "frantssb",
-      description: m.project_frantssb_description({}, options),
+      description: m.project_frantssb_description(),
       href: "https://github.com/Frantss/frantssb",
       kind: "oss",
     },
     {
       name: "ruby-memcached",
-      description: m.project_ruby_memcached_description({}, options),
+      description: m.project_ruby_memcached_description(),
       href: "https://github.com/Frantss/ruby-memcached",
       kind: "misc",
     },
     {
       name: "react-hookful",
-      description: m.project_react_hookful_description({}, options),
+      description: m.project_react_hookful_description(),
       href: "https://github.com/Frantss/react-hookful",
       kind: "misc",
     },
     {
       name: "npms-lib",
-      description: m.project_npms_lib_description({}, options),
+      description: m.project_npms_lib_description(),
       href: "https://github.com/Frantss/npms-lib",
       kind: "misc",
     },
     {
       name: "atenea-coffee.com",
-      description: m.project_atenea_description({}, options),
+      description: m.project_atenea_description(),
       href: "https://atenea-coffee.com",
       kind: "client",
     },
     {
       name: "StoreAttachment",
-      description: m.project_store_attachment_description({}, options),
+      description: m.project_store_attachment_description(),
       href: "https://gist.github.com/Frantss/7c71fa69fd8cf754a55acf4557e2111f",
       kind: "snippets",
     },
   ];
 }
 
-export function portfolio_project_groups(locale: Locale) {
-  const options = { locale };
-  const projects = portfolio_projects(locale);
+export function portfolio_project_groups() {
+  const projects = portfolio_projects();
   return [
-    { kind: "oss", label: m.project_group_oss({}, options) },
-    { kind: "client", label: m.project_group_client({}, options) },
-    { kind: "snippets", label: m.project_group_snippets({}, options) },
-    { kind: "misc", label: m.project_group_misc({}, options) },
+    { kind: "oss", label: m.project_group_oss() },
+    { kind: "client", label: m.project_group_client() },
+    { kind: "snippets", label: m.project_group_snippets() },
+    { kind: "misc", label: m.project_group_misc() },
   ]
     .map((group) => ({ ...group, projects: projects.filter((p) => p.kind === group.kind) }))
     .filter((group) => group.projects.length > 0);
 }
 
-export function portfolio_education(locale: Locale) {
-  const options = { locale };
+export function portfolio_education() {
   return [
     {
-      school: m.education_school({}, options),
-      degree: m.education_degree({}, options),
-      level: m.education_major_level({}, options),
+      school: m.education_school(),
+      degree: m.education_degree(),
+      level: m.education_major_level(),
       years: "2022",
     },
     {
       school: "The Silesian University of Technology",
-      degree: m.education_degree({}, options),
-      level: m.education_major_level({}, options),
+      degree: m.education_degree(),
+      level: m.education_major_level(),
       years: "2019",
-      description: m.education_erasmus_description({}, options),
+      description: m.education_erasmus_description(),
     },
     {
-      school: m.education_school({}, options),
-      degree: m.education_analyst_degree({}, options),
-      level: m.education_intermediate_level({}, options),
+      school: m.education_school(),
+      degree: m.education_analyst_degree(),
+      level: m.education_intermediate_level(),
       years: "2019",
     },
     {
       school: "Alianza Cultural Uruguay-Estados Unidos",
-      degree: m.education_english_certificate({}, options),
-      field: m.education_english_field({}, options),
+      degree: m.education_english_certificate(),
+      field: m.education_english_field(),
       years: "2018",
     },
   ];

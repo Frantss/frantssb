@@ -5,19 +5,18 @@ import { Page, PageTitle } from "@/client/ui/page";
 import { ArticleDate } from "@/client/features/portfolio/article-date";
 import { ArticleTags } from "@/client/features/portfolio/article-tags";
 import { article_list } from "@/lib/articles/article-metadata";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 import { analytics_autocapture } from "@/client/analytics/analytics";
 
 export function WritingPage() {
-  const locale = useLocale();
-  const articles = () => article_list(locale());
+  const articles = () => article_list(getLocale());
   return (
     <Page>
-      <PageTitle>{m.page_writing({}, { locale: locale() })}</PageTitle>
+      <PageTitle>{m.page_writing()}</PageTitle>
       <Show
         when={articles().length > 0}
-        fallback={<p class="m-0 text-muted">{m.writing_empty({}, { locale: locale() })}</p>}
+        fallback={<p class="m-0 text-muted">{m.writing_empty()}</p>}
       >
         <IndexList.Root>
           <For each={articles()}>

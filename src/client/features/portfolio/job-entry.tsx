@@ -3,13 +3,11 @@ import { IconLink } from "@tabler/icons-solidjs";
 import { links_openInNewTab } from "@/client/lib/links";
 import { Entry } from "@/client/ui/entry";
 import { Tags } from "@/client/ui/tags";
-import { useLocale } from "@/client/features/localization/locale.context";
 import { m } from "@/paraglide/messages";
 import { JobDuration } from "./job-duration";
 import type { Job } from "./portfolio.data";
 
 export function JobEntry(props: { job: Job }) {
-  const locale = useLocale();
   const id = () =>
     `${props.job.company.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${props.job.start.replace(".", "-")}`;
   return (
@@ -37,10 +35,9 @@ export function JobEntry(props: { job: Job }) {
       <Entry.Meta>
         <span>{props.job.type}</span>
         <span>
-          {props.job.start}–
-          {props.job.end === "∞" ? m.job_present({}, { locale: locale() }) : props.job.end}
+          {props.job.start}–{props.job.end === "∞" ? m.job_present() : props.job.end}
         </span>
-        <JobDuration start={props.job.start} end={props.job.end} locale={locale()} />
+        <JobDuration start={props.job.start} end={props.job.end} />
       </Entry.Meta>
       <Show when={props.job.bullets.length > 0}>
         <Entry.Bullets>
