@@ -11,12 +11,15 @@ let dispose: (() => void) | undefined;
 
 function mount(ui: () => JSX.Element) {
   const container = document.createElement("div");
+
   document.body.append(container);
   const stop = render(ui, container);
+
   dispose = () => {
     stop();
     container.remove();
   };
+
   return container;
 }
 
@@ -30,6 +33,7 @@ describe("ButtonLink", () => {
       </ButtonLink.Solid>
     ));
     const anchor = container.querySelector("a")!;
+
     expect(anchor.getAttribute("href")).toBe("mailto:a@b.c");
     expect(anchor.target).toBe("_blank");
     expect(anchor.classList).toContain("bg-accent");
@@ -39,6 +43,7 @@ describe("ButtonLink", () => {
   it("keeps the variants visually distinct", () => {
     const container = mount(() => <ButtonLink.Outline href="#">CV</ButtonLink.Outline>);
     const anchor = container.querySelector("a")!;
+
     expect(anchor.classList).toContain("border-accent");
     expect(anchor.classList).not.toContain("bg-accent");
   });
@@ -53,6 +58,7 @@ describe("IconButton", () => {
       </IconButton>
     ));
     const button = container.querySelector("button")!;
+
     expect(button.type).toBe("button");
     expect(button.getAttribute("aria-label")).toBe("Toggle");
     button.click();
@@ -67,6 +73,7 @@ describe("compound parts", () => {
         <Facts.Item label="role">Engineer</Facts.Item>
       </Facts.List>
     ));
+
     expect(container.querySelector("dl dt")?.textContent).toBe("role");
     expect(container.querySelector("dl dd")?.textContent).toBe("Engineer");
   });
@@ -81,6 +88,7 @@ describe("compound parts", () => {
         </IndexList.Row>
       </IndexList.Root>
     ));
+
     expect(container.querySelector("li [aria-hidden='true']")).not.toBeNull();
     expect(container.querySelector("li")?.textContent).toBe("Title2026");
   });
@@ -92,6 +100,7 @@ describe("compound parts", () => {
       </Entry.Bullets>
     ));
     const item = container.querySelector("ul > li")!;
+
     expect(item.querySelector("[aria-hidden='true']")?.textContent).toBe("›");
     expect(item.textContent).toContain("Shipped it");
   });

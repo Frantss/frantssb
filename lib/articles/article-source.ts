@@ -13,6 +13,7 @@ export function article_extractText(source: string, format: "md" | "mdx" = "mdx"
   const tree = createProcessor({ format, remarkPlugins: [remarkFrontmatter, remarkGfm] }).parse(
     source,
   );
+
   function text(node: TextNode): string {
     if (node.type === "text" || node.type === "inlineCode") return node.value ?? "";
     if (!node.children) return "";
@@ -27,8 +28,10 @@ export function article_extractText(source: string, format: "md" | "mdx" = "mdx"
     ].includes(node.type)
       ? ""
       : " ";
+
     return node.children.map(text).join(separator);
   }
+
   return text(tree).replace(/\s+/g, " ").trim();
 }
 
@@ -37,6 +40,7 @@ export async function article_readSources(directory = article_sourceDirectory) {
   const sources = await Promise.all(
     filenames.map(async (filename) => {
       const source = await readFile(new URL(encodeURIComponent(filename), directory), "utf8");
+
       return {
         slug: filename.replace(/\.(md|mdx)$/, ""),
         frontmatter: article_parseFrontmatter(source, filename),
@@ -56,5 +60,6 @@ export async function article_readSources(directory = article_sourceDirectory) {
       bodyText,
     })),
   );
+
   return { sources, manifest };
 }

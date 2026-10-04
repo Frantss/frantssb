@@ -4,6 +4,7 @@ import { site } from "../src/shared/seo/site.ts";
 import messages from "../messages/en.json" with { type: "json" };
 
 const renderer = new Renderer();
+
 await renderer.registerFont({
   name: "Geist Mono",
   data: await readFile(
@@ -89,5 +90,6 @@ const png = await renderer.render(image, {
   format: "png",
 });
 const publicDirectory = new URL("../public/", import.meta.url);
+
 await mkdir(publicDirectory, { recursive: true });
 await writeFile(new URL(`.${site.socialImage.path}`, publicDirectory), png);

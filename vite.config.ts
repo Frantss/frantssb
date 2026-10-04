@@ -19,6 +19,7 @@ const pages = ["/", "/work", "/education", "/projects", "/writing", "/writing/**
 function posthogSourceMapsPlugin() {
   const personalApiKey = process.env.POSTHOG_API_KEY?.trim();
   const projectId = process.env.POSTHOG_PROJECT_ID?.trim();
+
   if (!personalApiKey || !projectId) return;
 
   return Object.assign(
@@ -67,8 +68,23 @@ export default defineConfig(({ mode }) => ({
   },
   fmt: { ignorePatterns: ["src/routeTree.gen.ts", "src/paraglide/**", "env.d.ts"] },
   lint: {
-    jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
-    rules: { "vite-plus/prefer-vite-plus-imports": "error" },
+    jsPlugins: [
+      { name: "vite-plus", specifier: "vite-plus/oxlint-plugin" },
+      "@stylistic/eslint-plugin",
+    ],
+    rules: {
+      "vite-plus/prefer-vite-plus-imports": "error",
+      "@stylistic/padding-line-between-statements": [
+        "error",
+        { blankLine: "always", prev: "*", next: "return" },
+        { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+        {
+          blankLine: "any",
+          prev: ["const", "let", "var"],
+          next: ["const", "let", "var"],
+        },
+      ],
+    },
     options: { typeAware: true, typeCheck: true },
     ignorePatterns: ["src/paraglide/**"],
   },

@@ -11,6 +11,7 @@ export const Route = createFileRoute("/resume")({
       description: m.meta_resume({ name: profile.name }),
       robots: "noindex",
     });
+
     return { meta: metadata.meta, links: metadata.links };
   },
   component: ResumePage,

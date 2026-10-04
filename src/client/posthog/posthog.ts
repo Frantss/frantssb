@@ -7,6 +7,7 @@ export const posthog_initialize = createClientOnlyFn(() => {
   const token = import.meta.env.VITE_POSTHOG_KEY;
   const host = import.meta.env.VITE_POSTHOG_HOST;
   const persistence = import.meta.env.VITE_POSTHOG_PERSISTENCE;
+
   if (
     !import.meta.env.PROD ||
     !token ||
@@ -52,9 +53,11 @@ export const posthog_initialize = createClientOnlyFn(() => {
           save_referrer: true,
           save_campaign_params: true,
         });
+
         return posthog;
       },
     )
     .catch(() => undefined);
+
   return initialization;
 });

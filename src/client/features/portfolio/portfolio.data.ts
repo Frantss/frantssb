@@ -209,6 +209,7 @@ function portfolio_projects(): Project[] {
 
 export function portfolio_project_groups() {
   const projects = portfolio_projects();
+
   return [
     { kind: "oss", label: m.project_group_oss() },
     { kind: "client", label: m.project_group_client() },

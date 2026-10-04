@@ -24,14 +24,17 @@ describe("server locale", () => {
     ["PARAGLIDE_LOCALE=es", "en", "Work"],
   ])("renders %s using %s", async (cookie, locale, text) => {
     const request = new Request("http://localhost/work", { headers: { cookie } });
+
     vi.mocked(handler.fetch).mockImplementation(async (incoming) => {
       expect(incoming).toBe(request);
       await Promise.resolve();
       expect(getLocale()).toBe(locale);
+
       return new Response(m.page_work());
     });
 
     const response = await server.fetch(request);
+
     await expect(response.text()).resolves.toBe(text);
   });
 
@@ -41,9 +44,11 @@ describe("server locale", () => {
       release = resolve;
     });
     let remaining = 2;
+
     vi.mocked(handler.fetch).mockImplementation(async () => {
       if (--remaining === 0) release();
       await gate;
+
       return new Response(m.page_work());
     });
 
@@ -75,6 +80,7 @@ describe("server locale", () => {
         path: "/work",
         image: site.socialImage,
       });
+
       return Response.json(metadata);
     });
 
@@ -82,6 +88,7 @@ describe("server locale", () => {
       new Request("http://localhost/work", { headers: { cookie } }),
     );
     const metadata = await response.json();
+
     expect(metadata.meta).toContainEqual({ property: "og:locale", content: locale });
   });
 });

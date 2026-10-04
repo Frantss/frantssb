@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 const sdk = vi.hoisted(() => ({ init: vi.fn() }));
+
 vi.mock("posthog-js/dist/module.slim", () => ({ default: sdk }));
 vi.mock("posthog-js/dist/extension-bundles", () => ({
   AnalyticsExtensions: { autocapture: "autocapture", historyAutocapture: "historyAutocapture" },

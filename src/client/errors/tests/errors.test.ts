@@ -2,11 +2,13 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 const posthog = vi.hoisted(() => {
   const client = { addExceptionStep: vi.fn(), captureException: vi.fn() };
+
   return {
     client,
     initialize: vi.fn<() => Promise<typeof client> | undefined>(() => Promise.resolve(client)),
   };
 });
+
 vi.mock("@/client/posthog/posthog", () => ({ posthog_initialize: posthog.initialize }));
 
 beforeEach(() => {

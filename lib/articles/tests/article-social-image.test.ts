@@ -35,7 +35,9 @@ async function article_renderSocialImage(article: ArticleFrontmatter, slug: stri
     png: string;
     image: { path: string; alt: string };
   };
+
   if (result.error) throw new Error(result.error);
+
   return { image: result.image, png: Buffer.from(result.png, "base64") };
 }
 
@@ -50,6 +52,7 @@ describe("article social images", () => {
   it("renders a deterministic PNG and changes its URL when displayed content changes", async () => {
     const original = await article_renderSocialImage(article, "hello-world");
     const repeated = await article_renderSocialImage(article, "hello-world");
+
     expect(original.png.subarray(0, 8)).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
     expect(original.png.readUInt32BE(16)).toBe(1200);
     expect(original.png.readUInt32BE(20)).toBe(630);
@@ -61,6 +64,7 @@ describe("article social images", () => {
       { tags: ["typescript"] },
     ]) {
       const changed = await article_renderSocialImage({ ...article, ...change }, "hello-world");
+
       expect(changed.image.path).not.toBe(original.image.path);
     }
   });
@@ -72,6 +76,7 @@ describe("article social images", () => {
       { ...article, title, tags: [] },
       "artículo & mdx",
     );
+
     expect(result.image.path).toMatch(
       /^\/og\/articles\/art%C3%ADculo%20%26%20mdx-[a-f0-9]{20}\.png$/,
     );
@@ -111,6 +116,7 @@ describe("article frontmatter validation", () => {
   it("preserves keywords separately from tags and validates their format", () => {
     const source =
       '---\ntitle: Article\ndescription: Description\ndate: "2026.10.03"\ntags: [log]\n';
+
     expect(
       article_parseFrontmatter(
         `${source}keywords: [software engineering, web portfolio]\n---`,

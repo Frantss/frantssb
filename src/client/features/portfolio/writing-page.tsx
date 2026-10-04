@@ -11,6 +11,7 @@ import { analytics_autocapture } from "@/client/analytics/analytics";
 
 export function WritingPage() {
   const articles = () => article_list(getLocale());
+
   return (
     <Page>
       <PageTitle>{m.page_writing()}</PageTitle>

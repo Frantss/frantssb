@@ -4,6 +4,7 @@ import { cn } from "@/client/lib/cn";
 // Square control sized to match ButtonLink; callers provide an aria-label.
 export function IconButton(props: ComponentProps<"button"> & { "aria-label": string }) {
   const [local, rest] = splitProps(props, ["class"]);
+
   return (
     <button
       type="button"

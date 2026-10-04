@@ -93,6 +93,7 @@ export function AboutPage() {
 
 function ProfileLinks() {
   const [github, linkedin, x, instagram] = profile.links;
+
   return (
     <ul aria-label={m.about_find()} class="m-0 flex flex-wrap gap-2 p-0 list-none">
       <ProfileLink link={github}>

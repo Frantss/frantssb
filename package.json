@@ -56,6 +56,7 @@
     "@orpc/client": "2.0.0-beta.41",
     "@playwright/test": "1.63.0",
     "@posthog/rollup-plugin": "1.6.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
     "@takumi-rs/core": "2.14.0",
     "@tanstack/highlight": "^1.0.0",
     "@tanstack/router-cli": "^1.167.39",

@@ -21,6 +21,7 @@ export function Tooltip(props: {
       event.stopPropagation();
       api().setOpen(false);
     };
+
     document.addEventListener("keydown", dismiss, true);
     onCleanup(() => document.removeEventListener("keydown", dismiss, true));
   });

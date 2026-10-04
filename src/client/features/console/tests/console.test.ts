@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 
 const mocks = vi.hoisted(() => ({ capture: vi.fn(), setLocale: vi.fn() }));
+
 vi.mock("@/client/analytics/analytics", () => ({ analytics_capture: mocks.capture }));
 vi.mock("@/paraglide/runtime", async (original) => ({
   ...(await original<typeof import("@/paraglide/runtime")>()),
@@ -24,12 +25,14 @@ describe("console easter egg", () => {
   // Runs first: the API is non-configurable, so installation happens once per test file.
   it("greets once on install without running commands", async () => {
     const { console_install } = await import("@/client/features/console/console");
+
     console_install();
     expect(logged()).toContain("frantss.help");
     expect(log).toHaveBeenCalledTimes(2);
     expect(mocks.capture).not.toHaveBeenCalled();
 
     const installed = api();
+
     console_install();
     expect(api()).toBe(installed);
     expect(log).toHaveBeenCalledTimes(2);
@@ -51,8 +54,10 @@ describe("console easter egg", () => {
     const click = vi
       .spyOn(HTMLAnchorElement.prototype, "click")
       .mockImplementation(() => undefined);
+
     run("resume");
     const anchor = click.mock.contexts[0] as HTMLAnchorElement;
+
     expect(anchor.getAttribute("href")).toBe("/resume-en.pdf");
     expect(anchor.download).toBe("frantssb-resume-en.pdf");
     click.mockRestore();

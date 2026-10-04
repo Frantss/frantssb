@@ -6,6 +6,7 @@ const base =
 
 function ButtonLinkSolid(props: ComponentProps<"a">) {
   const [local, rest] = splitProps(props, ["class"]);
+
   return (
     <a
       {...rest}
@@ -20,6 +21,7 @@ function ButtonLinkSolid(props: ComponentProps<"a">) {
 
 function ButtonLinkOutline(props: ComponentProps<"a">) {
   const [local, rest] = splitProps(props, ["class"]);
+
   return (
     <a
       {...rest}

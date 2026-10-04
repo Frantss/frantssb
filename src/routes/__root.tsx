@@ -35,6 +35,7 @@ export const Route = createRootRoute({
 
 function RootComponent(props: ParentProps) {
   const locale = getLocale();
+
   onMount(posthog_initialize);
   onMount(console_install);
 

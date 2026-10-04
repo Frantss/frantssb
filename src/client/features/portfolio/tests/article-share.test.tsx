@@ -18,12 +18,15 @@ let dispose: (() => void) | undefined;
 
 function mount(ui: () => JSX.Element) {
   const container = document.createElement("div");
+
   document.body.append(container);
   const stop = render(ui, container);
+
   dispose = () => {
     stop();
     container.remove();
   };
+
   return container;
 }
 
@@ -48,6 +51,7 @@ describe("ArticleShare", () => {
     const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
     const container = mount(() => <ArticleShare article={article} />);
     const button = container.querySelector("button")!;
+
     expect(button.getAttribute("aria-label")).toBe("Copy link");
 
     button.click();
@@ -78,10 +82,12 @@ describe("ArticleShare", () => {
 
   it("opens the share sheet with the article details when available", async () => {
     const share = vi.fn<(data: ShareData) => Promise<void>>().mockResolvedValue();
+
     stubShare(share);
     const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
     const container = mount(() => <ArticleShare article={article} />);
     const button = container.querySelector("button")!;
+
     await expect.poll(() => button.getAttribute("aria-label")).toBe("Share");
 
     button.click();
@@ -103,10 +109,12 @@ describe("ArticleShare", () => {
 
   it("does nothing when the share sheet is dismissed", async () => {
     const share = vi.fn().mockRejectedValue(new DOMException("Share canceled", "AbortError"));
+
     stubShare(share);
     const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
     const container = mount(() => <ArticleShare article={article} />);
     const button = container.querySelector("button")!;
+
     await expect.poll(() => button.getAttribute("aria-label")).toBe("Share");
 
     button.click();

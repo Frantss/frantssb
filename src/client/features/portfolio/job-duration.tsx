@@ -3,11 +3,13 @@ import { m } from "@/paraglide/messages";
 
 function monthIndex(date: string) {
   const [month, year] = date.split(".").map(Number);
+
   return year * 12 + month - 1;
 }
 
 export function jobDuration_format(start: string, end: string, now?: Date) {
   let endMonth: number;
+
   if (end === "∞") {
     if (!now) return "--";
     endMonth = now.getFullYear() * 12 + now.getMonth();
@@ -19,8 +21,10 @@ export function jobDuration_format(start: string, end: string, now?: Date) {
   const totalMonths = Math.max(0, endMonth - monthIndex(start) + 1);
   const years = Math.floor(totalMonths / 12);
   const months = totalMonths % 12;
+
   if (!years) return m.job_duration_months({ months });
   if (!months) return m.job_duration_years({ years });
+
   return m.job_duration({ years, months });
 }
 
@@ -31,8 +35,10 @@ export function JobDuration(props: { start: string; end: string }) {
   onMount(() => {
     if (props.end !== "∞") return;
     const update = () => setNow(new Date());
+
     update();
     const interval = setInterval(update, 60_000);
+
     onCleanup(() => clearInterval(interval));
   });
 

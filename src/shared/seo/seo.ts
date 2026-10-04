@@ -26,6 +26,7 @@ export function seo(options: SeoOptions) {
     ...(options.robots ? [{ name: "robots", content: options.robots }] : []),
   ];
   const scripts = options.jsonLd ? [jsonLdScript(createJsonLd(options.jsonLd))] : [];
+
   if (!options.path) return { meta, links: [], scripts };
 
   const canonicalUrl = new URL(options.path, site.origin).href;
@@ -41,6 +42,7 @@ export function seo(options: SeoOptions) {
         { property: "article:published_time", content: options.article.datePublished },
       ]
     : [];
+
   if (options.article) {
     scripts.push(
       jsonLdScript(

@@ -10,6 +10,7 @@ afterEach(() => dispose?.());
 
 it("replaces the outgoing page without overlapping its snapshot and staggers the new content", async () => {
   const container = document.createElement("div");
+
   document.body.append(container);
   const [page, setPage] = createSignal("old");
   const stop = render(
@@ -26,6 +27,7 @@ it("replaces the outgoing page without overlapping its snapshot and staggers the
     ),
     container,
   );
+
   dispose = () => {
     stop();
     container.remove();
@@ -34,6 +36,7 @@ it("replaces the outgoing page without overlapping its snapshot and staggers the
   const transition = document.startViewTransition(() => {
     setPage("new");
   });
+
   await transition.ready;
   const outgoing = getComputedStyle(
     document.documentElement,
@@ -41,11 +44,13 @@ it("replaces the outgoing page without overlapping its snapshot and staggers the
   );
   const outgoingVisible =
     outgoing.display !== "none" && outgoing.visibility !== "hidden" && Number(outgoing.opacity) > 0;
+
   expect(outgoingVisible).toBe(false);
   expect(container.querySelector("h1")?.textContent).toBe("new");
 
   await transition.finished;
   const sections = container.querySelector(".page-content")!.children;
+
   for (const section of sections) {
     for (const animation of section.getAnimations()) {
       animation.pause();
@@ -53,6 +58,7 @@ it("replaces the outgoing page without overlapping its snapshot and staggers the
     }
   }
   const opacities = Array.from(sections, (section) => Number(getComputedStyle(section).opacity));
+
   expect(opacities[0]).toBeGreaterThan(opacities[1]!);
   expect(opacities[1]).toBeGreaterThanOrEqual(opacities[2]!);
 });

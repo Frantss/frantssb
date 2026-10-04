@@ -16,7 +16,9 @@ const DockContext = createContext<{ sheetId: string }>();
 
 function useDock() {
   const context = useContext(DockContext);
+
   if (!context) throw new Error("Dock parts must be rendered inside Dock.Root");
+
   return context;
 }
 
@@ -24,6 +26,7 @@ const barHeight = "h-[calc(3rem+env(safe-area-inset-bottom))]";
 
 function DockRoot(props: ParentProps) {
   const sheetId = createUniqueId();
+
   return (
     <DockContext.Provider value={{ sheetId }}>
       <div class="group sm:hidden">
@@ -50,6 +53,7 @@ function DockBar(props: ParentProps) {
 function DockTrigger(props: ComponentProps<"button"> & { menuLabel: string; closeLabel: string }) {
   const dock = useDock();
   const [local, rest] = splitProps(props, ["menuLabel", "closeLabel", "children", "class"]);
+
   return (
     <button
       {...rest}
@@ -73,6 +77,7 @@ function DockTrigger(props: ComponentProps<"button"> & { menuLabel: string; clos
 // discretely so closing animates too.
 function DockSheet(props: ParentProps<{ label: string }>) {
   const dock = useDock();
+
   return (
     <nav
       id={dock.sheetId}
@@ -97,6 +102,7 @@ function DockList(props: ParentProps) {
 // The router sets aria-current on the active link; styling keys off it.
 function DockAnchor(props: ComponentProps<"a">) {
   const [local, rest] = splitProps(props, ["class"]);
+
   return (
     <li>
       <a

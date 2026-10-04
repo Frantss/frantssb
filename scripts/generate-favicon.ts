@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { Renderer, type Node } from "@takumi-rs/core";
 
 const renderer = new Renderer();
+
 await renderer.registerFont({
   name: "Geist Mono",
   data: await readFile(
@@ -42,6 +43,7 @@ const darkTheme = `<style>
     g { fill: #ededed; }
   }
 </style>`;
+
 await mkdir(publicDirectory, { recursive: true });
 await writeFile(
   new URL("favicon.svg", publicDirectory),
@@ -50,6 +52,7 @@ await writeFile(
 
 const sizes = [16, 32];
 const header = Buffer.alloc(6);
+
 header.writeUInt16LE(1, 2);
 header.writeUInt16LE(sizes.length, 4);
 const entries: Buffer[] = [];
@@ -60,6 +63,7 @@ for (const size of sizes) {
   const icon = await renderer.render(favicon(size), { width: size, height: size, format: "ico" });
   const entry = Buffer.from(icon.subarray(6, 22));
   const image = icon.subarray(entry.readUInt32LE(12));
+
   entry.writeUInt32LE(imageOffset, 12);
   entries.push(entry);
   images.push(image);

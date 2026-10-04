@@ -13,6 +13,7 @@ export const Route = createFileRoute("/_site/projects")({
       path: "/projects",
       image: site.socialImage,
     });
+
     return { meta: metadata.meta, links: metadata.links };
   },
   component: ProjectsPage,

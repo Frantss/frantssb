@@ -9,12 +9,15 @@ let dispose: (() => void) | undefined;
 
 function mount(ui: () => JSX.Element) {
   const container = document.createElement("div");
+
   document.body.append(container);
   const stop = render(ui, container);
+
   dispose = () => {
     stop();
     container.remove();
   };
+
   return container;
 }
 
@@ -35,6 +38,7 @@ describe("Tooltip", () => {
     ));
     const popover = container.querySelector("nav")!;
     const button = container.querySelector("button")!;
+
     popover.showPopover();
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true }));
     button.focus();
@@ -46,6 +50,7 @@ describe("Tooltip", () => {
       bubbles: true,
       cancelable: true,
     });
+
     button.dispatchEvent(escape);
     await expect.poll(() => document.querySelector('[role="tooltip"]')).toBeNull();
     expect(escape.defaultPrevented).toBe(true);
@@ -65,6 +70,7 @@ describe("Tooltip", () => {
       </Tooltip>
     ));
     const button = container.querySelector("button")!;
+
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Tab", bubbles: true }));
     button.focus();
 

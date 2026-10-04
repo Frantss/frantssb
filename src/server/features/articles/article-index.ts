@@ -19,11 +19,13 @@ export async function article_syncIndex(database: Database, input: unknown) {
       })
       .onConflictDoNothing()
       .returning({ revision: articleCatalogues.revision });
+
     if (!created.length) return false;
     for (let offset = 0; offset < manifest.articles.length; offset += 200) {
       await tx.insert(articleIndex).values(
         manifest.articles.slice(offset, offset + 200).map((article) => {
           const config = article.language === "es" ? "spanish" : "english";
+
           return {
             revision: manifest.revision,
             slug: article.slug,
@@ -39,8 +41,10 @@ export async function article_syncIndex(database: Database, input: unknown) {
         }),
       );
     }
+
     return true;
   });
+
   return { revision: manifest.revision, inserted };
 }
 
@@ -53,6 +57,7 @@ export async function article_queryIndex(
     .select({ revision: articleCatalogues.revision })
     .from(articleCatalogues)
     .where(eq(articleCatalogues.revision, revision));
+
   if (!catalogue) return null;
   const englishQuery = input.q ? sql`websearch_to_tsquery('english', ${input.q})` : undefined;
   const spanishQuery = input.q ? sql`websearch_to_tsquery('spanish', ${input.q})` : undefined;
@@ -93,5 +98,6 @@ export async function article_queryIndex(
     )
     .limit(input.limit)
     .offset(input.offset);
+
   return { items, total };
 }

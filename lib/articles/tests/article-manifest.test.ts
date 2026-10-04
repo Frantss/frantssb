@@ -13,6 +13,7 @@ import {
 import type { article_readSources } from "@/lib/articles/article-source";
 
 const runNode = promisify(execFile);
+
 async function sourceCall(method: "extract" | "read", args: string[]) {
   const { stdout } = await runNode(
     process.execPath,
@@ -35,7 +36,9 @@ async function sourceCall(method: "extract" | "read", args: string[]) {
     { cwd: fileURLToPath(new URL("../../../", import.meta.url)) },
   );
   const output = JSON.parse(stdout) as { result: unknown; error?: string };
+
   if (output.error) throw new Error(output.error);
+
   return output.result;
 }
 
@@ -60,12 +63,14 @@ describe("article manifests", () => {
   it("produces the same revision regardless of discovery order and detects content changes", () => {
     const second = { ...article, slug: "second" };
     const first = article_createManifest([article, second]);
+
     expect(article_createManifest([second, article])).toEqual(first);
     expect(article_createManifest([{ ...article, bodyText: "Changed" }, second]).revision).not.toBe(
       first.revision,
     );
     expect(article_parseManifest(JSON.parse(JSON.stringify(first)))).toEqual(first);
     const spaced = { ...article, slug: " hello ", description: " Description " };
+
     expect(article_createManifest([spaced]).articles).toEqual([spaced]);
     expect(() => article_parseManifest({ ...first, articles: [] })).toThrow("revision mismatch");
   });
@@ -101,6 +106,7 @@ describe("article manifests", () => {
       "",
       "<Secret />",
     ].join("\n");
+
     expect(await sourceCall("extract", [source])).toBe(
       "Hello world Use Drizzle and links. Visible text",
     );
@@ -109,10 +115,13 @@ describe("article manifests", () => {
 
   it("reads an empty directory and rejects filenames that produce duplicate slugs", async () => {
     const directory = await mkdtemp(join(tmpdir(), "article-manifest-"));
+
     try {
       const url = pathToFileURL(`${directory}/`);
+
       expect((await readSources(url)).manifest).toEqual(article_createManifest([]));
       const source = '---\ntitle: Hello\ndescription: Description\ndate: "2026.10.03"\n---\nHello';
+
       await writeFile(join(directory, "hello.md"), source);
       expect((await readSources(url)).manifest.articles[0]).toMatchObject({
         slug: "hello",

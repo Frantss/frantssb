@@ -10,6 +10,7 @@ import type { Job } from "./portfolio.data";
 export function JobEntry(props: { job: Job }) {
   const id = () =>
     `${props.job.company.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${props.job.start.replace(".", "-")}`;
+
   return (
     <Entry.Root id={id()} class="scroll-mt-6">
       <Entry.Header>

@@ -10,6 +10,7 @@ import { analytics_capture } from "@/client/analytics/analytics";
 export function SiteHeader() {
   // Phones drop the file extension so the header fits at 320px.
   const resume = () => m.header_resume().replace(/\.pdf$/, "");
+
   return (
     <header class="flex items-center justify-between gap-2 px-4 py-3 sm:gap-4">
       <Link to="/" class="group flex shrink-0 items-center gap-3 text-fg no-underline">

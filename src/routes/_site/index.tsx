@@ -21,6 +21,7 @@ export const Route = createFileRoute("/_site/")({
         sameAs: profile.links.map((link) => link.href),
       },
     });
+
     return { meta: metadata.meta, links: metadata.links, scripts: metadata.scripts };
   },
   component: AboutPage,

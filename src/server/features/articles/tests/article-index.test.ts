@@ -12,6 +12,7 @@ import { router } from "@/server/orpc/orpc.router";
 import { contract } from "@/shared/orpc/orpc.contract";
 
 const current = vi.hoisted(() => ({ revision: "" }));
+
 vi.mock("@/lib/articles/article-metadata", () => ({
   get article_revision() {
     return current.revision;
@@ -52,14 +53,17 @@ const revisions = new Set<string>();
 
 async function sync(articles = manifest.articles) {
   const input = article_createManifest(articles);
+
   revisions.add(input.revision);
   current.revision = input.revision;
+
   return article_syncIndex(db, input);
 }
 
 describe("article catalogue with PostgreSQL", () => {
   const handler = new OpenAPIHandler(router);
   const query = { limit: 20, offset: 0 };
+
   async function request(search = "") {
     const { response } = await handler.handle(
       new Request(`http://localhost/api/articles${search}`),
@@ -68,6 +72,7 @@ describe("article catalogue with PostgreSQL", () => {
         context: { headers: new Headers(), db },
       },
     );
+
     return response!;
   }
 
@@ -87,6 +92,7 @@ describe("article catalogue with PostgreSQL", () => {
     const results = await Promise.all(
       Array.from({ length: 4 }, () => article_syncIndex(db, manifest)),
     );
+
     expect(results.filter(({ inserted }) => inserted)).toHaveLength(1);
     expect(await article_syncIndex(db, manifest)).toEqual({
       revision: manifest.revision,
@@ -96,6 +102,7 @@ describe("article catalogue with PostgreSQL", () => {
       .select({ total: count() })
       .from(articleIndex)
       .where(eq(articleIndex.revision, manifest.revision));
+
     expect(total).toBe(3);
   });
 
@@ -104,6 +111,7 @@ describe("article catalogue with PostgreSQL", () => {
     const broken = article_createManifest([
       { ...title, bodyText: "Invalid PostgreSQL text\u0000" },
     ]);
+
     revisions.add(broken.revision);
     await expect(article_syncIndex(db, broken)).rejects.toThrow();
     expect(await article_queryIndex(db, broken.revision, query)).toBeNull();
@@ -116,6 +124,7 @@ describe("article catalogue with PostgreSQL", () => {
     expect((await request()).status).toBe(200);
     current.revision = "0".repeat(64);
     const response = await request();
+
     expect(response.status).toBe(503);
     expect(await response.json()).toMatchObject({ code: "SERVICE_UNAVAILABLE" });
   });
@@ -133,12 +142,14 @@ describe("article catalogue with PostgreSQL", () => {
       .select()
       .from(articleLikeCounts)
       .where(eq(articleLikeCounts.articleSlug, title.slug));
+
     expect(likes.count).toBe(17);
   });
 
   it("filters tags, paginates, and reports the filtered total with stable date ordering", async () => {
     await sync();
     const response = await request("?tag=engineering&limit=1&offset=1");
+
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({
       items: [
@@ -158,6 +169,7 @@ describe("article catalogue with PostgreSQL", () => {
   it("ranks title matches above body matches and supports article-language stemming", async () => {
     await sync();
     const result = await (await request("?q=drizzle")).json();
+
     expect(result.items.map((article: { slug: string }) => article.slug)).toEqual([
       title.slug,
       body.slug,
@@ -186,10 +198,12 @@ describe("article catalogue with PostgreSQL", () => {
             prefix: "/api",
             context: { headers: new Headers(), db },
           });
+
           return response!;
         },
       }),
     );
+
     expect((await client.articles.get({ tag: "engineering" })).total).toBe(2);
     for (const search of [
       "?limit=0",

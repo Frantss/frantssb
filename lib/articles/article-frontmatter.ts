@@ -12,6 +12,7 @@ export type ArticleFrontmatter = {
 export function article_parseFrontmatter(source: string, path: string): ArticleFrontmatter {
   const yaml = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(source)?.[1];
   const frontmatter: unknown = yaml ? parse(yaml) : undefined;
+
   if (
     !frontmatter ||
     typeof frontmatter !== "object" ||
@@ -44,6 +45,7 @@ export function article_parseFrontmatter(source: string, path: string): ArticleF
   if ("language" in frontmatter && frontmatter.language !== "en" && frontmatter.language !== "es") {
     throw new Error(`${path}: expected frontmatter language to be en or es`);
   }
+
   return {
     title: frontmatter.title,
     description: frontmatter.description,

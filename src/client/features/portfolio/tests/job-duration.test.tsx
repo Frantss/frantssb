@@ -45,8 +45,10 @@ describe("job duration", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date(2026, 9, 31, 23, 59, 30));
     const container = document.createElement("div");
+
     document.body.append(container);
     const stop = render(() => <JobDuration start="08.2023" end="∞" />, container);
+
     dispose = () => {
       stop();
       container.remove();

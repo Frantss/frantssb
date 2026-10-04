@@ -249,6 +249,7 @@ function resume_dates(job: Job) {
 function resume_date(value: string) {
   if (value === "∞") return m.resume_present();
   const [month, year] = value.split(".").map(Number);
+
   return new Intl.DateTimeFormat(getLocale(), {
     month: "short",
     year: "numeric",
@@ -258,5 +259,6 @@ function resume_date(value: string) {
 
 function resume_url(href: string) {
   const url = new URL(href, site.origin);
+
   return `${url.host}${url.pathname.replace(/\/$/, "")}${url.search}${url.hash}`;
 }

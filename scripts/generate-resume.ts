@@ -18,11 +18,14 @@ try {
   await mkdir("public", { recursive: true });
 
   const browser = await chromium.launch();
+
   try {
     for (const locale of projectSettings.locales) {
       const context = await browser.newContext({ reducedMotion: "reduce", colorScheme: "light" });
+
       await context.addCookies([{ name: paraglideOptions.cookieName, value: locale, url: origin }]);
       const page = await context.newPage();
+
       await page.goto(`${origin}/resume`, { waitUntil: "networkidle" });
       await page.evaluate(() => document.fonts.ready);
       await page.pdf({
@@ -44,6 +47,7 @@ try {
 
 async function waitForServer() {
   const deadline = Date.now() + 60_000;
+
   while (Date.now() < deadline) {
     if (server.exitCode !== null) throw new Error(`dev server exited with ${server.exitCode}`);
     try {

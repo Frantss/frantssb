@@ -13,6 +13,7 @@ export function ArticleShare(props: { article: Article }) {
   const [canShare, setCanShare] = createSignal(false);
   const [copy, setCopy] = createSignal<"idle" | "copied" | "failed">("idle");
   let reset: ReturnType<typeof setTimeout> | undefined;
+
   onMount(() => setCanShare(typeof navigator.share === "function"));
   onCleanup(() => clearTimeout(reset));
 
@@ -33,6 +34,7 @@ export function ArticleShare(props: { article: Article }) {
           url: url(),
         });
         capture("native");
+
         return;
       } catch (error) {
         if (error instanceof DOMException && error.name === "AbortError") return;

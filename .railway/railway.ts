@@ -2,6 +2,7 @@ import { defineRailway, postgres, project, service, volume } from "railway/iac";
 
 export default defineRailway(() => {
   const db = postgres("Postgres", { region: "us-east4-eqdc4a" });
+
   db.networking = { privateNetworkEndpoint: "postgres" };
 
   const postgresVolume = volume("postgres-volume", {

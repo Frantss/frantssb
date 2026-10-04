@@ -5,6 +5,7 @@ declare module "*.mdx" {
 
   export const frontmatter: unknown;
   const Content: Component;
+
   export default Content;
 }
 
@@ -13,5 +14,6 @@ declare module "*.md" {
 
   export const frontmatter: unknown;
   const Content: Component;
+
   export default Content;
 }

@@ -14,12 +14,15 @@ let dispose: (() => void) | undefined;
 
 function mount(ui: () => JSX.Element) {
   const container = document.createElement("div");
+
   document.body.append(container);
   const stop = render(ui, container);
+
   dispose = () => {
     stop();
     container.remove();
   };
+
   return container;
 }
 
@@ -48,6 +51,7 @@ describe("localized portfolio", () => {
 
       expect(container.querySelectorAll("h1")[0]?.textContent).toBe("Work");
       expect(container.querySelectorAll("h1")[1]?.textContent).toBe("Projects");
+
       return;
     }
     expect(container.textContent).toContain("Ingeniero de producto");
@@ -63,9 +67,11 @@ describe("localized portfolio", () => {
   it("preserves profile facts and work identities across locales", async () => {
     await setLocale("en", { reload: false });
     const english = portfolio_jobs();
+
     expect(portfolio_bio().location).toBe("🇺🇾 Uruguay");
     await setLocale("es", { reload: false });
     const spanish = portfolio_jobs();
+
     expect(english).toHaveLength(7);
     expect(
       spanish.map(({ company, start, end, stack }) => ({ company, start, end, stack })),

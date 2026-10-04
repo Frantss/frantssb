@@ -7,6 +7,7 @@ import { m } from "@/paraglide/messages";
 
 export function ThemeToggle(props: { class?: string }) {
   const [theme, setTheme] = createSignal<Theme>();
+
   onMount(() => {
     setTheme(theme_current());
     onCleanup(theme_observe(setTheme));
@@ -14,6 +15,7 @@ export function ThemeToggle(props: { class?: string }) {
 
   const toggle = () => {
     const next = theme_current() === "dark" ? "light" : "dark";
+
     theme_set(next);
   };
 

@@ -28,6 +28,7 @@ describe("theme", () => {
   it("runs as a standalone inline script", () => {
     document.cookie = "theme=light; Path=/";
     const script = document.createElement("script");
+
     script.textContent = theme_script;
     document.head.append(script);
     script.remove();
@@ -44,6 +45,7 @@ describe("theme", () => {
   it("notifies observers when the theme changes", async () => {
     const seen: string[] = [];
     const stop = theme_observe((theme) => seen.push(theme));
+
     theme_set("dark");
     await Promise.resolve();
     stop();
@@ -54,6 +56,7 @@ describe("theme", () => {
 
   it("falls back to the system preference", () => {
     const system = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
     expect(theme_current()).toBe(system);
   });
 });

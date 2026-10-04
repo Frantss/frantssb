@@ -5,6 +5,7 @@ import MdxFixture from "@/client/features/portfolio/tests/fixtures/mdx.mdx";
 import { article_metadata } from "@/lib/articles/article-metadata";
 
 let dispose: (() => void) | undefined;
+
 afterEach(() => dispose?.());
 
 describe("MDX articles", () => {
@@ -24,8 +25,10 @@ describe("MDX articles", () => {
 
   it("compiles Markdown, JSX, and highlighted code into Solid elements", () => {
     const container = document.createElement("div");
+
     document.body.append(container);
     const stop = render(() => <MdxFixture />, container);
+
     dispose = () => {
       stop();
       container.remove();

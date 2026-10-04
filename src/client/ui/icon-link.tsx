@@ -3,6 +3,7 @@ import { cn } from "@/client/lib/cn";
 
 export function IconLink(props: ComponentProps<"a"> & { "aria-label": string }) {
   const [local, rest] = splitProps(props, ["class"]);
+
   return (
     <a
       {...rest}

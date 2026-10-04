@@ -10,6 +10,7 @@ export const article_manifestDirectory = new URL("../../.generated/articles/", i
 
 export async function article_generate() {
   const { sources, manifest } = await article_readSources();
+
   await rm(article_socialDirectory, { recursive: true, force: true });
   const articles: Article[] = await Promise.all(
     sources.map(async ({ slug, frontmatter }) => ({
@@ -22,10 +23,13 @@ export async function article_generate() {
       socialImage: await article_generateSocialImage(frontmatter, slug),
     })),
   );
+
   articles.sort((a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
   const metadata = { revision: manifest.revision, articles };
+
   await mkdir(article_manifestDirectory, { recursive: true });
   await writeFile(new URL("catalogue.json", article_manifestDirectory), JSON.stringify(manifest));
   await writeFile(new URL("metadata.json", article_manifestDirectory), JSON.stringify(metadata));
+
   return { metadata, manifest };
 }

@@ -22,6 +22,7 @@ function RailNav(props: ParentProps<{ label: string }>) {
 // The router sets aria-current on the active link; styling keys off it.
 function RailAnchor(props: ComponentProps<"a">) {
   const [local, rest] = splitProps(props, ["class"]);
+
   return (
     <li class="whitespace-nowrap">
       <a

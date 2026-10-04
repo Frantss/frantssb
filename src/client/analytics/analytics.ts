@@ -21,6 +21,7 @@ export const analytics_capture = createIsomorphicFn()
       $pathname: window.location.pathname,
       page: window.location.pathname.split("/")[1] || "about",
     };
+
     void posthog_initialize()
       ?.then((client) => {
         client?.capture(event, { ...page, ...properties }, { timestamp });

@@ -55,6 +55,7 @@ const commands = {
     run() {
       const resume = portfolio_resume(getLocale());
       const anchor = document.createElement("a");
+
       anchor.href = resume.href;
       anchor.download = resume.filename;
       anchor.click();
@@ -65,6 +66,7 @@ const commands = {
     description: "toggle light and dark",
     run() {
       const next = theme_current() === "dark" ? "light" : "dark";
+
       theme_set(next);
       console.log(`%ctheme → ${next}`, style.muted);
     },
@@ -73,6 +75,7 @@ const commands = {
     description: "switch between english and spanish",
     run() {
       const next = getLocale() === "en" ? "es" : "en";
+
       console.log(`%clocale → ${next}, reloading`, style.muted);
       void setLocale(next);
     },
@@ -102,6 +105,7 @@ export const console_install = createClientOnlyFn(() => {
             get() {
               command.run();
               analytics_capture("console_command_used", { command: name });
+
               return undefined;
             },
           },
@@ -109,6 +113,7 @@ export const console_install = createClientOnlyFn(() => {
       ),
     ),
   );
+
   Object.defineProperty(window, "frantss", { value: api });
 
   console.log(`%c${banner}`, style.accent);

@@ -4,6 +4,7 @@ export function localTime_format(now: Date, utcOffset: number) {
   const shifted = new Date(now.getTime() + utcOffset * 3_600_000);
   const hours = String(shifted.getUTCHours()).padStart(2, "0");
   const minutes = String(shifted.getUTCMinutes()).padStart(2, "0");
+
   return `${hours}:${minutes}`;
 }
 
@@ -13,8 +14,10 @@ export function LocalTime(props: { utcOffset: number }) {
 
   onMount(() => {
     const update = () => setTime(localTime_format(new Date(), props.utcOffset));
+
     update();
     const interval = setInterval(update, 30_000);
+
     onCleanup(() => clearInterval(interval));
   });
 

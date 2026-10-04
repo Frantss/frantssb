@@ -28,7 +28,9 @@ describe("article likes with PostgreSQL", () => {
       new Request(`http://localhost/api/articles/${slug}/likes`, init),
       { prefix: "/api", context: { headers: new Headers(), db } },
     );
+
     expect(response?.status).toBe(200);
+
     return response!.json();
   }
 
@@ -56,6 +58,7 @@ describe("article likes with PostgreSQL", () => {
       .select()
       .from(articleLikeCounts)
       .where(inArray(articleLikeCounts.articleSlug, ["likes-test-first"]));
+
     expect(rows).toEqual([]);
   });
 
@@ -76,6 +79,7 @@ describe("article likes with PostgreSQL", () => {
     const results = await Promise.all(
       Array.from({ length: 40 }, () => request("likes-test-first", "POST")),
     );
+
     expect(results.map(({ count }) => count).sort((a, b) => a - b)).toEqual(
       Array.from({ length: 40 }, (_, index) => index + 1),
     );
@@ -99,6 +103,7 @@ describe("article likes with PostgreSQL", () => {
             prefix: "/api",
             context: { headers: new Headers(), db },
           });
+
           return response!;
         },
       }),

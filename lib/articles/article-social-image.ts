@@ -14,6 +14,7 @@ let rendererPromise: Promise<Renderer> | undefined;
 function article_getRenderer() {
   return (rendererPromise ??= (async () => {
     const renderer = new Renderer();
+
     await renderer.registerFont({
       name: "Geist Mono",
       data: await readFile(
@@ -23,6 +24,7 @@ function article_getRenderer() {
         ),
       ),
     });
+
     return renderer;
   })());
 }
@@ -48,6 +50,7 @@ async function article_fitText(
       },
     };
     const measured = await renderer.measure(node, { width: 1200, height: 630 });
+
     if (measured.height <= maxHeight && measured.runs.every((run) => run.x + run.width <= 1037))
       return node;
   }
@@ -142,6 +145,7 @@ export async function article_renderSocialImage(article: ArticleFrontmatter, slu
   const png = await renderer.render(node, { width: 1200, height: 630, format: "png" });
   const hash = createHash("sha256").update(png).digest("hex").slice(0, 20);
   const filename = `${slug}-${hash}.png`;
+
   return {
     png,
     filename,
@@ -159,15 +163,18 @@ const generated = new Map<string, Promise<Awaited<ReturnType<typeof article_rend
 export async function article_generateSocialImage(article: ArticleFrontmatter, slug: string) {
   const key = JSON.stringify([slug, article]);
   let pending = generated.get(key);
+
   if (!pending) {
     pending = article_renderSocialImage(article, slug);
     generated.set(key, pending);
   }
   const result = await pending;
+
   await mkdir(article_socialDirectory, { recursive: true });
   await writeFile(
     new URL(encodeURIComponent(result.filename), article_socialDirectory),
     result.png,
   );
+
   return result.image;
 }

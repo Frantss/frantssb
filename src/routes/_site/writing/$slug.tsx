@@ -10,7 +10,9 @@ import { m } from "@/paraglide/messages";
 export const Route = createFileRoute("/_site/writing/$slug")({
   loader: ({ params }) => {
     const article = article_list(getLocale()).find((candidate) => candidate.slug === params.slug);
+
     if (!article) throw notFound();
+
     return article;
   },
   head: ({ loaderData, params }) => {
@@ -34,6 +36,7 @@ export const Route = createFileRoute("/_site/writing/$slug")({
         keywords: loaderData.keywords,
       },
     });
+
     return { meta: metadata.meta, links: metadata.links, scripts: metadata.scripts };
   },
   component: ArticleRoute,
@@ -43,5 +46,6 @@ function ArticleRoute() {
   const article = Route.useLoaderData();
   const localizedArticle = () =>
     article_list(getLocale()).find((candidate) => candidate.slug === article().slug) ?? article();
+
   return <ArticlePage article={localizedArticle()} />;
 }

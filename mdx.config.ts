@@ -30,6 +30,7 @@ const articleDirectory = fileURLToPath(new URL("./src/content/articles/", import
 
 const highlighter = createHighlighter({ languages: [css, html, js, json, shell, ts, tsx] });
 const theme: HighlightTheme = { ...githubLightTheme, tokens: { ...githubLightTheme.tokens } };
+
 theme.background = `light-dark(${githubLightTheme.background}, ${githubDarkTheme.background})`;
 for (const token of themeTokenClasses) {
   theme.tokens[token] =
@@ -56,10 +57,12 @@ export const mdxPlugins: PluginOption[] = [
     async load(id) {
       if (id !== resolvedMetadataId) return;
       const { metadata } = await generate();
+
       return `export default ${JSON.stringify(metadata)}`;
     },
     configureServer(server) {
       let refresh = Promise.resolve();
+
       server.watcher.add(articleDirectory);
       server.watcher.on("all", (_event, path) => {
         if (!path.startsWith(articleDirectory) || !/\.(md|mdx)$/.test(path)) return;
@@ -84,6 +87,7 @@ export const mdxPlugins: PluginOption[] = [
     enforce: "pre",
     transform(code, id) {
       if (id === resolvedMetadataId) return;
+
       return compiler.transform(code, id);
     },
   },

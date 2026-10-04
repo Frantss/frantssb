@@ -2,11 +2,13 @@ import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 
 const posthog = vi.hoisted(() => {
   const client = { capture: vi.fn() };
+
   return {
     client,
     initialize: vi.fn<() => Promise<typeof client> | undefined>(() => Promise.resolve(client)),
   };
 });
+
 vi.mock("@/client/posthog/posthog", () => ({ posthog_initialize: posthog.initialize }));
 
 beforeEach(() => {
@@ -19,6 +21,7 @@ describe("explicit analytics capture", () => {
   it("waits for one initialization and preserves event order and timestamps", async () => {
     const { analytics_capture } = await import("@/client/analytics/analytics");
     const before = Date.now();
+
     analytics_capture("first_event", { version: "1" });
     analytics_capture("second_event", { ids: ["one"] });
     await vi.waitFor(() => expect(posthog.client.capture).toHaveBeenCalledTimes(2));
@@ -37,6 +40,7 @@ describe("explicit analytics capture", () => {
   it("does not capture when PostHog is disabled", async () => {
     posthog.initialize.mockReturnValueOnce(undefined);
     const { analytics_capture } = await import("@/client/analytics/analytics");
+
     analytics_capture("first_event", {});
     await Promise.resolve();
     expect(posthog.client.capture).not.toHaveBeenCalled();
@@ -45,6 +49,7 @@ describe("explicit analytics capture", () => {
   it("preserves the source page while initialization waits across navigation", async () => {
     const originalUrl = window.location.href;
     let initialize!: (client: typeof posthog.client) => void;
+
     posthog.initialize.mockReturnValueOnce(
       new Promise((resolve) => {
         initialize = resolve;
@@ -55,6 +60,7 @@ describe("explicit analytics capture", () => {
     try {
       history.replaceState(null, "", "/writing/notes-on-boring-architecture");
       const sourceUrl = window.location.href;
+
       analytics_capture("contact_clicked", { locale: "es", placement: "header" });
       history.replaceState(null, "", "/");
       initialize(posthog.client);
@@ -83,6 +89,7 @@ describe("explicit analytics capture", () => {
   it("contains PostHog initialization and capture failures", async () => {
     posthog.initialize.mockRejectedValueOnce(new Error("unavailable"));
     const { analytics_capture } = await import("@/client/analytics/analytics");
+
     analytics_capture("first_event", {});
     await vi.waitFor(() => expect(posthog.initialize).toHaveBeenCalledOnce());
     expect(posthog.client.capture).not.toHaveBeenCalled();
