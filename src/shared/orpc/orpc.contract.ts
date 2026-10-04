@@ -1,51 +1,15 @@
-import { oc } from "@orpc/contract";
-import { openapi } from "@orpc/openapi";
-import * as v from "valibot";
-
-const articleLikes = oc
-  .input(v.object({ slug: v.pipe(v.string(), v.minLength(1)) }))
-  .output(v.object({ count: v.pipe(v.number(), v.integer(), v.minValue(0)) }))
-  .errors({ NOT_FOUND: { message: "Article not found" } });
-
-const queryInteger = v.pipe(
-  v.union([v.number(), v.pipe(v.string(), v.regex(/^\d+$/), v.toNumber())]),
-  v.safeInteger(),
-  v.minValue(0),
-);
-
-export const article_querySchema = v.object({
-  tag: v.optional(v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(100))),
-  q: v.optional(v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(200))),
-  limit: v.optional(v.pipe(queryInteger, v.minValue(1), v.maxValue(100)), 20),
-  offset: v.optional(queryInteger, 0),
-});
+import { health } from "@/shared/features/health/health.get.contract";
+import { getArticles } from "@/shared/features/articles/articles.get.contract";
+import { getArticleLikes } from "@/shared/features/articles/$slug/likes.get.contract";
+import { addArticleLike } from "@/shared/features/articles/$slug/likes.post.contract";
 
 export const contract = {
-  health: oc
-    .meta(openapi({ method: "GET", path: "/health" }))
-    .output(v.object({ status: v.literal("ok") })),
+  health,
   articles: {
-    get: oc
-      .meta(openapi({ method: "GET", path: "/articles" }))
-      .input(article_querySchema)
-      .output(
-        v.object({
-          items: v.array(
-            v.object({
-              slug: v.string(),
-              title: v.string(),
-              description: v.string(),
-              date: v.string(),
-              tags: v.array(v.string()),
-            }),
-          ),
-          total: v.pipe(v.number(), v.integer(), v.minValue(0)),
-        }),
-      )
-      .errors({ SERVICE_UNAVAILABLE: { message: "Article catalogue not indexed" } }),
+    get: getArticles,
     likes: {
-      get: articleLikes.meta(openapi({ method: "GET", path: "/articles/{slug}/likes" })),
-      add: articleLikes.meta(openapi({ method: "POST", path: "/articles/{slug}/likes" })),
+      get: getArticleLikes,
+      add: addArticleLike,
     },
   },
 };

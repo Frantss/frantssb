@@ -1,11 +1,11 @@
 import "@tanstack/solid-start/server-only";
 import { eq } from "drizzle-orm";
 import { articleLikeCounts } from "@/server/db/db.schema";
-import { requireArticle } from "@/server/features/articles/require-article";
+import { article_throwIfNotFound } from "@/server/features/articles/article-throw-if-not-found";
 import { base } from "@/server/orpc/orpc.base";
 
 export const getArticleLikes = base.articles.likes.get.handler(async ({ input, context }) => {
-  requireArticle(input.slug);
+  article_throwIfNotFound(input.slug);
   const [counter] = await context.db
     .select({ count: articleLikeCounts.count })
     .from(articleLikeCounts)
