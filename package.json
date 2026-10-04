@@ -29,6 +29,7 @@
     "db:studio": "varlock run -- drizzle-kit studio"
   },
   "dependencies": {
+    "@ark-ui/solid": "5.39.2",
     "@fontsource-variable/geist-mono": "^5.3.0",
     "@orpc/contract": "2.0.0-beta.41",
     "@orpc/openapi": "2.0.0-beta.41",
@@ -38,8 +39,6 @@
     "@tanstack/solid-router": "1.170.37",
     "@tanstack/solid-start": "1.168.56",
     "@varlock/vite-integration": "^1.5.2",
-    "@zag-js/solid": "1.44.0",
-    "@zag-js/tooltip": "1.44.0",
     "cn": "0.4.0",
     "drizzle-orm": "1.0.0-rc.4",
     "nitro": "3.0.260903-beta",

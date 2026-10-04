@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { createSignal, type JSX } from "solid-js";
 import { render } from "solid-js/web";
-import { mergeProps } from "@zag-js/solid";
 import { IconButton } from "@/client/ui/icon-button";
 import { IconLink } from "@/client/ui/icon-link";
 import { Tooltip } from "@/client/ui/tooltip";
@@ -27,7 +26,7 @@ describe("Tooltip", () => {
       <nav popover>
         <Tooltip label="Settings">
           {(triggerProps) => (
-            <button {...triggerProps} aria-label="Settings">
+            <button {...triggerProps()} aria-label="Settings">
               S
             </button>
           )}
@@ -59,7 +58,7 @@ describe("Tooltip", () => {
     const container = mount(() => (
       <Tooltip label={label()}>
         {(triggerProps) => (
-          <IconButton {...mergeProps(triggerProps, { onClick })} aria-label={label()}>
+          <IconButton {...triggerProps({ onClick })} aria-label={label()}>
             ☾
           </IconButton>
         )}
@@ -93,18 +92,14 @@ describe("Tooltip", () => {
       <>
         <Tooltip label="Profile">
           {(triggerProps) => (
-            <IconLink
-              {...mergeProps(triggerProps, { onClick })}
-              href="/profile"
-              aria-label="Profile"
-            >
+            <IconLink {...triggerProps({ onClick })} href="/profile" aria-label="Profile">
               P
             </IconLink>
           )}
         </Tooltip>
         <Tooltip label="Settings">
           {(triggerProps) => (
-            <IconButton {...triggerProps} aria-label="Settings">
+            <IconButton {...triggerProps()} aria-label="Settings">
               S
             </IconButton>
           )}

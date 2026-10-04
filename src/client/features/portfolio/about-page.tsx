@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/solid-router";
 import type { ParentProps } from "solid-js";
-import { mergeProps } from "@zag-js/solid";
 import {
   IconBrandGithub,
   IconBrandInstagram,
@@ -118,7 +117,7 @@ function ProfileLink(props: ParentProps<{ link: (typeof profile.links)[number] }
       <Tooltip label={props.link.label}>
         {(triggerProps) => (
           <IconLink
-            {...mergeProps(triggerProps, {
+            {...triggerProps({
               onClick: () =>
                 analytics_capture("profile_link_clicked", {
                   locale: getLocale(),

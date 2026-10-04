@@ -1,20 +1,16 @@
-import { createEffect, createMemo, createUniqueId, onCleanup, Show, type JSX } from "solid-js";
+import { createEffect, onCleanup, Show } from "solid-js";
 import { Portal } from "solid-js/web";
-import { mergeProps, normalizeProps, useMachine, type PropTypes } from "@zag-js/solid";
-import * as tooltip from "@zag-js/tooltip";
+import { Tooltip as ArkTooltip, useTooltip, type TooltipTriggerProps } from "@ark-ui/solid/tooltip";
 
 export function Tooltip(props: {
   label: string;
-  children: (triggerProps: PropTypes["element"]) => JSX.Element;
+  children: NonNullable<TooltipTriggerProps["asChild"]>;
 }) {
-  const service = useMachine(tooltip.machine, {
-    id: createUniqueId(),
+  const api = useTooltip({
     interactive: true,
     closeOnEscape: false,
     positioning: { placement: "bottom", strategy: "fixed", gutter: 8 },
   });
-  const api = createMemo(() => tooltip.connect(service, normalizeProps));
-  const triggerProps = mergeProps(() => api().getTriggerProps());
 
   createEffect(() => {
     if (!api().open) return;
@@ -30,30 +26,29 @@ export function Tooltip(props: {
   });
 
   return (
-    <>
-      {props.children(triggerProps)}
+    <ArkTooltip.RootProvider value={api}>
+      <ArkTooltip.Trigger asChild={props.children} />
       <Show when={api().open}>
         {/* Keep dock tooltips in the native popover's top layer. */}
         <Portal
-          mount={document.getElementById(triggerProps.id!)?.closest("[popover]") ?? document.body}
+          mount={
+            document.getElementById(api().getTriggerProps().id!)?.closest("[popover]") ??
+            document.body
+          }
         >
-          <div {...api().getPositionerProps()} class="z-30">
-            <div
-              {...api().getArrowProps()}
+          <ArkTooltip.Positioner class="z-30">
+            <ArkTooltip.Arrow
               aria-hidden="true"
               class="[--arrow-size:6px] [--arrow-background:var(--fg)]"
             >
-              <div {...api().getArrowTipProps()} class="border-t border-l border-line-strong" />
-            </div>
-            <div
-              {...api().getContentProps()}
-              class="max-w-[min(32ch,calc(100vw-1rem))] border border-line-strong bg-fg px-2 py-1 text-xs text-bg"
-            >
+              <ArkTooltip.ArrowTip class="border-t border-l border-line-strong" />
+            </ArkTooltip.Arrow>
+            <ArkTooltip.Content class="max-w-[min(32ch,calc(100vw-1rem))] border border-line-strong bg-fg px-2 py-1 text-xs text-bg">
               {props.label}
-            </div>
-          </div>
+            </ArkTooltip.Content>
+          </ArkTooltip.Positioner>
         </Portal>
       </Show>
-    </>
+    </ArkTooltip.RootProvider>
   );
 }
