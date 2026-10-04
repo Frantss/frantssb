@@ -1,4 +1,3 @@
-import { baseLocale, type Locale } from "@/paraglide/runtime";
 import metadata from "virtual:article-metadata";
 
 export type Article = {
@@ -14,6 +13,6 @@ export type Article = {
 export const article_revision = metadata.revision;
 export const article_metadata = metadata.articles;
 
-export function article_list(_locale: Locale = baseLocale): Article[] {
+export function article_list(): Article[] {
   return article_metadata;
 }

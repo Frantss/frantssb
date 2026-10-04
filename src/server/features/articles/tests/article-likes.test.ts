@@ -10,23 +10,30 @@ import { router } from "@/server/orpc/orpc.router";
 import { contract } from "@/shared/orpc/orpc.contract";
 
 vi.mock("@/lib/articles/article-metadata", () => ({
-  article_list: (locale: string) =>
-    (locale === "es" ? ["likes-test-es"] : ["likes-test-first", "likes-test-second"]).map(
-      (slug) => ({ slug, title: slug, date: "2026-10-03", body: [] }),
-    ),
+  article_list: () =>
+    ["likes-test-first", "likes-test-second"].map((slug) => ({
+      slug,
+      title: slug,
+      date: "2026-10-03",
+      body: [],
+    })),
 }));
 
 describe("article likes with PostgreSQL", () => {
   const handler = new OpenAPIHandler(router);
 
-  async function request(slug: string, method: "GET" | "POST" = "GET", body?: string) {
-    const init: RequestInit =
-      method === "POST"
-        ? { method, body, headers: body ? { "Content-Type": "application/json" } : undefined }
-        : { method };
+  async function request(
+    slug: string,
+    method: "GET" | "POST" = "GET",
+    body?: string,
+    locale = "en",
+  ) {
+    const headers = new Headers({ "Accept-Language": locale });
+    if (body) headers.set("Content-Type", "application/json");
+    const init: RequestInit = method === "POST" ? { method, body, headers } : { method, headers };
     const { response } = await handler.handle(
       new Request(`http://localhost/api/articles/${slug}/likes`, init),
-      { prefix: "/api", context: { headers: new Headers(), db } },
+      { prefix: "/api", context: { headers, db } },
     );
 
     expect(response?.status).toBe(200);
@@ -41,13 +48,7 @@ describe("article likes with PostgreSQL", () => {
   afterEach(async () => {
     await db
       .delete(articleLikeCounts)
-      .where(
-        inArray(articleLikeCounts.articleSlug, [
-          "likes-test-first",
-          "likes-test-second",
-          "likes-test-es",
-        ]),
-      );
+      .where(inArray(articleLikeCounts.articleSlug, ["likes-test-first", "likes-test-second"]));
   });
 
   afterAll(() => db.$client.end());
@@ -86,11 +87,22 @@ describe("article likes with PostgreSQL", () => {
     await expect(request("likes-test-first")).resolves.toEqual({ count: 40 });
   });
 
-  it("accepts articles published in either locale and keeps their counters separate", async () => {
+  it("uses the same article identifier and counter in every locale", async () => {
     await expect(request("likes-test-first", "POST")).resolves.toEqual({ count: 1 });
-    await expect(request("likes-test-es", "POST")).resolves.toEqual({ count: 1 });
-    await expect(request("likes-test-es", "POST")).resolves.toEqual({ count: 2 });
-    await expect(request("likes-test-first")).resolves.toEqual({ count: 1 });
+    await expect(request("likes-test-first", "POST", undefined, "es")).resolves.toEqual({
+      count: 2,
+    });
+    await expect(request("likes-test-first", "GET", undefined, "es")).resolves.toEqual({
+      count: 2,
+    });
+    await expect(request("likes-test-first")).resolves.toEqual({ count: 2 });
+    const { response } = await handler.handle(
+      new Request("http://localhost/api/articles/prueba-me-gusta-primero/likes", {
+        headers: { "Accept-Language": "es" },
+      }),
+      { prefix: "/api", context: { headers: new Headers({ "Accept-Language": "es" }), db } },
+    );
+    expect(response?.status).toBe(404);
   });
 
   it("round-trips both procedures through the typed client", async () => {

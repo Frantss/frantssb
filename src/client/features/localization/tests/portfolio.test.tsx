@@ -94,8 +94,7 @@ describe("localized portfolio", () => {
       await setLocale(locale, { reload: false });
       const container = mount(() => <WritingPage />);
 
-      expect(article_list("en")).toEqual([]);
-      expect(article_list("es")).toEqual([]);
+      expect(article_list()).toEqual([]);
       expect(container.querySelector("h1")?.textContent).toBe(
         locale === "en" ? "Writing" : "Artículos",
       );

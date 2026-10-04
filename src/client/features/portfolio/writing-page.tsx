@@ -6,21 +6,17 @@ import { ArticleDate } from "@/client/features/portfolio/article-date";
 import { ArticleTags } from "@/client/features/portfolio/article-tags";
 import { article_list } from "@/lib/articles/article-metadata";
 import { m } from "@/paraglide/messages";
-import { getLocale } from "@/paraglide/runtime";
 import { analytics_autocapture } from "@/client/analytics/analytics";
 
 export function WritingPage() {
-  const articles = () => article_list(getLocale());
+  const articles = article_list();
 
   return (
     <Page>
       <PageTitle>{m.page_writing()}</PageTitle>
-      <Show
-        when={articles().length > 0}
-        fallback={<p class="m-0 text-muted">{m.writing_empty()}</p>}
-      >
+      <Show when={articles.length > 0} fallback={<p class="m-0 text-muted">{m.writing_empty()}</p>}>
         <IndexList.Root>
-          <For each={articles()}>
+          <For each={articles}>
             {(article) => (
               <IndexList.Row>
                 <div class="grid min-w-0 gap-1.5">

@@ -5,12 +5,11 @@ import { profile } from "@/client/features/portfolio/portfolio.data";
 import { article_list } from "@/lib/articles/article-metadata";
 import { seo } from "@/shared/seo/seo";
 import { site } from "@/shared/seo/site";
-import { getLocale } from "@/paraglide/runtime";
 import { m } from "@/paraglide/messages";
 
 export const Route = createFileRoute("/_site/writing/$slug")({
   loader: async ({ params, context }) => {
-    const article = article_list(getLocale()).find((candidate) => candidate.slug === params.slug);
+    const article = article_list().find((candidate) => candidate.slug === params.slug);
 
     if (!article) throw notFound();
 
@@ -47,8 +46,6 @@ export const Route = createFileRoute("/_site/writing/$slug")({
 
 function ArticleRoute() {
   const article = Route.useLoaderData();
-  const localizedArticle = () =>
-    article_list(getLocale()).find((candidate) => candidate.slug === article().slug) ?? article();
 
-  return <ArticlePage article={localizedArticle()} />;
+  return <ArticlePage article={article()} />;
 }
