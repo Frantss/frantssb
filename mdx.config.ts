@@ -1,6 +1,4 @@
 import { fileURLToPath } from "node:url";
-import { readFile } from "node:fs/promises";
-import { basename } from "node:path";
 import type { PluginOption } from "vite-plus";
 import mdx from "@mdx-js/rollup";
 import remarkFrontmatter from "remark-frontmatter";
@@ -20,14 +18,15 @@ import { githubLightTheme } from "@tanstack/highlight/themes/github-light";
 import { githubDarkTheme } from "@tanstack/highlight/themes/github-dark";
 import { tsImport } from "tsx/esm/api";
 
-const { article_parseFrontmatter } = (await tsImport(
-  "@/lib/articles/article-frontmatter",
+const { article_generate } = (await tsImport(
+  "@/lib/articles/article-generate",
   import.meta.url,
-)) as typeof import("@/lib/articles/article-frontmatter");
-const { article_generateSocialImage } = (await tsImport(
-  "@/lib/articles/article-social-image",
-  import.meta.url,
-)) as typeof import("@/lib/articles/article-social-image");
+)) as typeof import("@/lib/articles/article-generate");
+let generation: ReturnType<typeof article_generate> | undefined;
+const generate = () => (generation ??= article_generate());
+const metadataId = "virtual:article-metadata";
+const resolvedMetadataId = `\0${metadataId}`;
+const articleDirectory = fileURLToPath(new URL("./src/content/articles/", import.meta.url));
 
 const highlighter = createHighlighter({ languages: [css, html, js, json, shell, ts, tsx] });
 const theme: HighlightTheme = { ...githubLightTheme, tokens: { ...githubLightTheme.tokens } };
@@ -49,26 +48,42 @@ const compiler = mdx({
 
 export const mdxPlugins: PluginOption[] = [
   {
-    name: "mdx-frontmatter",
+    name: "article-metadata",
     enforce: "pre",
+    resolveId(id) {
+      if (id === metadataId) return resolvedMetadataId;
+    },
     async load(id) {
-      if (!id.endsWith("?frontmatter")) return;
-      const path = id.slice(0, -"?frontmatter".length);
-      const source = await readFile(path, "utf8");
-      const frontmatter = article_parseFrontmatter(source, path);
-      const socialImage = await article_generateSocialImage(
-        frontmatter,
-        basename(path).replace(/\.(md|mdx)$/, ""),
-      );
-      return `export default ${JSON.stringify({ ...frontmatter, socialImage })}`;
+      if (id !== resolvedMetadataId) return;
+      const { metadata } = await generate();
+      return `export default ${JSON.stringify(metadata)}`;
+    },
+    configureServer(server) {
+      let refresh = Promise.resolve();
+      server.watcher.add(articleDirectory);
+      server.watcher.on("all", (_event, path) => {
+        if (!path.startsWith(articleDirectory) || !/\.(md|mdx)$/.test(path)) return;
+        refresh = refresh
+          .then(async () => {
+            await generation?.catch(() => undefined);
+            generation = undefined;
+            await generate();
+            for (const environment of Object.values(server.environments)) {
+              environment.moduleGraph.invalidateAll();
+              environment.hot.send({ type: "full-reload" });
+            }
+          })
+          .catch((error) => {
+            server.config.logger.error(String(error));
+          });
+      });
     },
   },
   {
     ...compiler,
     enforce: "pre",
     transform(code, id) {
-      // The MDX plugin strips queries before checking extensions, including metadata-only imports.
-      if (id.endsWith("?frontmatter")) return;
+      if (id === resolvedMetadataId) return;
       return compiler.transform(code, id);
     },
   },

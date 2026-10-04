@@ -14,6 +14,7 @@ export default defineRailway(() => {
   const frantssb = service("frantssb", {
     build: { builder: "RAILPACK", buildCommand: "pnpm build" },
     deploy: {
+      preDeployCommand: ["pnpm db:migrate && pnpm articles:sync"],
       startCommand: "pnpm start",
       healthcheckPath: "/",
       healthcheckTimeout: 120,

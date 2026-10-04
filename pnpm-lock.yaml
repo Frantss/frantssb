@@ -249,6 +249,9 @@ importers:
       '@inlang/paraglide-js':
         specifier: 2.25.4
         version: 2.25.4(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)
+      '@mdx-js/mdx':
+        specifier: 3.1.1
+        version: 3.1.1
       '@mdx-js/rollup':
         specifier: ^3.1.1
         version: 3.1.1(rollup@4.63.5)
@@ -279,6 +282,9 @@ importers:
       drizzle-kit:
         specifier: 1.0.0-rc.4
         version: 1.0.0-rc.4
+      esbuild:
+        specifier: 0.25.12
+        version: 0.25.12
       knip:
         specifier: 6.39.0
         version: 6.39.0
@@ -2756,6 +2762,7 @@ packages:
 
   '@zag-js/utils@1.44.0':
     resolution: {integrity: sha512-XO4UoPSRBE/CQ781eSqYELOzsc8Bch33340L6/iVEP+5rW8SL5yCyKewu9w0t0bG1Y+EETLlmvswDjI252t1Vw==}
+
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -3895,6 +3902,7 @@ packages:
 
   property-information@7.2.0:
     resolution: {integrity: sha512-IAtzIB6sUiWaJYrX9smp3V46pBGbBeLFRGdh25kg1334VcBlD8HzhPeNIWQH9zhGmo2itIe25EHt9dQP7G5hmg==}
+
   proxy-compare@3.0.1:
     resolution: {integrity: sha512-V9plBAt3qjMlS1+nC8771KNf6oJ12gExvaxnNzN/9yVRLdTv/lc+oJlnSzrdYDAvBfTStPCoiaCOTmTs0adv7Q==}
 
@@ -6259,6 +6267,7 @@ snapshots:
       csstype: 3.2.3
 
   '@zag-js/utils@1.44.0': {}
+
   acorn-jsx@5.3.2(acorn@8.18.0):
     dependencies:
       acorn: 8.18.0
@@ -7581,6 +7590,7 @@ snapshots:
       react-is: 17.0.2
 
   property-information@7.2.0: {}
+
   proxy-compare@3.0.1: {}
 
   query-selector-shadow-dom@1.0.1: {}

@@ -1,0 +1,357 @@
+{
+  "version": "8",
+  "dialect": "postgres",
+  "id": "2129c0e1-d9eb-4b85-8d21-5ef14831e7e9",
+  "prevIds": ["1b3335a4-0f4a-4082-b975-5ded8bcfd2ce"],
+  "ddl": [
+    {
+      "isRlsEnabled": false,
+      "name": "article_catalogues",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "article_index",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "isRlsEnabled": false,
+      "name": "article_like_counts",
+      "entityType": "tables",
+      "schema": "public"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "revision",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_catalogues"
+    },
+    {
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "name": "indexed_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_catalogues"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "article_count",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_catalogues"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "revision",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "slug",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "title",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "description",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "date",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "published_at",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 1,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "tags",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 1,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "keywords",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "language",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "body_text",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "tsvector",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "search_vector",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "name": "article_slug",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_like_counts"
+    },
+    {
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "name": "count",
+      "entityType": "columns",
+      "schema": "public",
+      "table": "article_like_counts"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "revision",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "published_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "slug",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "name": "article_index_date",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "tags",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "gin",
+      "concurrently": false,
+      "name": "article_index_tags",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "search_vector",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "gin",
+      "concurrently": false,
+      "name": "article_index_search",
+      "entityType": "indexes",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "nameExplicit": false,
+      "columns": ["revision"],
+      "schemaTo": "public",
+      "tableTo": "article_catalogues",
+      "columnsTo": ["revision"],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "name": "article_index_revision_article_catalogues_revision_fkey",
+      "entityType": "fks",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "columns": ["revision", "slug"],
+      "nameExplicit": false,
+      "name": "article_index_pkey",
+      "entityType": "pks",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "columns": ["revision"],
+      "nameExplicit": false,
+      "name": "article_catalogues_pkey",
+      "schema": "public",
+      "table": "article_catalogues",
+      "entityType": "pks"
+    },
+    {
+      "columns": ["article_slug"],
+      "nameExplicit": false,
+      "name": "post_like_counts_pkey",
+      "schema": "public",
+      "table": "article_like_counts",
+      "entityType": "pks"
+    },
+    {
+      "value": "\"article_count\" >= 0",
+      "name": "article_catalogues_count_nonnegative",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "article_catalogues"
+    },
+    {
+      "value": "\"language\" in ('en', 'es')",
+      "name": "article_index_language",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "article_index"
+    },
+    {
+      "value": "\"count\" >= 0",
+      "name": "article_like_counts_count_nonnegative",
+      "entityType": "checks",
+      "schema": "public",
+      "table": "article_like_counts"
+    }
+  ],
+  "renames": []
+}

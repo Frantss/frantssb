@@ -6,6 +6,7 @@ export type ArticleFrontmatter = {
   date: string;
   tags: string[];
   keywords?: string[];
+  language?: "en" | "es";
 };
 
 export function article_parseFrontmatter(source: string, path: string): ArticleFrontmatter {
@@ -40,11 +41,15 @@ export function article_parseFrontmatter(source: string, path: string): ArticleF
   ) {
     throw new Error(`${path}: expected frontmatter keywords to be a list of non-empty strings`);
   }
+  if ("language" in frontmatter && frontmatter.language !== "en" && frontmatter.language !== "es") {
+    throw new Error(`${path}: expected frontmatter language to be en or es`);
+  }
   return {
     title: frontmatter.title,
     description: frontmatter.description,
     date: frontmatter.date,
     tags: "tags" in frontmatter ? (frontmatter.tags as string[]) : [],
     ...("keywords" in frontmatter ? { keywords: frontmatter.keywords as string[] } : {}),
+    ...("language" in frontmatter ? { language: frontmatter.language as "en" | "es" } : {}),
   };
 }
