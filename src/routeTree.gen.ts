@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteRouteImport } from './routes/_site/route'
+import { Route as LlmDottxtRouteImport } from './routes/llm[.]txt'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
@@ -22,6 +23,11 @@ import { Route as SiteWritingSlugRouteImport } from './routes/_site/writing/$slu
 
 const SiteRouteRoute = SiteRouteRouteImport.update({
   id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmDottxtRoute = LlmDottxtRouteImport.update({
+  id: '/llm.txt',
+  path: '/llm.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResumeRoute = ResumeRouteImport.update({
@@ -72,6 +78,7 @@ const SiteWritingSlugRoute = SiteWritingSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/llm.txt': typeof LlmDottxtRoute
   '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/education': typeof SiteEducationRoute
@@ -82,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/writing/': typeof SiteWritingIndexRoute
 }
 export interface FileRoutesByTo {
+  '/llm.txt': typeof LlmDottxtRoute
   '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/education': typeof SiteEducationRoute
@@ -95,6 +103,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteRouteWithChildren
+  '/llm.txt': typeof LlmDottxtRoute
   '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_site/education': typeof SiteEducationRoute
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/llm.txt'
     | '/resume'
     | '/sitemap.xml'
     | '/education'
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/writing/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/llm.txt'
     | '/resume'
     | '/sitemap.xml'
     | '/education'
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_site'
+    | '/llm.txt'
     | '/resume'
     | '/sitemap.xml'
     | '/_site/education'
@@ -144,6 +156,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   SiteRouteRoute: typeof SiteRouteRouteWithChildren
+  LlmDottxtRoute: typeof LlmDottxtRoute
   ResumeRoute: typeof ResumeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiSplatRoute: typeof ApiSplatRoute
@@ -156,6 +169,13 @@ declare module '@tanstack/solid-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof SiteRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llm.txt': {
+      id: '/llm.txt'
+      path: '/llm.txt'
+      fullPath: '/llm.txt'
+      preLoaderRoute: typeof LlmDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resume': {
@@ -248,6 +268,7 @@ const SiteRouteRouteWithChildren = SiteRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   SiteRouteRoute: SiteRouteRouteWithChildren,
+  LlmDottxtRoute: LlmDottxtRoute,
   ResumeRoute: ResumeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiSplatRoute: ApiSplatRoute,
