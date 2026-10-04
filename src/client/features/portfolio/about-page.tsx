@@ -11,7 +11,8 @@ import { links_openInNewTab } from "@/client/lib/links";
 import { IconLink } from "@/client/ui/icon-link";
 import { Tooltip } from "@/client/ui/tooltip";
 import { LocalTime } from "@/client/ui/local-time";
-import { Page, PageTitle, Paragraphs } from "@/client/ui/page";
+import { LocalizedMessage } from "@/client/ui/localized-message";
+import { Page, PageTitle } from "@/client/ui/page";
 import { portfolio_bio, profile } from "./portfolio.data";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
@@ -40,7 +41,11 @@ export function AboutPage() {
           </a>
         </Facts.Item>
       </Facts.List>
-      <Paragraphs items={bio().about} />
+      <p class="m-0">{m.profile_about_intro()}</p>
+      <p class="m-0">
+        <LocalizedMessage message={m.profile_about_background} />
+      </p>
+      <p class="m-0">{m.profile_about_personal()}</p>
       <p class="m-0">
         {m.about_writing_intro()}{" "}
         <Link

@@ -191,6 +191,9 @@ importers:
       '@fontsource-variable/geist-mono':
         specifier: ^5.3.0
         version: 5.3.0
+      '@inlang/paraglide-js-solid':
+        specifier: 1.0.3
+        version: 1.0.3(@inlang/paraglide-js@2.25.4(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2))(solid-js@1.9.15)
       '@orpc/contract':
         specifier: 2.0.0-beta.41
         version: 2.0.0-beta.41
@@ -887,6 +890,12 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
+
+  '@inlang/paraglide-js-solid@1.0.3':
+    resolution: {integrity: sha512-hIiK0eBUgd58YkJl7FO6gI4Asf/x2p8zFMj5ZqKF034z8U1fd+3uPoM9wrUqFkxm2cQwRP6ocQigAoVv8D8X8w==}
+    peerDependencies:
+      '@inlang/paraglide-js': '>=2.11.0 <3'
+      solid-js: ^1.8.0
 
   '@inlang/paraglide-js@2.25.4':
     resolution: {integrity: sha512-z8OoKAcPT0DwlfTQ/SvaPBQILrtmkl4lUPCSQPjKxqERRp1n7W7a2eKi7EvfylatWivSZFGHGjlB6Ad20w0nzw==}
@@ -5412,6 +5421,11 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.4.3': {}
+
+  '@inlang/paraglide-js-solid@1.0.3(@inlang/paraglide-js@2.25.4(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2))(solid-js@1.9.15)':
+    dependencies:
+      '@inlang/paraglide-js': 2.25.4(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)
+      solid-js: 1.9.15
 
   '@inlang/paraglide-js@2.25.4(@voidzero-dev/vite-plus-core@1.0.0(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)(typescript@7.0.2)(yaml@2.9.1))(typescript@7.0.2)':
     dependencies:
