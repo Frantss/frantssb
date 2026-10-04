@@ -4,6 +4,7 @@ import { render } from "solid-js/web";
 import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { ArticleLikeButton } from "@/client/features/portfolio/article-like-button";
 import { orpc } from "@/client/orpc/orpc.query";
+import { ToastProvider } from "@/client/ui/toast";
 import { setLocale } from "@/paraglide/runtime";
 import "@/client/styles/global.css";
 
@@ -11,6 +12,7 @@ let dispose: (() => void) | undefined;
 
 afterEach(async () => {
   dispose?.();
+  vi.useRealTimers();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
   localStorage.removeItem("article:liked:first");
@@ -34,7 +36,9 @@ function mount(size: "sm" | "md" = "md") {
   const stop = render(
     () => (
       <QueryClientProvider client={queryClient}>
-        <ArticleLikeButton slug={slug()} size={size} />
+        <ToastProvider>
+          <ArticleLikeButton slug={slug()} size={size} />
+        </ToastProvider>
       </QueryClientProvider>
     ),
     container,
@@ -50,6 +54,54 @@ function mount(size: "sm" | "md" = "md") {
 }
 
 describe("article like button", () => {
+  it("shows a cooldown for a rejected like, keeps the count and heart unchanged, and waits for another click", async () => {
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce(Response.json({ count: 4 }))
+      .mockImplementationOnce(async () =>
+        Response.json(
+          {
+            defined: true,
+            code: "TOO_MANY_REQUESTS",
+            message: "Too many requests",
+            data: { limit: 30, remaining: 0, reset: Date.now() + 2000 },
+          },
+          { status: 429 },
+        ),
+      )
+      .mockResolvedValueOnce(Response.json({ count: 5 }));
+
+    vi.stubGlobal("fetch", fetch);
+    const { container } = mount();
+
+    await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("4"));
+    vi.useFakeTimers({ toFake: ["Date", "setTimeout", "clearTimeout"] });
+    const button = container.querySelector("button")!;
+
+    button.click();
+    await vi.waitFor(() => expect(button.disabled).toBe(true));
+    expect(document.querySelector("[data-part='title']")?.textContent).toContain("Try again in 2s");
+    expect(container.querySelector("[role='alert']")).toBeNull();
+    expect(button.textContent).toBe("4");
+    expect(button.querySelector(".tabler-icon-heart-filled")).toBeNull();
+    expect(localStorage.getItem("article:liked:first")).toBeNull();
+    button.click();
+    expect(fetch).toHaveBeenCalledTimes(2);
+    document.querySelector<HTMLButtonElement>("[data-part='close-trigger']")!.click();
+    await vi.advanceTimersByTimeAsync(200);
+    expect(
+      document.querySelector("[data-scope='toast'][data-part='root']")?.getAttribute("data-state"),
+    ).toBe("closed");
+    expect(button.disabled).toBe(true);
+    await vi.advanceTimersByTimeAsync(1800);
+    expect(button.disabled).toBe(false);
+    expect(fetch).toHaveBeenCalledTimes(2);
+    button.click();
+    await vi.waitFor(() => expect(button.textContent).toBe("5"));
+    expect(button.querySelector(".tabler-icon-heart-filled")).not.toBeNull();
+    expect(container.querySelector("[role='alert']")).toBeNull();
+  });
+
   it.each(["sm", "md"] as const)(
     "replays the heart animation after each successful like (%s)",
     async (size) => {

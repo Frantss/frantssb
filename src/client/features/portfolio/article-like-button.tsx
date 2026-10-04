@@ -11,6 +11,7 @@ import {
   type ComponentProps,
 } from "solid-js";
 import { orpc } from "@/client/orpc/orpc.query";
+import { createRateLimitCooldown } from "@/client/orpc/orpc.ratelimit";
 import { IconButton } from "@/client/ui/icon-button";
 import { cn } from "@/client/lib/cn";
 import { article_likesQueryOptions } from "@/client/features/portfolio/article-likes.query";
@@ -21,15 +22,8 @@ export function ArticleLikeButton(props: { slug: string; size?: "sm" | "md" }) {
     <Show when={props.slug} keyed>
       {(slug) => (
         <ErrorBoundary
-          fallback={(_error, reset) => (
-            <div class="grid justify-items-end gap-2">
-              <LikeButton size={props.size} aria-label={m.article_likes_retry()} onClick={reset}>
-                {m.article_likes_retry()}
-              </LikeButton>
-              <p role="alert" class="m-0 max-w-[28ch] text-right text-xs text-muted">
-                {m.article_likes_load_error()}
-              </p>
-            </div>
+          fallback={(error, reset) => (
+            <ArticleLikesError error={error} reset={reset} size={props.size} />
           )}
         >
           <Suspense
@@ -47,8 +41,33 @@ export function ArticleLikeButton(props: { slug: string; size?: "sm" | "md" }) {
   );
 }
 
+function ArticleLikesError(props: { error: unknown; reset: () => void; size?: "sm" | "md" }) {
+  const cooldown = createRateLimitCooldown();
+
+  onMount(() => cooldown.handle(props.error));
+
+  return (
+    <div class="grid justify-items-end gap-2">
+      <LikeButton
+        size={props.size}
+        disabled={cooldown.remaining() > 0}
+        aria-label={m.article_likes_retry()}
+        onClick={props.reset}
+      >
+        {m.article_likes_retry()}
+      </LikeButton>
+      <Show when={!cooldown.limited()}>
+        <p role="alert" class="m-0 max-w-[28ch] text-right text-xs text-muted">
+          {m.article_likes_load_error()}
+        </p>
+      </Show>
+    </div>
+  );
+}
+
 function ArticleLikeCounter(props: { slug: string; size?: "sm" | "md" }) {
   const queryClient = useQueryClient();
+  const cooldown = createRateLimitCooldown();
   const [failed, setFailed] = createSignal(false);
   const [liked, setLiked] = createSignal(false);
   const [animationKey, setAnimationKey] = createSignal(1);
@@ -65,6 +84,7 @@ function ArticleLikeCounter(props: { slug: string; size?: "sm" | "md" }) {
   });
 
   async function addLike() {
+    if (cooldown.remaining()) return;
     const input = { slug: props.slug };
     const queryKey = orpc.articles.likes.get.queryKey({ input });
 
@@ -76,8 +96,8 @@ function ArticleLikeCounter(props: { slug: string; size?: "sm" | "md" }) {
       queryClient.setQueryData(queryKey, (previous) => ({
         count: Math.max(previous?.count ?? 0, output.count),
       }));
-    } catch {
-      setFailed(true);
+    } catch (error) {
+      setFailed(!cooldown.handle(error));
 
       return;
     }
@@ -96,6 +116,7 @@ function ArticleLikeCounter(props: { slug: string; size?: "sm" | "md" }) {
         size={props.size}
         liked={liked()}
         animationKey={animationKey()}
+        disabled={cooldown.remaining() > 0}
         aria-label={m.article_like({ count: query.data?.count ?? 0 })}
         aria-describedby={failed() ? errorId : undefined}
         onClick={addLike}

@@ -1,6 +1,7 @@
 import { oc } from "@orpc/contract";
 import { openapi } from "@orpc/openapi";
 import * as v from "valibot";
+import { rateLimitErrors } from "@/shared/orpc/orpc-errors.contract";
 
 const queryInteger = v.pipe(
   v.union([v.number(), v.pipe(v.string(), v.regex(/^\d+$/), v.toNumber())]),
@@ -32,4 +33,7 @@ export const getArticles = oc
       total: v.pipe(v.number(), v.integer(), v.minValue(0)),
     }),
   )
-  .errors({ SERVICE_UNAVAILABLE: { message: "Article catalogue not indexed" } });
+  .errors({
+    ...rateLimitErrors,
+    SERVICE_UNAVAILABLE: { message: "Article catalogue not indexed" },
+  });

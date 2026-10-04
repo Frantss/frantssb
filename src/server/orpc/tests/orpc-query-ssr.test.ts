@@ -34,14 +34,20 @@ describe("oRPC query options during SSR", () => {
       await expect(queryClient.fetchQuery(orpc.health.queryOptions())).resolves.toEqual({
         status: "ok",
       });
-      expect(createContext).toHaveBeenNthCalledWith(1, current.request.headers);
+      expect(createContext).toHaveBeenNthCalledWith(1, {
+        headers: current.request.headers,
+        source: "ssr",
+      });
       current.request = new Request("https://second.example/projects", {
         headers: { "x-request-id": "second" },
       });
       await expect(queryClient.fetchQuery(orpc.health.queryOptions())).resolves.toEqual({
         status: "ok",
       });
-      expect(createContext).toHaveBeenNthCalledWith(2, current.request.headers);
+      expect(createContext).toHaveBeenNthCalledWith(2, {
+        headers: current.request.headers,
+        source: "ssr",
+      });
       expect(fetch).not.toHaveBeenCalled();
     } finally {
       queryClient.clear();

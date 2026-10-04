@@ -15,7 +15,7 @@ const getClient = createIsomorphicFn()
   )
   .server(() =>
     createRouterClient(router, {
-      context: () => createContext(getRequestHeaders()),
+      context: () => createContext({ headers: getRequestHeaders(), source: "ssr" }),
     }),
   );
 

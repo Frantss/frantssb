@@ -1,6 +1,7 @@
 import { Link, useNavigate, useRouterState, useSearch } from "@tanstack/solid-router";
 import { useQuery } from "@tanstack/solid-query";
-import { For, Show, Suspense } from "solid-js";
+import { createEffect, For, Show, Suspense } from "solid-js";
+import { createRateLimitCooldown } from "@/client/orpc/orpc.ratelimit";
 import { IndexList } from "@/client/ui/index-list";
 import { Page, PageTitle } from "@/client/ui/page";
 import { ArticleDate } from "@/client/features/portfolio/article-date";
@@ -34,9 +35,12 @@ function WritingArticles() {
   const navigate = useNavigate();
   const isNavigating = useRouterState({ select: (state) => state.isLoading });
   const query = useQuery(() => article_searchQueryOptions(search()));
+  const cooldown = createRateLimitCooldown();
   const tags = [...new Set(article_list().flatMap((article) => article.tags))].sort();
   const offset = () => search().offset ?? 0;
   const pending = () => isNavigating() || query.isFetching;
+
+  createEffect(() => cooldown.handle(query.error));
 
   function change(next: ArticleSearch, replace = false) {
     void navigate({
@@ -61,12 +65,15 @@ function WritingArticles() {
         <div class="grid gap-4" aria-busy={pending()}>
           <Show when={query.isError}>
             <div class="flex flex-wrap items-center gap-2">
-              <p role="alert" class="m-0 text-sm text-muted">
-                {m.writing_search_error()}
-              </p>
+              <Show when={!cooldown.limited()}>
+                <p role="alert" class="m-0 text-sm text-muted">
+                  {m.writing_search_error()}
+                </p>
+              </Show>
               <button
                 type="button"
-                class="cursor-pointer border border-line-strong bg-transparent px-2 py-1 font-[inherit] text-xs text-muted hover:text-fg"
+                disabled={cooldown.remaining() > 0}
+                class="cursor-pointer border border-line-strong bg-transparent px-2 py-1 font-[inherit] text-xs text-muted hover:text-fg disabled:cursor-wait"
                 onClick={() => void query.refetch()}
               >
                 {m.writing_retry()}

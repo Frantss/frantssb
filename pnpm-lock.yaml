@@ -203,6 +203,9 @@ importers:
       '@orpc/openapi':
         specifier: 2.0.0-beta.41
         version: 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
+      '@orpc/ratelimit':
+        specifier: 2.0.0-beta.41
+        version: 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
       '@orpc/server':
         specifier: 2.0.0-beta.41
         version: 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
@@ -1051,6 +1054,17 @@ packages:
       '@types/swagger-ui':
         optional: true
       swagger-ui:
+        optional: true
+
+  '@orpc/ratelimit@2.0.0-beta.41':
+    resolution: {integrity: sha512-gAg6/MCpyGHEOeTeh7FgzN7y22zjk1JwSmCDIMno8k7UxDZDmY3YNo3QsfFtmaweXVHJgA4soeKa900hLZahZg==}
+    peerDependencies:
+      '@upstash/ratelimit': '>=2.0.8'
+      redis: '>=6.0.0'
+    peerDependenciesMeta:
+      '@upstash/ratelimit':
+        optional: true
+      redis:
         optional: true
 
   '@orpc/server@2.0.0-beta.41':
@@ -5696,6 +5710,15 @@ snapshots:
       '@standard-server/core': 0.10.0
       '@standard-server/fetch': 0.10.0
       rou3: 0.9.2
+    transitivePeerDependencies:
+      - crossws
+      - fastify
+
+  '@orpc/ratelimit@2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))':
+    dependencies:
+      '@orpc/server': 2.0.0-beta.41(crossws@0.4.12(srvx@1.0.5))
+      '@orpc/shared': 2.0.0-beta.41
+      '@standard-server/core': 0.10.0
     transitivePeerDependencies:
       - crossws
       - fastify

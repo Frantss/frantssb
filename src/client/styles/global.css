@@ -142,6 +142,14 @@
 }
 
 @layer components {
+  .toast {
+    translate: var(--x) var(--y);
+    scale: var(--scale);
+    z-index: var(--z-index);
+    height: var(--height);
+    opacity: var(--opacity);
+  }
+
   .article-body {
     overflow-wrap: anywhere;
   }
@@ -211,6 +219,14 @@
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    .toast {
+      transition:
+        translate 200ms,
+        scale 200ms,
+        opacity 200ms,
+        height 200ms;
+    }
+
     .article-like-heart {
       animation: article-like-heart 400ms ease-out;
     }
