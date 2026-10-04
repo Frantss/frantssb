@@ -5,6 +5,7 @@ export function createSitemap(articles: readonly Pick<Article, "slug">[]) {
   const paths = [
     "/",
     "/work",
+    "/education",
     "/projects",
     "/writing",
     ...articles.map((article) => `/writing/${encodeURIComponent(article.slug)}`),

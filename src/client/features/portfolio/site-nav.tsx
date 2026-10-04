@@ -11,6 +11,7 @@ import { analytics_autocapture } from "@/client/analytics/analytics";
 const pages = [
   { to: "/", label: m.nav_about },
   { to: "/work", label: m.nav_work },
+  { to: "/education", label: m.nav_education },
   { to: "/projects", label: m.nav_projects },
   { to: "/writing", label: m.nav_writing },
 ] as const;

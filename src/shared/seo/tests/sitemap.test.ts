@@ -9,6 +9,7 @@ describe("sitemap", () => {
     expect(urls).toEqual([
       "https://frantss.uy/",
       "https://frantss.uy/work",
+      "https://frantss.uy/education",
       "https://frantss.uy/projects",
       "https://frantss.uy/writing",
       "https://frantss.uy/writing/hello-world",
@@ -19,7 +20,7 @@ describe("sitemap", () => {
   });
 
   it("serves the public pages when there are no articles", () => {
-    expect(createSitemap([]).match(/<url>/g)).toHaveLength(4);
+    expect(createSitemap([]).match(/<url>/g)).toHaveLength(5);
   });
 
   it("keeps reserved characters inside the article slug and escapes XML text", () => {

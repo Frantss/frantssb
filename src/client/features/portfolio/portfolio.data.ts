@@ -1,4 +1,4 @@
-// Profile and work details from LinkedIn; education is a placeholder.
+// Profile, work, and education details from LinkedIn.
 
 import { m } from "@/paraglide/messages";
 import type { Locale } from "@/paraglide/runtime";
@@ -237,7 +237,27 @@ export function portfolio_education(locale: Locale) {
     {
       school: m.education_school({}, options),
       degree: m.education_degree({}, options),
-      years: "2015–2019",
+      level: m.education_major_level({}, options),
+      years: "2022",
+    },
+    {
+      school: "The Silesian University of Technology",
+      degree: m.education_degree({}, options),
+      level: m.education_major_level({}, options),
+      years: "2019",
+      description: m.education_erasmus_description({}, options),
+    },
+    {
+      school: m.education_school({}, options),
+      degree: m.education_analyst_degree({}, options),
+      level: m.education_intermediate_level({}, options),
+      years: "2019",
+    },
+    {
+      school: "Alianza Cultural Uruguay-Estados Unidos",
+      degree: m.education_english_certificate({}, options),
+      field: m.education_english_field({}, options),
+      years: "2018",
     },
   ];
 }
