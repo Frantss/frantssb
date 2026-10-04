@@ -39,6 +39,7 @@
     "@orpc/tanstack-query": "2.0.0-beta.41",
     "@tabler/icons-solidjs": "3.48.0",
     "@tailwindcss/vite": "^4.3.3",
+    "@tanstack/solid-pacer": "0.23.0",
     "@tanstack/solid-query": "5.104.1",
     "@tanstack/solid-router": "1.170.37",
     "@tanstack/solid-router-ssr-query": "1.167.3",
