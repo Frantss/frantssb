@@ -249,13 +249,18 @@ export function portfolio_education() {
   ];
 }
 
-export const stack = [
-  "TypeScript",
-  "Solid",
-  "React",
-  "Node.js",
-  "Postgres",
-  "Tailwind CSS",
-  "Vite",
-  "Docker",
-];
+export function portfolio_skills() {
+  return [
+    { label: m.resume_skills_languages(), items: ["TypeScript", "JavaScript", "C#", "Python"] },
+    {
+      label: m.resume_skills_frontend(),
+      items: ["React", "Next.js", "SolidJS", "Tailwind CSS", m.resume_skills_accessibility()],
+    },
+    {
+      label: m.resume_skills_backend(),
+      items: ["GraphQL", "REST", "Node.js", "Docker", m.resume_skills_observability()],
+    },
+    { label: m.resume_skills_data(), items: ["PostgreSQL", "Redis"] },
+    { label: m.resume_skills_cloud(), items: ["Docker", "Railway", "AWS", "Terraform"] },
+  ];
+}
