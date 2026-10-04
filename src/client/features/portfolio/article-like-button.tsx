@@ -135,8 +135,9 @@ function LikeButton(
       <Show when={local.animationKey ?? 1} keyed>
         {(key) => (
           <span
-            class={cn("inline-flex shrink-0", local.size === "sm" ? "size-3.5" : "size-[18px]")}
-            classList={{ "article-like-heart": key > 1 }}
+            class={cn("inline-flex shrink-0", local.size === "sm" ? "size-3.5" : "size-[18px]", {
+              "article-like-heart": key > 1,
+            })}
             aria-hidden="true"
           >
             <Show when={local.liked} fallback={<IconHeart size={local.size === "sm" ? 14 : 18} />}>

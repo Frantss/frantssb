@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { ArticleLikeButton } from "@/client/features/portfolio/article-like-button";
 import { orpc } from "@/client/orpc/orpc.query";
 import { setLocale } from "@/paraglide/runtime";
+import "@/client/styles/global.css";
 
 let dispose: (() => void) | undefined;
 
@@ -24,7 +25,7 @@ function deferred<T>() {
   return { promise, resolve: (value: T) => resolve(value) };
 }
 
-function mount() {
+function mount(size: "sm" | "md" = "md") {
   const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 60_000 } } });
   const [slug, setSlug] = createSignal("first");
   const container = document.createElement("div");
@@ -33,7 +34,7 @@ function mount() {
   const stop = render(
     () => (
       <QueryClientProvider client={queryClient}>
-        <ArticleLikeButton slug={slug()} />
+        <ArticleLikeButton slug={slug()} size={size} />
       </QueryClientProvider>
     ),
     container,
@@ -49,6 +50,42 @@ function mount() {
 }
 
 describe("article like button", () => {
+  it.each(["sm", "md"] as const)(
+    "replays the heart animation after each successful like (%s)",
+    async (size) => {
+      localStorage.setItem("article:liked:first", "true");
+      const fetch = vi
+        .fn()
+        .mockResolvedValueOnce(Response.json({ count: 4 }))
+        .mockResolvedValueOnce(Response.json({ count: 5 }))
+        .mockResolvedValueOnce(Response.json({ count: 6 }));
+
+      vi.stubGlobal("fetch", fetch);
+      const { container } = mount(size);
+
+      await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("4"));
+      const button = container.querySelector("button")!;
+      const initialHeart = button.querySelector("span")!;
+
+      expect(getComputedStyle(initialHeart).animationName).toBe("none");
+      button.click();
+      await vi.waitFor(() => expect(button.textContent).toBe("5"));
+      const firstHeart = button.querySelector("span")!;
+      const firstAnimation = firstHeart.getAnimations()[0];
+
+      expect(getComputedStyle(firstHeart).animationName).toBe("article-like-heart");
+      expect(firstAnimation).toBeDefined();
+      button.click();
+      await vi.waitFor(() => expect(button.textContent).toBe("6"));
+      const secondHeart = button.querySelector("span")!;
+      const secondAnimation = secondHeart.getAnimations()[0];
+
+      expect(getComputedStyle(secondHeart).animationName).toBe("article-like-heart");
+      expect(secondAnimation).toBeDefined();
+      expect(secondAnimation).not.toBe(firstAnimation);
+    },
+  );
+
   it("loads zero and accepts every click while responses arrive out of order", async () => {
     const initial = deferred<Response>();
     const first = deferred<Response>();
