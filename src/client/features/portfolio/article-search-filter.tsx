@@ -34,7 +34,7 @@ export function ArticleSearchFilter(props: {
   }
 
   return (
-    <div class="grid gap-3">
+    <div class="grid">
       <form
         role="search"
         class="flex items-center gap-2"
@@ -80,36 +80,44 @@ export function ArticleSearchFilter(props: {
         id={filtersId}
         role="group"
         aria-label={m.writing_filter_by_tag()}
-        hidden={!expanded()}
-        class={cn("flex flex-wrap gap-1.5", { hidden: !expanded() })}
+        aria-hidden={!expanded()}
+        inert={!expanded()}
+        class={cn(
+          "-mx-1 grid transition-[grid-template-rows,visibility] duration-200 ease-out motion-reduce:transition-none",
+          expanded() ? "visible grid-rows-[1fr]" : "invisible grid-rows-[0fr]",
+        )}
       >
-        <For each={["", ...props.tags]}>
-          {(tag) => {
-            const selected = () => (props.search.tag ?? "") === tag;
+        <div class="min-h-0 overflow-hidden">
+          <div class="flex flex-wrap gap-1.5 px-1 pt-3 pb-1">
+            <For each={["", ...props.tags]}>
+              {(tag) => {
+                const selected = () => (props.search.tag ?? "") === tag;
 
-            return (
-              <button
-                type="button"
-                aria-pressed={selected()}
-                class={cn(
-                  "inline-flex min-h-6 cursor-pointer items-center gap-1 border border-line-strong bg-transparent px-2 font-[inherit] text-xs text-muted hover:border-faint hover:text-fg pointer-coarse:min-h-11",
-                  { "border-accent text-accent": selected() },
-                )}
-                onClick={() => change(tag || undefined, false)}
-              >
-                <Show when={selected()}>
-                  <IconCheck size={12} aria-hidden="true" />
-                </Show>
-                {tag || m.writing_all_tags()}
-              </button>
-            );
-          }}
-        </For>
+                return (
+                  <button
+                    type="button"
+                    aria-pressed={selected()}
+                    class={cn(
+                      "inline-flex min-h-6 cursor-pointer items-center gap-1 border border-line-strong bg-transparent px-2 font-[inherit] text-xs text-muted hover:border-faint hover:text-fg pointer-coarse:min-h-11",
+                      { "border-accent text-accent": selected() },
+                    )}
+                    onClick={() => change(tag || undefined, false)}
+                  >
+                    <Show when={selected()}>
+                      <IconCheck size={12} aria-hidden="true" />
+                    </Show>
+                    {tag || m.writing_all_tags()}
+                  </button>
+                );
+              }}
+            </For>
+          </div>
+        </div>
       </div>
       <Show when={draft() || props.search.tag}>
         <button
           type="button"
-          class="justify-self-end cursor-pointer border-0 bg-transparent p-0 font-[inherit] text-xs text-link pointer-coarse:min-h-11"
+          class="mt-3 justify-self-end cursor-pointer border-0 bg-transparent p-0 font-[inherit] text-xs text-link pointer-coarse:min-h-11"
           onClick={() => {
             setDraft("");
             change(undefined, false);

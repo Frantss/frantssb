@@ -46,14 +46,17 @@ describe("article search filters", () => {
     const { container, button, change } = mount({ q: "solid", offset: 40 });
     const group = container.querySelector<HTMLElement>("[role='group']")!;
 
-    expect(group.hidden).toBe(true);
+    expect(group.inert).toBe(true);
+    expect(group.getAttribute("aria-hidden")).toBe("true");
     button("Filters").click();
-    expect(group.hidden).toBe(false);
+    expect(group.inert).toBe(false);
+    expect(group.getAttribute("aria-hidden")).toBe("false");
     button("web").click();
     expect(change).toHaveBeenCalledWith({ q: "solid", tag: "web" }, false);
     expect(button("web").getAttribute("aria-pressed")).toBe("true");
     button("Filters").click();
-    expect(group.hidden).toBe(true);
+    expect(group.inert).toBe(true);
+    expect(group.getAttribute("aria-hidden")).toBe("true");
     expect(button("Filters").className).toContain("text-accent");
   });
 
