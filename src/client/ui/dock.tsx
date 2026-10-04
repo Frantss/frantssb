@@ -60,7 +60,7 @@ function DockTrigger(props: ComponentProps<"button"> & { menuLabel: string; clos
       type="button"
       popoverTarget={dock.sheetId}
       class={cn(
-        "flex h-full w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-4 font-[inherit] text-fg transition-colors hover:bg-surface focus-visible:bg-surface",
+        "flex h-full w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-4 font-[inherit] text-fg hover:bg-surface focus-visible:bg-surface",
         local.class,
       )}
     >

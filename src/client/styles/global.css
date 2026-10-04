@@ -92,7 +92,13 @@
   a {
     color: var(--link);
     text-decoration: none;
-    transition: color 150ms;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    a,
+    button {
+      @apply transition-colors;
+    }
   }
 
   a:hover,
