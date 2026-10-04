@@ -17,6 +17,7 @@ afterEach(async () => {
 function deferred<T>() {
   let resolve!: (value: T) => void;
   const promise = new Promise<T>((done) => (resolve = done));
+
   return { promise, resolve: (value: T) => resolve(value) };
 }
 
@@ -24,6 +25,7 @@ function mount() {
   const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 60_000 } } });
   const [slug, setSlug] = createSignal("first");
   const container = document.createElement("div");
+
   document.body.append(container);
   const stop = render(
     () => (
@@ -33,11 +35,13 @@ function mount() {
     ),
     container,
   );
+
   dispose = () => {
     stop();
     queryClient.clear();
     container.remove();
   };
+
   return { container, queryClient, setSlug };
 }
 
@@ -50,6 +54,7 @@ describe("article like button", () => {
     const fetch = vi.fn((_url: string, init: RequestInit) =>
       init.method === "POST" ? posts.shift()!.promise : initial.promise,
     );
+
     vi.stubGlobal("fetch", fetch);
     const { container, queryClient } = mount();
 
@@ -58,6 +63,7 @@ describe("article like button", () => {
     initial.resolve(Response.json({ count: 0 }));
     await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("0"));
     const button = container.querySelector("button")!;
+
     button.click();
     button.click();
     await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(3));
@@ -82,10 +88,13 @@ describe("article like button", () => {
       .mockResolvedValueOnce(Response.json({ count: 4 }))
       .mockResolvedValueOnce(Response.json({}, { status: 503 }))
       .mockResolvedValueOnce(Response.json({ count: 5 }));
+
     vi.stubGlobal("fetch", fetch);
     const { container, queryClient } = mount();
+
     await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("4"));
     const button = container.querySelector("button")!;
+
     button.click();
     await vi.waitFor(() => expect(container.querySelector("[role='alert']")).not.toBeNull());
     expect(button.textContent).toBe("4");
@@ -107,8 +116,10 @@ describe("article like button", () => {
       .fn()
       .mockResolvedValueOnce(Response.json({}, { status: 503 }))
       .mockResolvedValueOnce(Response.json({ count: 12 }));
+
     vi.stubGlobal("fetch", fetch);
     const { container } = mount();
+
     await vi.waitFor(() => expect(container.querySelector("[role='alert']")).not.toBeNull());
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(container.querySelector("button")?.textContent).toBe("Recargar me gusta");
@@ -122,11 +133,14 @@ describe("article like button", () => {
 
   it("keeps a pending response attached to its article after the slug changes", async () => {
     const pending = deferred<Response>();
+
     vi.stubGlobal("fetch", (url: string, init: RequestInit) => {
       if (init.method === "POST") return pending.promise;
+
       return Promise.resolve(Response.json({ count: url.includes("/first/") ? 3 : 8 }));
     });
     const { container, queryClient, setSlug } = mount();
+
     await vi.waitFor(() => expect(container.querySelector("button")?.textContent).toBe("3"));
     container.querySelector("button")!.click();
     await vi.waitFor(() => expect(queryClient.isMutating()).toBe(1));

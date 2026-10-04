@@ -7,6 +7,7 @@ import { getRouter } from "@/router";
 
 vi.mock("@/routeTree.gen", async () => {
   const { createRootRoute } = await import("@tanstack/solid-router");
+
   return { routeTree: createRootRoute() };
 });
 
@@ -22,7 +23,9 @@ afterEach(() => {
 
 function createRouter() {
   const router = getRouter();
+
   clients.push(router.options.context.queryClient);
+
   return router;
 }
 
@@ -31,6 +34,7 @@ describe("oRPC with Solid Query", () => {
     const fetch = vi.fn(async (_url: string, _init: RequestInit) =>
       Response.json({ status: "ok" }),
     );
+
     vi.stubGlobal("fetch", fetch);
     const router = createRouter();
     const other = createRouter();
@@ -40,6 +44,7 @@ describe("oRPC with Solid Query", () => {
     function Health() {
       provided = useQueryClient();
       const query = useQuery(() => orpc.health.queryOptions());
+
       return <output>{query.data?.status}</output>;
     }
 
@@ -55,6 +60,7 @@ describe("oRPC with Solid Query", () => {
       ),
       container,
     );
+
     dispose = stop;
 
     await vi.waitFor(() => expect(container.textContent).toBe("okok"));
@@ -68,9 +74,12 @@ describe("oRPC with Solid Query", () => {
     const counts: Record<string, number> = { first: 2, second: 7 };
     const fetch = vi.fn(async (url: string, init: RequestInit) => {
       const slug = new URL(url, location.origin).pathname.split("/")[3];
+
       if (init.method === "POST") counts[slug] += 1;
+
       return Response.json({ count: counts[slug] });
     });
+
     vi.stubGlobal("fetch", fetch);
     const router = createRouter();
     const Wrap = router.options.Wrap!;
@@ -79,6 +88,7 @@ describe("oRPC with Solid Query", () => {
 
     function Likes() {
       const [slug, updateSlug] = createSignal("first");
+
       setSlug = updateSlug;
       const queryClient = useQueryClient();
       const query = useQuery(() =>
@@ -92,11 +102,14 @@ describe("oRPC with Solid Query", () => {
             }),
         }),
       );
+
       addLike = () => mutation.mutateAsync({ slug: slug() });
+
       return <output>{query.data?.count}</output>;
     }
 
     const container = document.createElement("div");
+
     dispose = render(
       () => (
         <Wrap>

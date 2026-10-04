@@ -29,6 +29,7 @@ describe("article likes with PostgreSQL", () => {
     locale = "en",
   ) {
     const headers = new Headers({ "Accept-Language": locale });
+
     if (body) headers.set("Content-Type", "application/json");
     const init: RequestInit = method === "POST" ? { method, body, headers } : { method, headers };
     const { response } = await handler.handle(
@@ -102,6 +103,7 @@ describe("article likes with PostgreSQL", () => {
       }),
       { prefix: "/api", context: { headers: new Headers({ "Accept-Language": "es" }), db } },
     );
+
     expect(response?.status).toBe(404);
   });
 

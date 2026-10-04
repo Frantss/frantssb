@@ -24,6 +24,7 @@ export function getRouter() {
   });
 
   setupRouterSsrQueryIntegration({ router, queryClient });
+
   return router;
 }
 

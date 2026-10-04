@@ -54,10 +54,12 @@ function ArticleLikeCounter(props: { slug: string }) {
   async function addLike() {
     const input = { slug: props.slug };
     const queryKey = orpc.articles.likes.get.queryKey({ input });
+
     setFailed(false);
     try {
       await queryClient.cancelQueries({ queryKey });
       const output = await mutation.mutateAsync(input);
+
       queryClient.setQueryData(queryKey, (previous) => ({
         count: Math.max(previous?.count ?? 0, output.count),
       }));
@@ -89,6 +91,7 @@ function ArticleLikeCounter(props: { slug: string }) {
 
 function LikePill(props: ComponentProps<"button"> & { "aria-label": string }) {
   const [local, rest] = splitProps(props, ["children"]);
+
   return (
     <button
       type="button"
