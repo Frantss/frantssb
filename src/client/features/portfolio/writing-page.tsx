@@ -4,6 +4,7 @@ import { createEffect, For, Show, Suspense } from "solid-js";
 import { createRateLimitCooldown } from "@/client/orpc/orpc.ratelimit";
 import { IndexList } from "@/client/ui/index-list";
 import { Page, PageTitle } from "@/client/ui/page";
+import { ToastProvider } from "@/client/ui/toast";
 import { ArticleDate } from "@/client/features/portfolio/article-date";
 import { ArticleTags } from "@/client/features/portfolio/article-tags";
 import { ArticleLikeButton } from "@/client/features/portfolio/article-like-button";
@@ -18,15 +19,17 @@ import { analytics_autocapture } from "@/client/analytics/analytics";
 
 export function WritingPage() {
   return (
-    <Page>
-      <PageTitle>{m.page_writing()}</PageTitle>
-      <Show
-        when={article_list().length > 0}
-        fallback={<p class="m-0 text-muted">{m.writing_empty()}</p>}
-      >
-        <WritingArticles />
-      </Show>
-    </Page>
+    <ToastProvider>
+      <Page>
+        <PageTitle>{m.page_writing()}</PageTitle>
+        <Show
+          when={article_list().length > 0}
+          fallback={<p class="m-0 text-muted">{m.writing_empty()}</p>}
+        >
+          <WritingArticles />
+        </Show>
+      </Page>
+    </ToastProvider>
   );
 }
 
