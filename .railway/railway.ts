@@ -15,7 +15,7 @@ export default defineRailway(() => {
   const frantssb = service("frantssb", {
     build: {
       builder: "RAILPACK",
-      buildCommand: "pnpm exec playwright install --with-deps --only-shell chromium && pnpm build",
+      buildCommand: "pnpm --config.enable-pre-post-scripts=false build",
     },
     deploy: {
       preDeployCommand: ["pnpm db:migrate && pnpm articles:sync"],
