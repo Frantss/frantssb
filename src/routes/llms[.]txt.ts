@@ -3,7 +3,7 @@ import { article_metadata } from "@/lib/articles/article-metadata";
 import { cache_publicContent } from "@/shared/cache-control";
 import { createLlmText } from "@/shared/seo/llm";
 
-export const Route = createFileRoute("/llm.txt")({
+export const Route = createFileRoute("/llms.txt")({
   server: {
     handlers: {
       GET: () =>
