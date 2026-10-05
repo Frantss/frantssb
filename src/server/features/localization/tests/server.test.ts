@@ -1,4 +1,5 @@
 import handler, { type ServerEntry } from "@tanstack/solid-start/server-entry";
+import { gunzipSync } from "node:zlib";
 import { beforeEach, describe, expect, it, vi } from "vite-plus/test";
 import server from "@/server";
 import { m } from "@/paraglide/messages";
@@ -16,6 +17,21 @@ beforeEach(() => {
 });
 
 describe("server locale", () => {
+  it("compresses HTML after rendering in the request locale", async () => {
+    vi.mocked(handler.fetch).mockImplementation(
+      async () =>
+        new Response(m.page_work(), { headers: { "content-type": "text/html; charset=utf-8" } }),
+    );
+    const response = await server.fetch(
+      new Request("http://localhost/work", {
+        headers: { cookie: "x-frantss-locale=es", "accept-encoding": "gzip" },
+      }),
+    );
+
+    expect(response.headers.get("content-encoding")).toBe("gzip");
+    expect(gunzipSync(Buffer.from(await response.arrayBuffer())).toString()).toBe("Experiencia");
+  });
+
   it.each([
     ["", "en", "Work"],
     ["x-frantss-locale=en", "en", "Work"],
