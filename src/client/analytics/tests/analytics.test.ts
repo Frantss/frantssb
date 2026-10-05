@@ -78,7 +78,7 @@ describe("explicit analytics capture", () => {
         expect.objectContaining({ timestamp: expect.any(Date) }),
       );
 
-      analytics_capture("resume_download_clicked", { locale: "es", resume_locale: "es" });
+      analytics_capture("cv_download_clicked", { locale: "es", cv_locale: "es" });
       await vi.waitFor(() => expect(posthog.client.capture).toHaveBeenCalledTimes(2));
       expect(posthog.client.capture.mock.calls[1][1]).toMatchObject({ page: "about" });
     } finally {

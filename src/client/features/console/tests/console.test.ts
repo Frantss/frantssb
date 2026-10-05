@@ -9,7 +9,7 @@ vi.mock("@/paraglide/runtime", async (original) => ({
   setLocale: mocks.setLocale,
 }));
 
-type Api = Record<"help" | "contact" | "resume" | "theme" | "lang" | "stack", undefined>;
+type Api = Record<"help" | "contact" | "cv" | "theme" | "lang" | "stack", undefined>;
 const api = () => (window as unknown as { frantss: Api }).frantss;
 const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
 const run = (command: keyof Api) => api()[command];
@@ -50,16 +50,16 @@ describe("console easter egg", () => {
     expect(logged()).toContain("https://github.com/Frantss/");
   });
 
-  it("downloads the resume for the current locale", () => {
+  it("downloads the cv for the current locale", () => {
     const click = vi
       .spyOn(HTMLAnchorElement.prototype, "click")
       .mockImplementation(() => undefined);
 
-    run("resume");
+    run("cv");
     const anchor = click.mock.contexts[0] as HTMLAnchorElement;
 
-    expect(anchor.getAttribute("href")).toBe("/resume-en.pdf");
-    expect(anchor.download).toBe("frantssb-resume-en.pdf");
+    expect(anchor.getAttribute("href")).toBe("/cv-en.pdf");
+    expect(anchor.download).toBe("frantssb-cv-en.pdf");
     click.mockRestore();
   });
 

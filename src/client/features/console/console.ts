@@ -1,6 +1,6 @@
 import { createClientOnlyFn } from "@tanstack/solid-start";
 import { analytics_capture } from "@/client/analytics/analytics";
-import { portfolio_resume, profile } from "@/client/features/portfolio/portfolio.data";
+import { portfolio_cv, profile } from "@/client/features/portfolio/portfolio.data";
 import { theme_current, theme_set } from "@/client/features/theme/theme";
 import { getLocale, setLocale } from "@/paraglide/runtime";
 
@@ -50,16 +50,16 @@ const commands = {
       }
     },
   },
-  resume: {
-    description: "download the resume",
+  cv: {
+    description: "download the cv",
     run() {
-      const resume = portfolio_resume(getLocale());
+      const cv = portfolio_cv(getLocale());
       const anchor = document.createElement("a");
 
-      anchor.href = resume.href;
-      anchor.download = resume.filename;
+      anchor.href = cv.href;
+      anchor.download = cv.filename;
       anchor.click();
-      console.log(`%cdownloading ${resume.filename}`, style.muted);
+      console.log(`%cdownloading ${cv.filename}`, style.muted);
     },
   },
   theme: {

@@ -18,7 +18,7 @@ export function createLlmText(
     ["Education", "/education", "Education and qualifications."],
     ["Projects", "/projects", "Open-source libraries, client websites, and other projects."],
     ["Writing", "/writing", "Articles by Francisco Bongiovanni."],
-    ["Résumé", "/resume", "Professional experience, technical skills, education, and projects."],
+    ["CV", "/cv", "Professional experience, technical skills, education, and projects."],
   ];
   const lines = [
     `# ${site.name}`,

@@ -61,7 +61,7 @@ describe("JSON-LD metadata", () => {
   });
 
   it("omits structured data when a route does not request it", () => {
-    expect(seo({ title: "Resume", description: "Resume", robots: "noindex" }).scripts).toEqual([]);
+    expect(seo({ title: "Cv", description: "Cv", robots: "noindex" }).scripts).toEqual([]);
   });
 
   it("describes a blog article using its content, author, publication date, and keywords", () => {

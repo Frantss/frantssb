@@ -26,17 +26,17 @@ try {
       await context.addCookies([{ name: paraglideOptions.cookieName, value: locale, url: origin }]);
       const page = await context.newPage();
 
-      await page.goto(`${origin}/resume`, { waitUntil: "networkidle" });
+      await page.goto(`${origin}/cv`, { waitUntil: "networkidle" });
       await page.evaluate(() => document.fonts.ready);
       await page.pdf({
-        path: `public/resume-${locale}.pdf`,
+        path: `public/cv-${locale}.pdf`,
         preferCSSPageSize: true,
         printBackground: true,
         tagged: true,
         outline: true,
       });
       await context.close();
-      console.log(`public/resume-${locale}.pdf`);
+      console.log(`public/cv-${locale}.pdf`);
     }
   } finally {
     await browser.close();
@@ -51,7 +51,7 @@ async function waitForServer() {
   while (Date.now() < deadline) {
     if (server.exitCode !== null) throw new Error(`dev server exited with ${server.exitCode}`);
     try {
-      if ((await fetch(`${origin}/resume`)).ok) return;
+      if ((await fetch(`${origin}/cv`)).ok) return;
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, 500));
   }

@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm generate:articles && varlock run -- vp dev --port 3000",
-    "prebuild": "pnpm generate:resume",
+    "prebuild": "pnpm generate:cv",
     "build": "pnpm generate:articles && varlock run -- vp build && node --import=tsx scripts/package-articles.ts",
     "start": "varlock run -- node .output/server/index.mjs",
     "preview": "vp preview",
@@ -19,7 +19,7 @@
     "articles:sync:dev": "pnpm generate:articles && varlock run -- node --import=tsx scripts/articles-sync.ts",
     "generate:favicon": "node scripts/generate-favicon.ts",
     "generate:localization": "node scripts/generate-localization.ts",
-    "generate:resume": "pnpm generate:localization && node scripts/generate-resume.ts",
+    "generate:cv": "pnpm generate:localization && node scripts/generate-cv.ts",
     "generate:routes": "tsr generate",
     "generate:social": "node scripts/generate-social.ts",
     "db:up": "docker compose up -d --wait postgres",

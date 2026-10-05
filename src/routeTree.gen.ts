@@ -10,8 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteRouteImport } from './routes/_site/route'
+import { Route as CvRouteImport } from './routes/cv'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
-import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteEducationRouteImport } from './routes/_site/education'
@@ -25,14 +25,14 @@ const SiteRouteRoute = SiteRouteRouteImport.update({
   id: '/_site',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CvRoute = CvRouteImport.update({
+  id: '/cv',
+  path: '/cv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   id: '/llms.txt',
   path: '/llms.txt',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResumeRoute = ResumeRouteImport.update({
-  id: '/resume',
-  path: '/resume',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -78,8 +78,8 @@ const SiteWritingSlugRoute = SiteWritingSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/cv': typeof CvRoute
   '/llms.txt': typeof LlmsDottxtRoute
-  '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/education': typeof SiteEducationRoute
   '/projects': typeof SiteProjectsRoute
@@ -89,8 +89,8 @@ export interface FileRoutesByFullPath {
   '/writing/': typeof SiteWritingIndexRoute
 }
 export interface FileRoutesByTo {
+  '/cv': typeof CvRoute
   '/llms.txt': typeof LlmsDottxtRoute
-  '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/education': typeof SiteEducationRoute
   '/projects': typeof SiteProjectsRoute
@@ -103,8 +103,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteRouteWithChildren
+  '/cv': typeof CvRoute
   '/llms.txt': typeof LlmsDottxtRoute
-  '/resume': typeof ResumeRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_site/education': typeof SiteEducationRoute
   '/_site/projects': typeof SiteProjectsRoute
@@ -118,8 +118,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cv'
     | '/llms.txt'
-    | '/resume'
     | '/sitemap.xml'
     | '/education'
     | '/projects'
@@ -129,8 +129,8 @@ export interface FileRouteTypes {
     | '/writing/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/cv'
     | '/llms.txt'
-    | '/resume'
     | '/sitemap.xml'
     | '/education'
     | '/projects'
@@ -142,8 +142,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_site'
+    | '/cv'
     | '/llms.txt'
-    | '/resume'
     | '/sitemap.xml'
     | '/_site/education'
     | '/_site/projects'
@@ -156,8 +156,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   SiteRouteRoute: typeof SiteRouteRouteWithChildren
+  CvRoute: typeof CvRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
-  ResumeRoute: typeof ResumeRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiSplatRoute: typeof ApiSplatRoute
 }
@@ -171,18 +171,18 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof SiteRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cv': {
+      id: '/cv'
+      path: '/cv'
+      fullPath: '/cv'
+      preLoaderRoute: typeof CvRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/llms.txt': {
       id: '/llms.txt'
       path: '/llms.txt'
       fullPath: '/llms.txt'
       preLoaderRoute: typeof LlmsDottxtRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resume': {
-      id: '/resume'
-      path: '/resume'
-      fullPath: '/resume'
-      preLoaderRoute: typeof ResumeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -268,8 +268,8 @@ const SiteRouteRouteWithChildren = SiteRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   SiteRouteRoute: SiteRouteRouteWithChildren,
+  CvRoute: CvRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
-  ResumeRoute: ResumeRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiSplatRoute: ApiSplatRoute,
 }

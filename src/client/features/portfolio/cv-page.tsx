@@ -16,8 +16,8 @@ import {
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 
-// Source document for the generated résumé PDF; sized to fit one A4 sheet.
-export function ResumePage() {
+// Source document for the generated CV PDF; sized to fit one A4 sheet.
+export function CvPage() {
   const bio = () => portfolio_bio();
   const jobs = () => portfolio_jobs();
   const job = (company: string, role: string) =>
@@ -59,7 +59,7 @@ export function ResumePage() {
                   <>
                     {", "}
                     <a href={link.href} {...links_openInNewTab}>
-                      {resume_url(link.href)}
+                      {cv_url(link.href)}
                     </a>
                   </>
                 )}
@@ -75,43 +75,43 @@ export function ResumePage() {
         </span>
       </header>
 
-      <ResumeSection title={m.resume_summary()}>
-        <p class="m-0">{m.resume_summary_text()}</p>
-      </ResumeSection>
+      <CvSection title={m.cv_summary()}>
+        <p class="m-0">{m.cv_summary_text()}</p>
+      </CvSection>
 
-      <ResumeSection title={m.resume_experience()}>
+      <CvSection title={m.cv_experience()}>
         <div class="grid gap-4 print:gap-2.5">
-          <ResumeJob
+          <CvJob
             job={guildara()}
             role={guildara().role}
-            meta={`${guildara().type} · ${resume_dates(guildara())}`}
-            bullets={[m.resume_guildara_typescript(), m.resume_guildara_codebase()]}
+            meta={`${guildara().type} · ${cv_dates(guildara())}`}
+            bullets={[m.cv_guildara_typescript(), m.cv_guildara_codebase()]}
           />
-          <ResumeJob
+          <CvJob
             job={qubikaDev()}
-            role={`${qubikaLead().role} (${resume_dates(qubikaLead())}) · ${qubikaDev().role}`}
-            meta={`${qubikaDev().type} · ${resume_dates(qubikaDev())}`}
+            role={`${qubikaLead().role} (${cv_dates(qubikaLead())}) · ${qubikaDev().role}`}
+            meta={`${qubikaDev().type} · ${cv_dates(qubikaDev())}`}
             bullets={[
               m.job_qubika_architecture(),
-              m.resume_qubika_leadership(),
-              m.resume_qubika_development(),
-              <ResumeClient job={hulu()} text={m.resume_hulu()} />,
-              <ResumeClient job={datum()} text={m.resume_datum()} />,
+              m.cv_qubika_leadership(),
+              m.cv_qubika_development(),
+              <CvClient job={hulu()} text={m.cv_hulu()} />,
+              <CvClient job={datum()} text={m.cv_datum()} />,
             ]}
           />
           <p class="m-0 text-xs text-muted">
-            <span class="font-bold text-fg">{m.resume_earlier()}:</span>{" "}
+            <span class="font-bold text-fg">{m.cv_earlier()}:</span>{" "}
             {earlier()
               .map(
                 (item) =>
-                  `${item.role}${item.type === m.job_part_time() ? ` (${item.type.toLowerCase()})` : ""}, ${item.company} (${resume_dates(item)})`,
+                  `${item.role}${item.type === m.job_part_time() ? ` (${item.type.toLowerCase()})` : ""}, ${item.company} (${cv_dates(item)})`,
               )
               .join(" · ")}
           </p>
         </div>
-      </ResumeSection>
+      </CvSection>
 
-      <ResumeSection title={m.resume_stack()}>
+      <CvSection title={m.cv_stack()}>
         <Facts.List>
           <For each={portfolio_skills()}>
             {(group) => (
@@ -121,54 +121,46 @@ export function ResumePage() {
             )}
           </For>
         </Facts.List>
-      </ResumeSection>
+      </CvSection>
 
-      <ResumeSection title={m.page_projects()}>
+      <CvSection title={m.page_projects()}>
         <ul class="m-0 grid list-none gap-1 p-0 text-muted print:gap-0.5">
-          <ResumeProject name="safeish" href="https://github.com/Frantss/safeish">
+          <CvProject name="safeish" href="https://github.com/Frantss/safeish">
             {m.project_safeish_description()}
-          </ResumeProject>
-          <ResumeProject name="oxform" href="https://github.com/Frantss/oxform">
+          </CvProject>
+          <CvProject name="oxform" href="https://github.com/Frantss/oxform">
             {m.project_oxform_description()}
-          </ResumeProject>
+          </CvProject>
           <li>
-            <span class="font-bold text-fg">{m.resume_client_websites()}</span>{" "}
+            <span class="font-bold text-fg">{m.cv_client_websites()}</span>{" "}
             <a href="https://altereco.com.uy" {...links_openInNewTab}>
               altereco.com.uy
             </a>{" "}
-            ({m.resume_altereco()}),{" "}
+            ({m.cv_altereco()}),{" "}
             <a href="https://atenea-coffee.com" {...links_openInNewTab}>
               atenea-coffee.com
             </a>{" "}
-            ({m.resume_atenea()}).
+            ({m.cv_atenea()}).
           </li>
         </ul>
-      </ResumeSection>
+      </CvSection>
 
-      <ResumeSection title={m.resume_education()}>
+      <CvSection title={m.cv_education()}>
         <IndexList.Root>
-          <ResumeEducation
-            title={education()[0].degree}
-            detail={education()[0].school}
-            year="2022"
-          />
-          <ResumeEducation
-            title={m.resume_erasmus()}
-            detail={`${education()[1].school}, ${m.resume_poland()}`}
+          <CvEducation title={education()[0].degree} detail={education()[0].school} year="2022" />
+          <CvEducation
+            title={m.cv_erasmus()}
+            detail={`${education()[1].school}, ${m.cv_poland()}`}
             year="2019"
           />
-          <ResumeEducation
-            title={education()[3].degree}
-            detail={education()[3].school}
-            year="2018"
-          />
+          <CvEducation title={education()[3].degree} detail={education()[3].school} year="2018" />
         </IndexList.Root>
-      </ResumeSection>
+      </CvSection>
     </main>
   );
 }
 
-function ResumeSection(props: ParentProps<{ title: string }>) {
+function CvSection(props: ParentProps<{ title: string }>) {
   return (
     <section class="grid gap-4 border-t border-line pt-4 print:gap-2 print:pt-2.5">
       <h2 class="m-0 text-[10px] font-normal text-faint uppercase break-after-avoid">
@@ -179,7 +171,7 @@ function ResumeSection(props: ParentProps<{ title: string }>) {
   );
 }
 
-function ResumeJob(props: { job: Job; role: string; meta: string; bullets: JSX.Element[] }) {
+function CvJob(props: { job: Job; role: string; meta: string; bullets: JSX.Element[] }) {
   return (
     <div class="break-inside-avoid">
       <Entry.Root class="gap-1 print:gap-0.5">
@@ -205,29 +197,29 @@ function ResumeJob(props: { job: Job; role: string; meta: string; bullets: JSX.E
   );
 }
 
-function ResumeClient(props: { job: Job; text: string }) {
+function CvClient(props: { job: Job; text: string }) {
   return (
     <>
       <span class="font-bold text-fg">
-        {m.resume_client()}: {props.job.company}
+        {m.cv_client()}: {props.job.company}
       </span>{" "}
-      ({resume_dates(props.job)}) — {props.text}
+      ({cv_dates(props.job)}) — {props.text}
     </>
   );
 }
 
-function ResumeProject(props: ParentProps<{ name: string; href: string }>) {
+function CvProject(props: ParentProps<{ name: string; href: string }>) {
   return (
     <li>
       <span class="font-bold text-fg">{props.name}</span> {props.children}{" "}
       <a href={props.href} {...links_openInNewTab}>
-        {resume_url(props.href)}
+        {cv_url(props.href)}
       </a>
     </li>
   );
 }
 
-function ResumeEducation(props: { title: string; detail: string; year: string }) {
+function CvEducation(props: { title: string; detail: string; year: string }) {
   return (
     <IndexList.Row>
       <span>
@@ -242,12 +234,12 @@ function ResumeEducation(props: { title: string; detail: string; year: string })
   );
 }
 
-function resume_dates(job: Job) {
-  return `${resume_date(job.start)} - ${resume_date(job.end)}`;
+function cv_dates(job: Job) {
+  return `${cv_date(job.start)} - ${cv_date(job.end)}`;
 }
 
-function resume_date(value: string) {
-  if (value === "∞") return m.resume_present();
+function cv_date(value: string) {
+  if (value === "∞") return m.cv_present();
   const [month, year] = value.split(".").map(Number);
 
   return new Intl.DateTimeFormat(getLocale(), {
@@ -257,7 +249,7 @@ function resume_date(value: string) {
   }).format(new Date(Date.UTC(year, month - 1)));
 }
 
-function resume_url(href: string) {
+function cv_url(href: string) {
   const url = new URL(href, site.origin);
 
   return `${url.host}${url.pathname.replace(/\/$/, "")}${url.search}${url.hash}`;
