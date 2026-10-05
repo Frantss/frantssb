@@ -20,7 +20,7 @@ export const profile = {
 export function portfolio_cv(locale: Locale) {
   return {
     href: `/cv-${locale}.pdf`,
-    filename: `${profile.handle}-cv-${locale}.pdf`,
+    filename: "francisco-bongiovanni-cv.pdf",
   };
 }
 

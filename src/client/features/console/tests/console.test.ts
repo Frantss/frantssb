@@ -59,7 +59,7 @@ describe("console easter egg", () => {
     const anchor = click.mock.contexts[0] as HTMLAnchorElement;
 
     expect(anchor.getAttribute("href")).toBe("/cv-en.pdf");
-    expect(anchor.download).toBe("frantssb-cv-en.pdf");
+    expect(anchor.download).toBe("francisco-bongiovanni-cv.pdf");
     click.mockRestore();
   });
 
