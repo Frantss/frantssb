@@ -37,6 +37,19 @@ function posthogSourceMapsPlugin() {
 }
 
 export default defineConfig(({ mode }) => ({
+  pack: {
+    entry: ["scripts/articles-sync.ts"],
+    outDir: ".output/server",
+    clean: false,
+    format: "esm",
+    platform: "node",
+    deps: {
+      alwaysBundle: [/.*/],
+      neverBundle: ["pg"],
+      onlyImport: ["pg"],
+    },
+    copy: { from: ".generated/articles/catalogue.json", rename: "articles.json" },
+  },
   test: {
     fileParallelism: false,
     environment: "node",
