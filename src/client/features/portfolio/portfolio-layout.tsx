@@ -11,7 +11,7 @@ export function PortfolioLayout(props: ParentProps) {
       <Frame.Band>
         <SiteHeader />
       </Frame.Band>
-      <Frame.Fill>
+      <Frame.Fill overlay={<Rail.Rule />}>
         <Rail.Root>
           <SiteNav />
           <Rail.Content>{props.children}</Rail.Content>

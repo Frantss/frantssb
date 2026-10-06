@@ -1,4 +1,4 @@
-import type { ParentProps } from "solid-js";
+import type { JSX, ParentProps } from "solid-js";
 import { cn } from "@/client/lib/cn";
 
 // Full-bleed horizontal rules with a centered column framed by vertical rules.
@@ -7,12 +7,9 @@ function FrameRoot(props: ParentProps) {
   return <div class="flex h-dvh flex-col print:h-auto">{props.children}</div>;
 }
 
-function BandShell(props: ParentProps<{ class?: string; id?: string }>) {
+function BandShell(props: ParentProps<{ class?: string }>) {
   return (
-    <div
-      id={props.id}
-      class={cn("flex flex-col border-b border-line last:border-b-0", props.class)}
-    >
+    <div class={cn("flex flex-col border-b border-line last:border-b-0", props.class)}>
       <div class="mx-auto flex w-full max-w-4xl flex-1 flex-col border-x border-line">
         {props.children}
       </div>
@@ -28,11 +25,22 @@ function FrameBand(props: ParentProps) {
 // navigation and restores it on back/forward.
 const fillId = "frame-fill";
 
-function FrameFill(props: ParentProps) {
+function FrameFill(props: ParentProps<{ overlay?: JSX.Element }>) {
   return (
-    <BandShell id={fillId} class="min-h-0 flex-1 overflow-y-auto print:overflow-visible">
-      {props.children}
-    </BandShell>
+    <div class="relative flex min-h-0 flex-1 flex-col border-b border-line last:border-b-0">
+      {/* Rules stay outside the scroll layer so native overscroll cannot expose a gap. */}
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-y-0 left-1/2 z-10 flex w-full max-w-4xl -translate-x-1/2 border-x border-line print:hidden"
+      >
+        {props.overlay}
+      </div>
+      <div id={fillId} class="min-h-0 flex-1 overflow-y-auto print:overflow-visible">
+        <div class="mx-auto flex min-h-full w-full max-w-4xl flex-col border-x border-transparent print:border-line">
+          {props.children}
+        </div>
+      </div>
+    </div>
   );
 }
 

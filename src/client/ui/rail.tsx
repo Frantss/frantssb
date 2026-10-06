@@ -11,9 +11,16 @@ function RailRoot(props: ParentProps) {
   );
 }
 
+function RailRule() {
+  return <div class="w-36 shrink-0 border-r border-line max-sm:hidden" />;
+}
+
 function RailNav(props: ParentProps<{ label: string }>) {
   return (
-    <nav aria-label={props.label} class="border-r border-line px-4 py-6 max-sm:hidden">
+    <nav
+      aria-label={props.label}
+      class="border-r border-transparent px-4 py-6 max-sm:hidden print:border-line"
+    >
       <ul class="sticky top-6 m-0 flex list-none flex-col items-end gap-1 p-0">{props.children}</ul>
     </nav>
   );
@@ -42,6 +49,7 @@ function RailContent(props: ParentProps) {
 
 export const Rail = {
   Root: RailRoot,
+  Rule: RailRule,
   Nav: RailNav,
   Link: createLink(RailAnchor),
   Content: RailContent,
